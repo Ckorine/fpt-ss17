@@ -2,9 +2,6 @@ package interfaces;
 
 import java.io.IOException;
 
-/**
- * Created by peterzdankin on 09.12.16.
- */
 public interface SerializableStrategy {
 
     /*
