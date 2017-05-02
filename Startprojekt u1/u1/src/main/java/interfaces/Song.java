@@ -4,9 +4,6 @@ import javafx.beans.value.ObservableValue;
 
 import java.io.Serializable;
 
-/**
- * Created by peterzdankin on 28.10.16.
- */
 public interface Song {
     String getAlbum() ;
 
