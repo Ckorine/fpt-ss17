@@ -1,12 +1,9 @@
-package interfaces;
+package fpt.interfaces;
 
 import javafx.beans.value.ObservableValue;
 
-import java.io.Serializable;
-
 public interface Song {
-    String getAlbum() ;
-    String getSong() ;
+
 
     void setAlbum(String album) ;
 

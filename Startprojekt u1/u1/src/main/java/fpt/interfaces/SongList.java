@@ -1,4 +1,4 @@
-package interfaces;
+package fpt.interfaces;
 
 import java.io.Serializable;
 import java.rmi.Remote;
