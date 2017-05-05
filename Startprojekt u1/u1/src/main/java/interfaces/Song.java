@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public interface Song {
     String getAlbum() ;
+    String getSong() ;
 
     void setAlbum(String album) ;
 
