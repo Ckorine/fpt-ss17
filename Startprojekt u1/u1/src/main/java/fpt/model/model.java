@@ -14,7 +14,7 @@ public class model implements fpt.interfaces.SongList {
     SongList list1 = new SongList();
     SongList list2 = new SongList();
     SongList list3 = new SongList();
-
+    SongList list4 = new SongList();
 
     @Override
     public boolean addSong(Song s) throws RemoteException {
