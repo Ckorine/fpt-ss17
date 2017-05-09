@@ -1,6 +1,5 @@
 package fpt.model;
 
-import fpt.interfaces.*;
 import fpt.interfaces.Song;
 import javafx.collections.ModifiableObservableListBase;
 
@@ -12,6 +11,8 @@ import java.util.Iterator;
  * Created by corin on 05.05.2017.
  */
 public class SongList extends ModifiableObservableListBase<Song> implements fpt.interfaces.SongList {
+
+    private ArrayList<Song> list = new ArrayList<Song>();
     @Override
     public boolean addSong(Song s) throws RemoteException {
         return false;

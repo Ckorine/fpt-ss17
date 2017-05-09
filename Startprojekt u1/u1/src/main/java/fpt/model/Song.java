@@ -15,7 +15,6 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
     private SimpleStringProperty album = new SimpleStringProperty();
     private SimpleStringProperty interpret = new SimpleStringProperty();
     private long id;
-    ArrayList<String> list = new ArrayList<String>();
 
 
     @Override
