@@ -19,7 +19,7 @@ public class Controller {
         this.model = m;
 
         this.view = v;
-        view.link(this);
+       // view.link(this);
 
     }
 
