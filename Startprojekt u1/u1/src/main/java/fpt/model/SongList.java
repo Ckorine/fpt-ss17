@@ -15,12 +15,12 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
     private ArrayList<Song> list = new ArrayList<Song>();
     @Override
     public boolean addSong(Song s) throws RemoteException {
-        return false;
+        return list.add(s);
     }
 
     @Override
     public boolean deleteSong(Song s) throws RemoteException {
-        return false;
+        return list.remove(s);
     }
 
     @Override
@@ -30,17 +30,17 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
 
     @Override
     public ArrayList<Song> getList() throws RemoteException {
-        return null;
+        return list;
     }
 
     @Override
     public void deleteAllSongs() throws RemoteException {
-
+     list.removeAll(list);
     }
 
     @Override
     public int sizeOfList() throws RemoteException {
-        return 0;
+        return list.size();
     }
 
     @Override

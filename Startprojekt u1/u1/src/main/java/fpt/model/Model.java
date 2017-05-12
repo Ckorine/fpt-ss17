@@ -8,6 +8,7 @@ public class Model {
     private SongList allSongs = new SongList();
     private SongList playlist = new SongList();
 
+
     public SongList getAllSongs() {
         return allSongs;
     }
@@ -15,4 +16,6 @@ public class Model {
     public SongList getPlaylist() {
         return playlist;
     }
+
+
 }

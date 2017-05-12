@@ -15,12 +15,11 @@ public class Controller {
 
     }
 
-    public void link (Model m,View v){
-        this.model = m;
+    public void link (Model model,View view){
+        this.model = model;
+        this.view = view;
 
-        this.view = v;
-       // view.link(this);
-
+        view.link(this);
     }
 
 
