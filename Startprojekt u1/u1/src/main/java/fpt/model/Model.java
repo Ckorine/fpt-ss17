@@ -7,7 +7,6 @@ package fpt.model;
 public class Model {
     private SongList allSongs = new SongList();
     private SongList playlist = new SongList();
-    private SongList playlist1 = new SongList();
 
 
     public SongList getAllSongs() {
