@@ -16,7 +16,5 @@ public class Model {
         return playlist;
     }
 
-    public void setAllSongs(SongList allSongs) {
-        this.allSongs = allSongs;
-    }
+
 }
