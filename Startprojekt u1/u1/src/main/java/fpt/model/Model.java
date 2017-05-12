@@ -15,4 +15,8 @@ public class Model {
     public SongList getPlaylist() {
         return playlist;
     }
+
+    public void setAllSongs(SongList allSongs) {
+        this.allSongs = allSongs;
+    }
 }
