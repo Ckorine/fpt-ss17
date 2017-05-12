@@ -17,6 +17,13 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
     private long id;
 
 
+    public Song(String path){
+         //this.path = path; //path.setValue(path)
+
+
+    }
+
+
     @Override
     public void setAlbum(String album) {
        this.album.set(album);
