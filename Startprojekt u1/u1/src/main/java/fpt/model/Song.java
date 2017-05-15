@@ -1,9 +1,8 @@
 package fpt.model;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
-
-import java.util.ArrayList;
 
 /**
  * Created by corin on 05.05.2017.
@@ -15,10 +14,11 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
     private SimpleStringProperty album = new SimpleStringProperty();
     private SimpleStringProperty interpret = new SimpleStringProperty();
     private long id;
+    private StringProperty string= new SimpleStringProperty();
 
+    public Song(SimpleStringProperty path1){
 
-    public Song(String path){
-         //this.path = path; //path.setValue(path)
+         this.path = path1;
 
 
     }

@@ -1,6 +1,7 @@
 package fpt.model;
 
 import fpt.interfaces.Song;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ModifiableObservableListBase;
 import org.apache.openjpa.lib.util.Files;
 
@@ -24,7 +25,7 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
         for(File f: listOfLieder){
             if(f.getAbsolutePath().endsWith(".mp3")){
                 System.out.println("Lied" + f.getName());
-                list.add(new fpt.model.Song(f.getAbsolutePath()));
+                list.add(new fpt.model.Song(new SimpleStringProperty(f.getAbsolutePath())));
             }
 
         }
