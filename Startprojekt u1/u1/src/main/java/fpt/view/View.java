@@ -1,13 +1,19 @@
 package fpt.view;
 
-import fpt.controller.Controller;
+import fpt.interfaces.ButtonAction;
+import fpt.interfaces.Song;
+import fpt.model.SongList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 public class View extends BorderPane{
-    private Controller controller;
+    private ButtonAction controller;
+    private final ListView<Song> songList = new ListView();
+    private final ListView<Song> playList = new ListView();
 
 
     public View() {
@@ -28,18 +34,31 @@ public class View extends BorderPane{
         TextField album = new TextField();
         album.setPrefSize(90, 10);
 
-        final ListView<String> list = new ListView<String>();
-        ObservableList<String> items = FXCollections.observableArrayList(
-                "Single", "Double", "Suite", "Family App");//nur fuer testen
-        list.setItems(items);
-        list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        list.setPrefSize(200, 550);
 
-        final ListView<String> liedchoice = new ListView<String>();
-        ObservableList<String> lieditems = FXCollections.observableArrayList(
-                "Single", "Double");//nur fuer testen beim click soll  ausgewaehlte lied angezeigt werden
-        liedchoice.setItems(lieditems);
-        liedchoice.setPrefSize(200, 550);
+        songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        songList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
+                // Your action here
+
+            }
+        });
+
+        songList.setPrefSize(200, 550);
+        songList.setCellFactory(e -> new ListCell<Song>() {
+            @Override
+            protected void updateItem(Song item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null || item.getTitle() == null) {
+                    setText(null);
+                } else {
+                    setText(item.getTitle());
+                }
+            }
+        });
+
+        playList.setPrefSize(200, 550);
 
         Button addall = new Button("addall");
         addall.setPrefSize(50, 10);
@@ -65,8 +84,8 @@ public class View extends BorderPane{
         hBox.setSpacing(40);
         hBox.getChildren().addAll(choiceBox, load, save);
         hBox2.getChildren().addAll(stack, stack2, stack3);
-        stack.getChildren().addAll(list);
-        stack2.getChildren().addAll(liedchoice);
+        stack.getChildren().addAll(songList);
+        stack2.getChildren().addAll(playList);
         stack3.getChildren().addAll(label1, titel, label2, interpret, label3, album, hbox3, addtoplaylist);
         stack3.setSpacing(20);
         hbox3.getChildren().addAll(stop, play, next, commit);
@@ -77,7 +96,15 @@ public class View extends BorderPane{
         setCenter(hBox2);
     }
 
-    public void link(Controller controller) {
+    public void fillPlayList(ObservableList items) {
+        playList.setItems(items);
+    }
+
+    public void fillSongList(SongList items) {
+        songList.setItems(items);
+    }
+
+    public void link(ButtonAction controller) {
         this.controller = controller;
     }
 }

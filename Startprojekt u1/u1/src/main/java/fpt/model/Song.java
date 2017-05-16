@@ -14,11 +14,11 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
     private SimpleStringProperty album = new SimpleStringProperty();
     private SimpleStringProperty interpret = new SimpleStringProperty();
     private long id;
-    private StringProperty string= new SimpleStringProperty();
 
-    public Song(SimpleStringProperty path1){
+    public Song(String name, String path){
 
-         this.path = path1;
+         this.path.set(path);
+         this.titel.set(name);
 
 
     }

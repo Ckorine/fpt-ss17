@@ -16,7 +16,7 @@ import java.util.Iterator;
  */
 public class SongList extends ModifiableObservableListBase<Song> implements fpt.interfaces.SongList {
 
-    private ArrayList<Song> list = new ArrayList<Song>();
+    private ArrayList<Song> list = new ArrayList();
 
     public void file(){
         File lieder = new File("C:\\Users\\corin\\Desktop\\Sommersmester 2017\\FPT\\Aufgabe\\Lieder");
@@ -24,8 +24,8 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
 
         for(File f: listOfLieder){
             if(f.getAbsolutePath().endsWith(".mp3")){
-                System.out.println("Lied" + f.getName());
-                list.add(new fpt.model.Song(new SimpleStringProperty(f.getAbsolutePath())));
+                System.out.println(f.getName());
+                list.add(new fpt.model.Song(f.getName(), f.getAbsolutePath()));
             }
 
         }
@@ -68,17 +68,17 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
 
     @Override
     public Iterator<Song> iterator() {
-        return null;
+        return list.iterator();
     }
 
     @Override
     public Song get(int index) {
-        return null;
+        return list.get(index);
     }
 
     @Override
     public int size() {
-        return 0;
+        return list.size();
     }
 
     @Override
