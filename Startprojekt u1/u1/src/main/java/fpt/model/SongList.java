@@ -3,6 +3,8 @@ package fpt.model;
 import fpt.interfaces.Song;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ModifiableObservableListBase;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import org.apache.openjpa.lib.util.Files;
 
 import java.io.File;
@@ -17,21 +19,35 @@ import java.util.Iterator;
 public class SongList extends ModifiableObservableListBase<Song> implements fpt.interfaces.SongList {
 
     private ArrayList<Song> list = new ArrayList();
+    File lieder = new File("C:\\Users\\corin\\Desktop\\Sommersmester 2017\\FPT\\Aufgabe\\Lieder");
+    File [] listOfLieder = lieder.listFiles();
+
 
     public void file(){
-        File lieder = new File("C:\\Users\\corin\\Desktop\\Sommersmester 2017\\FPT\\Aufgabe\\Lieder");
-        File [] listOfLieder = lieder.listFiles();
 
         for(File f: listOfLieder){
             if(f.getAbsolutePath().endsWith(".mp3")){
                 System.out.println(f.getName());
                 list.add(new fpt.model.Song(f.getName(), f.getAbsolutePath()));
 
+
             }
 
         }
     }
 
+    public void play() {
+        for (File f : listOfLieder) {
+            if (f.getAbsolutePath().endsWith(".mp3")) {
+                Media media = new Media(f.toURI().toString());
+                MediaPlayer mediaPlayer = new MediaPlayer(media);
+                mediaPlayer.play();
+
+
+            }
+
+        }
+    }
     @Override
     public boolean addSong(Song s) throws RemoteException {
         return list.add(s);

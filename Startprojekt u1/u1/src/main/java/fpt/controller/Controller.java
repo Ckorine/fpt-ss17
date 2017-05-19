@@ -39,7 +39,17 @@ public class Controller implements ButtonAction {
                 e.printStackTrace();
             }
         });
+        view.getRemoveFromPLay().setOnMouseClicked(event -> {
+            Song s = view.getPlayList().getSelectionModel().getSelectedItem();
+            try {
+                model.getPlaylist().deleteSong(s);
+                view.fillPlayList(null);
+                view.fillPlayList(model.getPlaylist());
 
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
         //view.fillPlayList(model.getPlaylist());
 
     }

@@ -15,15 +15,35 @@ public class View extends BorderPane{
     private final  ListView<Song> songListV = new ListView<>();
     private final ListView<Song> playListV = new ListView<>();
     private TextField titelS = new TextField();
-
     Button addtoplaylist;
+    Button removeFromPlaylist;
+    Button addall;
+    Button load;
+    Button save;
+    Button stop;
+    Button play;
+    Button next;
+    Button commit;
+
 
     public Button getAddToPlayButton(){
 
         return addtoplaylist;
     }
+    public Button getRemoveFromPLay(){
+
+        return removeFromPlaylist;
+    }
+    public Button getPLay(){
+
+        return play;
+    }
+
     public ListView<Song> getSongList(){
         return songListV;
+    }
+    public ListView<Song> getPlayList(){
+        return playListV;
     }
 
     public View() {
@@ -75,21 +95,23 @@ public class View extends BorderPane{
             }
         });
 
-        Button addall = new Button("addall");
-        addall.setPrefSize(50, 10);
-        Button load = new Button("load");
-        Button save = new Button("save");
+
+
+        load = new Button("load");
+        save = new Button("save");
         load.setPrefSize(60, 10);
         save.setPrefSize(60, 10);
+        addall = new Button("add all");
+        addall.setPrefSize(50, 10);
         addtoplaylist = new Button("Add to playlist");
-        addtoplaylist.setPrefSize(90, 10);
+        addtoplaylist.setPrefSize(140, 10);
+        removeFromPlaylist = new Button("remove from playlist");
+        removeFromPlaylist.setPrefSize(160, 10);
         //ImageView stop = new ImageView();
-        Button stop = new Button("stop");
-
-        Button play = new Button("play");
-        //addtoplaylist.setOnAction(e->{controller.;});
-        Button next = new Button("next");
-        Button commit = new Button("commit");
+        stop = new Button("stop");
+        play = new Button("play");
+        next = new Button("next");
+        commit = new Button("commit");
 
         ChoiceBox choiceBox = new ChoiceBox();
         choiceBox.setPrefWidth(350);
@@ -101,7 +123,7 @@ public class View extends BorderPane{
         hBox2.getChildren().addAll(stack, stack2, stack3);
         stack.getChildren().addAll(songListV);
         stack2.getChildren().addAll(playListV);
-        stack3.getChildren().addAll(label1, titelS, label2, interpret, label3, album, hbox3, addtoplaylist);
+        stack3.getChildren().addAll(label1, titelS, label2, interpret, label3, album, hbox3, addtoplaylist,removeFromPlaylist);
         stack3.setSpacing(20);
         hbox3.getChildren().addAll(stop, play, next, commit);
         hbox3.setSpacing(5);
