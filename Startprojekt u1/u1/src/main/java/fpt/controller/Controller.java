@@ -2,8 +2,11 @@ package fpt.controller;
 
 
 import fpt.interfaces.ButtonAction;
+import fpt.interfaces.Song;
 import fpt.model.Model;
 import fpt.view.View;
+
+import java.rmi.RemoteException;
 
 
 /**
@@ -22,9 +25,26 @@ public class Controller implements ButtonAction {
         this.view = view;
 
         view.link(this);
+
         view.fillSongList(model.getAllSongs());
         view.fillPlayList(model.getPlaylist());
+        view.getAddToPlayButton().setOnAction(event -> {
+            Song s = view.getSongList().getSelectionModel().getSelectedItem();
+            try {
+                model.getPlaylist().addSong(s);
+                view.fillPlayList(null);
+                view.fillPlayList(model.getPlaylist());
+
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        });
+
+        //view.fillPlayList(model.getPlaylist());
+
     }
+
+
 
     @Override
     public void play() {
@@ -35,71 +55,9 @@ public class Controller implements ButtonAction {
     public void stop() {
 
     }
-   /* public ArrayList<Song> getList() throws RemoteException {
-          return null;  */
-
-   /* public boolean addSong(Song s) throws RemoteException {
-
-    }
 
 
-    public boolean deleteSong(Song s) throws RemoteException {
-        return list.remove(s);
-    }
 
-    public void setList(ArrayList<Song> s) throws RemoteException {
-
-    }
-
-
-    public ArrayList<Song> getList() throws RemoteException {
-
-    }
-
-
-    public void deleteAllSongs() throws RemoteException {
-
-    }
-
-
-    public int sizeOfList() throws RemoteException {
-
-    }
-
-
-    public Song findSongByPath(String name) throws RemoteException {
-
-    }
-
-
-    public Iterator<Song> iterator() {
-        return null;
-    }
-
-
-    public Song get(int index) {
-
-    }
-
-
-    public int size() {
-
-    }
-
-
-    protected void doAdd(int index, Song element) {
-
-    }
-
-
-    protected Song doSet(int index, Song element) {
-
-    }
-
-
-    protected Song doRemove(int index) {
-
-    }*/
 }
 
 

@@ -4,7 +4,7 @@ import javafx.beans.value.ObservableValue;
 
 public interface Song {
 
-
+    String getAlbum();
     void setAlbum(String album) ;
 
     String getInterpret() ;

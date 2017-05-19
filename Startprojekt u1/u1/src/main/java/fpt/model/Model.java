@@ -14,6 +14,7 @@ public class Model {
     public Model() {
         allSongs.file();
 
+
         }
     public SongList getAllSongs() {
         return allSongs;
@@ -23,14 +24,8 @@ public class Model {
         return playlist;
     }
 
-    public void songDetails(){
-        for(Song song: allSongs) {
-            song.getTitle();
-            song.getInterpret();
 
-        }
 
-    }
 
 
 }

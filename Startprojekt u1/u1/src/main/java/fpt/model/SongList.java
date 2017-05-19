@@ -26,6 +26,7 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
             if(f.getAbsolutePath().endsWith(".mp3")){
                 System.out.println(f.getName());
                 list.add(new fpt.model.Song(f.getName(), f.getAbsolutePath()));
+
             }
 
         }
