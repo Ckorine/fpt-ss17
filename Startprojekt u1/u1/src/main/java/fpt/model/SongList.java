@@ -19,34 +19,22 @@ import java.util.Iterator;
 public class SongList extends ModifiableObservableListBase<Song> implements fpt.interfaces.SongList {
 
     private ArrayList<Song> list = new ArrayList();
+
     File lieder = new File("C:\\Users\\corin\\Documents\\GitHub\\fpt-ss17\\Startprojekt u1\\u1\\src\\res\\files");
     File [] listOfLieder = lieder.listFiles();
 
-
-    public void file(){
-
-        for(File f: listOfLieder){
-            if(f.getAbsolutePath().endsWith(".mp3")){
-                System.out.println(f.getName());
-                list.add(new fpt.model.Song(f.getName(), f.getAbsolutePath()));
-
-
-            }
-
-        }
-    }
-
-    public void play() {
+    public SongList file() throws RemoteException {
+        SongList sl = new SongList();
         for (File f : listOfLieder) {
             if (f.getAbsolutePath().endsWith(".mp3")) {
-                Media media = new Media(f.toURI().toString());
-                MediaPlayer mediaPlayer = new MediaPlayer(media);
-                mediaPlayer.play();
-
+                System.out.println(f.getName());
+                list.add(new fpt.model.Song(f.getName(), f.getAbsolutePath()));
+                sl.setList(getList());
 
             }
 
         }
+        return sl;
     }
     @Override
     public boolean addSong(Song s) throws RemoteException {
