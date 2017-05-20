@@ -52,7 +52,7 @@ public class Controller implements ButtonAction {
                 view.fillPlayList(null);
                 view.fillPlayList(model.getPlaylist());
 
-            } catch (Exception e) {
+            } catch (RemoteException e) {
                 e.printStackTrace();
             }
         });
