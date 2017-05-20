@@ -15,6 +15,7 @@ import java.rmi.RemoteException;
 public class Controller implements ButtonAction {
     private View view;
     private Model model;
+    private String nichts ;
 
     public Controller() {
 
