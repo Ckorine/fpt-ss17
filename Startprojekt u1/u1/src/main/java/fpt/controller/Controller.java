@@ -4,6 +4,7 @@ package fpt.controller;
 import fpt.interfaces.ButtonAction;
 import fpt.interfaces.Song;
 import fpt.model.Model;
+import fpt.model.SongList;
 import fpt.view.View;
 
 import java.rmi.RemoteException;
@@ -44,8 +45,12 @@ public class Controller implements ButtonAction {
         });
         view.getAddall().setOnMouseClicked(event -> {
             try {
+                SongList sl = model.getAllSongs();
+                for(Song s:sl){
+                    model.getPlaylist().addSong(s);
+                }
                 view.fillPlayList(null);
-                view.fillPlayList(model.getAllSongs());
+                view.fillPlayList(model.getPlaylist());
 
             } catch (Exception e) {
                 e.printStackTrace();
