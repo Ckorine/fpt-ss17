@@ -15,19 +15,27 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
     private SimpleStringProperty interpret = new SimpleStringProperty();
     private long id;
 
-    public Song(String name, String path){
+    public Song(String titel1, String path){
 
          this.path.set(path);
-         this.titel.set(name);
+         this.titel.set(titel1);
 
 
     }
 
 
     @Override
+    public String getAlbum() {
+        return album.get();
+
+    }
+
+    @Override
     public void setAlbum(String album) {
        this.album.set(album);
     }
+
+
 
     @Override
     public String getInterpret() {
@@ -55,7 +63,7 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
     @Override
     public String getTitle() {
 
-        return titel.get();
+        return titel.getValue();
     }
 
     @Override

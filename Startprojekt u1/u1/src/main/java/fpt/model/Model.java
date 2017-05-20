@@ -14,6 +14,7 @@ public class Model {
     public Model() {
         allSongs.file();
 
+
         }
     public SongList getAllSongs() {
         return allSongs;
@@ -25,6 +26,5 @@ public class Model {
 
 
 
-    }
 
 
