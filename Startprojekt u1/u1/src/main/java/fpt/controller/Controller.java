@@ -35,6 +35,10 @@ public class Controller implements ButtonAction {
     public void stop() {
 
     }
+
+    public void display() {
+
+    }
    /* public ArrayList<Song> getList() throws RemoteException {
           return null;  */
 

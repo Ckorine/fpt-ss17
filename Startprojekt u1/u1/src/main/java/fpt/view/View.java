@@ -15,6 +15,12 @@ public class View extends BorderPane{
     private final ListView<Song> songList = new ListView();
     private final ListView<Song> playList = new ListView();
 
+    public TextField getTitel() {
+        return titel;
+    }
+
+    private TextField titel = new TextField();
+
 
     public View() {
         VBox stack = new VBox();
@@ -25,7 +31,7 @@ public class View extends BorderPane{
         HBox hbox3 = new HBox();
 
         Label label1 = new Label("titel :");
-        TextField titel = new TextField();
+
         titel.setPrefSize(90, 10);
         Label label2 = new Label("interpret :");
         TextField interpret = new TextField();
@@ -36,14 +42,14 @@ public class View extends BorderPane{
 
 
         songList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        songList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
+      /*  songList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Song>() {
 
             @Override
             public void changed(ObservableValue<? extends Song> observable, Song oldValue, Song newValue) {
                 // Your action here
 
             }
-        });
+        });*/
 
         songList.setPrefSize(200, 550);
         songList.setCellFactory(e -> new ListCell<Song>() {
