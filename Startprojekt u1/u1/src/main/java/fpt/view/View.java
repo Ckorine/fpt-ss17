@@ -15,15 +15,15 @@ public class View extends BorderPane{
     private final  ListView<Song> songListV = new ListView<>();
     private final ListView<Song> playListV = new ListView<>();
     private TextField titelS = new TextField();
-    Button addtoplaylist;
-    Button removeFromPlaylist;
-    Button addall;
-    Button load;
-    Button save;
-    Button stop;
-    Button play;
-    Button next;
-    Button commit;
+    private Button addtoplaylist;
+    private Button removeFromPlaylist;
+    private Button addall;
+    private Button load;
+    private Button save;
+    private Button stop;
+    private Button play;
+    private Button next;
+    private Button commit;
 
 
     public Button getAddToPlayButton(){
@@ -136,7 +136,6 @@ public class View extends BorderPane{
         setCenter(hBox2);
 
         songListV.setOnMousePressed(event -> {
-            System.out.println("CLICK");
             titelS.setText(songListV.getSelectionModel().getSelectedItem().getTitle());
         });
 

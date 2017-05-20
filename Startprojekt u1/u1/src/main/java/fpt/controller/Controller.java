@@ -27,6 +27,8 @@ public class Controller implements ButtonAction {
         view.link(this);
 
         view.fillSongList(model.getAllSongs());
+        view.fillPlayList(model.getPlaylist());
+
 
         view.getAddToPlayButton().setOnAction(event -> {
             Song s = view.getSongList().getSelectionModel().getSelectedItem();
@@ -39,7 +41,16 @@ public class Controller implements ButtonAction {
                 e.printStackTrace();
             }
         });
-        view.getRemoveFromPLay().setOnMouseClicked(event -> {
+        view.getAddall().setOnMouseClicked(event -> {
+            try {
+                view.fillPlayList(null);
+                view.fillPlayList(model.getAllSongs());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        view.getRemoveFromPLay().setOnMousePressed(event -> {
             Song s = view.getPlayList().getSelectionModel().getSelectedItem();
             try {
                 model.getPlaylist().deleteSong(s);
@@ -50,14 +61,7 @@ public class Controller implements ButtonAction {
                 e.printStackTrace();
             }
         });
-        view.getAddall().setOnMouseClicked(event -> {
-            try {
-                view.fillPlayList(model.getAllSongs());
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
 
 
     }
