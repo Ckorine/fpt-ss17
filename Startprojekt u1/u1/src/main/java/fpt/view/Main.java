@@ -26,7 +26,7 @@ public class Main extends Application {
         Controller controller = new Controller();
         controller.link(model,view);
 
-        Scene scene = new Scene(view, 1000, 800);
+        Scene scene = new Scene(view, 1000, 630);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Playlist");
         primaryStage.setScene(scene);

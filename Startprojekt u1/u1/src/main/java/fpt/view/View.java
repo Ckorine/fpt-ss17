@@ -38,6 +38,9 @@ public class View extends BorderPane{
 
         return play;
     }
+    public Button getAddall(){
+        return addall;
+    }
 
     public ListView<Song> getSongList(){
         return songListV;
@@ -56,10 +59,10 @@ public class View extends BorderPane{
 
         Label label1 = new Label("titel :");
 
-        titelS.setPrefSize(90, 10);
+        titelS.setPrefSize(200, 10);
         Label label2 = new Label("interpret :");
         TextField interpret = new TextField();
-        interpret.setPrefSize(90, 10);
+        interpret.setPrefSize(200, 10);
         Label label3 = new Label("album :");
         TextField album = new TextField();
         album.setPrefSize(90, 10);
@@ -102,7 +105,7 @@ public class View extends BorderPane{
         load.setPrefSize(60, 10);
         save.setPrefSize(60, 10);
         addall = new Button("add all");
-        addall.setPrefSize(50, 10);
+        addall.setPrefSize(100, 10);
         addtoplaylist = new Button("Add to playlist");
         addtoplaylist.setPrefSize(140, 10);
         removeFromPlaylist = new Button("remove from playlist");

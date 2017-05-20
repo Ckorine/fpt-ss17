@@ -27,7 +27,7 @@ public class Controller implements ButtonAction {
         view.link(this);
 
         view.fillSongList(model.getAllSongs());
-        view.fillPlayList(model.getPlaylist());
+
         view.getAddToPlayButton().setOnAction(event -> {
             Song s = view.getSongList().getSelectionModel().getSelectedItem();
             try {
@@ -50,17 +50,21 @@ public class Controller implements ButtonAction {
                 e.printStackTrace();
             }
         });
-        //view.fillPlayList(model.getPlaylist());
+        view.getAddall().setOnMouseClicked(event -> {
+            try {
+                view.fillPlayList(model.getAllSongs());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
 
     }
-
-
-
     @Override
     public void play() {
 
     }
-
     @Override
     public void stop() {
 
