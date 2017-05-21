@@ -1,5 +1,6 @@
 package fpt.view;
 
+import fpt.controller.Controller;
 import fpt.model.Model;
 import javafx.application.Application;
 import javafx.scene.Scene;
