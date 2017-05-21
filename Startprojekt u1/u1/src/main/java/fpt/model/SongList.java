@@ -19,7 +19,7 @@ import java.util.Iterator;
 public class SongList extends ModifiableObservableListBase<Song> implements fpt.interfaces.SongList {
 
     private ArrayList<Song> list = new ArrayList();
-    File lieder = new File("C:\\Users\\corin\\Desktop\\Sommersmester 2017\\FPT\\Aufgabe\\Lieder");
+    File lieder = new File("C:\\Users\\benja\\Music\\lieder");
     File [] listOfLieder = lieder.listFiles();
 
 
