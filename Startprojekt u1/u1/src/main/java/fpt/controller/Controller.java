@@ -4,11 +4,14 @@ import fpt.interfaces.Song;
 import fpt.model.Model;
 import fpt.model.SongList;
 import fpt.view.View;
+import javafx.scene.control.ListView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import java.io.File;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
 /**
@@ -17,8 +20,9 @@ import java.rmi.RemoteException;
 public class Controller {
     private View view;
     private Model model;
-    private Media media ;
-    MediaPlayer mediaPlayer ;
+    private Media media;
+    MediaPlayer mediaPlayer;
+    private int seekForwarTime = 5000; // milliseconde
 
     public Controller() {
 
@@ -72,11 +76,11 @@ public class Controller {
         view.getPLay().setOnAction(e ->
         {
 
-                if (mediaPlayer != null  ) {
-                    if (!mediaPlayer.isMute()) {
-                        mediaPlayer.stop();
-                    }
+            if (mediaPlayer != null) {
+                if (!mediaPlayer.isMute()) {
+                    mediaPlayer.stop();
                 }
+            }
 
             Song s = view.getPlayList().getSelectionModel().getSelectedItem();
             String s1 = s.getPath();
@@ -85,23 +89,49 @@ public class Controller {
             mediaPlayer.play();
 
 
-
         });
 
         view.getStop().setOnAction(e ->
         {
-            if(mediaPlayer!= null){
-                if(!mediaPlayer.isMute())
+            if (mediaPlayer != null) {
+                if (!mediaPlayer.isMute())
                     mediaPlayer.stop();
             }
 
         });
         view.getPause().setOnAction(e ->
         {
-            if(mediaPlayer!= null){
-                if(!mediaPlayer.isMute())
+            if (mediaPlayer != null) {
+                if (!mediaPlayer.isMute())
                     mediaPlayer.pause();
             }
+
+        });
+        view.getNext().setOnAction(event -> {
+            Song s = view.getPlayList().getSelectionModel().getSelectedItem();
+            int listsize = view.size8();
+            int i = 0;
+            for (i = 0; i < listsize; i++) {
+                if (model.getPlaylist().get(i) == s) {
+                    break;
+                }
+
+
+            }
+            if (i < model.getPlaylist().size() - 1) {
+                s = model.getPlaylist().get(i + 1);
+                view.getPlayList().getSelectionModel().select(i+1);
+                mediaPlayer.stop();
+                String s1 = s.getPath();
+                media = new Media(new File(s1).toURI().toString());
+                mediaPlayer = new MediaPlayer(media);
+                mediaPlayer.play();
+
+
+            } else {
+                System.out.println("no songs selected");
+            }
+
 
         });
 

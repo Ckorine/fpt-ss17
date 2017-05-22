@@ -20,7 +20,7 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
 
     private ArrayList<Song> list = new ArrayList();
 
-    File lieder = new File("C:\\Users\\corin\\Documents\\GitHub\\fpt-ss17\\Startprojekt u1\\u1\\src\\res\\files");
+    File lieder = new File("C:\\Users\\benja\\Music\\lieder");
     File [] listOfLieder = lieder.listFiles();
 
     public SongList file() throws RemoteException {

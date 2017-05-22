@@ -44,6 +44,10 @@ public class View extends BorderPane{
 
         return play;
     }
+    public Button getNext(){
+
+        return next;
+    }
     public Button getAddall(){
         return addAll;
     }
@@ -61,6 +65,9 @@ public class View extends BorderPane{
         return playListV;
     }
 
+     public int size8(){
+        return songListV.getItems().size();
+    }
     public View() {
 
 
@@ -159,9 +166,7 @@ public class View extends BorderPane{
         );
 
     }
-    public void nextSong(){
 
-    }
     public void fillPlayList(SongList items) {
         playListV.setItems(items);
     }
