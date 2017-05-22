@@ -15,10 +15,10 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
     private SimpleStringProperty interpret = new SimpleStringProperty();
     private long id;
 
-    public Song(String titel1, String path){
-
-         this.path.set(path);
-         this.titel.set(titel1);
+    public Song(long id, String titel, String path){
+        this.id = id;
+        this.path.set(path);
+        this.titel.set(titel);
 
 
     }
@@ -94,5 +94,10 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
     @Override
     public ObservableValue<String> interpretProperty() {
         return interpret;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%02d", getId()) + " | " + getTitle();
     }
 }

@@ -5,6 +5,8 @@ import fpt.model.SongList;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+import java.text.NumberFormat;
+
 
 public class View extends BorderPane{
     VBox stack = new VBox();
@@ -40,7 +42,7 @@ public class View extends BorderPane{
 
         return removeFromPlaylist;
     }
-    public Button getPLay(){
+    public Button getPlay(){
 
         return play;
     }
@@ -82,7 +84,8 @@ public class View extends BorderPane{
                 if (empty || item == null || item.getTitle() == null) {
                     setText(null);
                 } else {
-                    setText(item.getTitle());
+                    setText(item.toString());
+                    //setText(String.format("%02d", item.getId()) + " | " + item.getTitle());
                 }
             }
         });
@@ -95,7 +98,8 @@ public class View extends BorderPane{
                 if (empty || item == null || item.getTitle() == null) {
                     setText(null);
                 } else {
-                    setText(item.getTitle());
+                    setText(item.toString());
+                    //setText(String.format("%02d", item.getId())+ " | " + item.getTitle());
                 }
             }
         });
@@ -138,30 +142,27 @@ public class View extends BorderPane{
         setBottom(addAll);
         setCenter(hBox2);
 
-        songListV.setOnMousePressed(event -> {
-            titelS.setText(songListV.getSelectionModel().getSelectedItem().getTitle());
+        songListV.setOnMouseClicked(event -> {
+            Song s = songListV.getSelectionModel().getSelectedItem();
+            if (s != null) {
+                titelS.setText(s.getTitle());
+                interpret.setText(s.getInterpret());
+                album.setText(s.getAlbum());
+            }
         });
 
-       songListV.setOnMouseClicked(event -> {
-
-           titelS.setText(songListV.getSelectionModel().getSelectedItem().getTitle());
-           interpret.setText(songListV.getSelectionModel().getSelectedItem().getInterpret());
-            album.setText(songListV.getSelectionModel().getSelectedItem().getAlbum());
-        });
-        commit.setOnAction(event -> {
-                    Song s = songListV.getSelectionModel().getSelectedItem();
-                   s.setAlbum(album.getText());
-            s.setInterpret(interpret.getText());
-            s.setTitle(titelS.getText());
+       commit.setOnAction(event -> {
+           Song s = songListV.getSelectionModel().getSelectedItem();
+           s.setAlbum(album.getText());
+           s.setInterpret(interpret.getText());
+           s.setTitle(titelS.getText());
 
 
                 }
         );
 
     }
-    public void nextSong(){
 
-    }
     public void fillPlayList(SongList items) {
         playListV.setItems(items);
     }

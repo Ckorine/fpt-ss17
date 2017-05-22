@@ -15,40 +15,30 @@ import javafx.scene.media.MediaPlayer;
 public class Model {
     private SongList allSongs = new SongList();
     private SongList playlist = new SongList();
-    private ArrayList<Song> list = new ArrayList();
-    public ArrayList<Song> getList(){
-        return list;
-    }
 
     public Model() {
 
+    }
+
+    public void setSongsFromDir(String directory) {
+        ArrayList<Song> list = new ArrayList();
+        /*File lieder = new File(directory);
+        File[] filelist = lieder.listFiles();*/
+        int i = 0;
+        for (File f : new File(directory).listFiles()) {
+            if (f.getAbsolutePath().endsWith(".mp3")) {
+                System.out.println(f.getName());
+                list.add(new fpt.model.Song(++i, f.getName(), f.toURI().toString()));
+            }
+
+        }
         try {
-            allSongs.file();
+            allSongs.setList(list);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
     }
 
-    File lieder = new File("C:\\Users\\corin\\Documents\\GitHub\\fpt-ss17\\Startprojekt u1\\u1\\src\\res\\files");
-    File [] listOfLieder = lieder.listFiles();
-
-
-    public SongList file() throws RemoteException {
-        SongList sl = new SongList();
-        for (File f : listOfLieder) {
-            if (f.getAbsolutePath().endsWith(".mp3")) {
-                System.out.println(f.getName());
-                list.add(new fpt.model.Song(f.getName(), f.getAbsolutePath()));
-                sl.setList(getList());
-
-            }
-
-        }
-        return sl;
-    }
-    public void play() {
-
-    }
     public SongList getAllSongs() {
         return allSongs;
     }
