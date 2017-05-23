@@ -9,6 +9,8 @@ import java.text.NumberFormat;
 
 
 public class View extends BorderPane{
+    private Song selectedSong;
+
     VBox stack = new VBox();
     VBox stack2 = new VBox();
     VBox stack3 = new VBox();
@@ -55,12 +57,19 @@ public class View extends BorderPane{
     public Button getPause(){
         return pause;
     }
+    public Button getNext(){
+        return next;
+    }
 
     public ListView<Song> getSongList(){
         return songListV;
     }
     public ListView<Song> getPlayList(){
         return playListV;
+    }
+    public int size8(){
+        return songListV.getItems().size();
+
     }
 
     public View() {
@@ -145,6 +154,16 @@ public class View extends BorderPane{
         songListV.setOnMouseClicked(event -> {
             Song s = songListV.getSelectionModel().getSelectedItem();
             if (s != null) {
+                selectedSong = s;
+                titelS.setText(s.getTitle());
+                interpret.setText(s.getInterpret());
+                album.setText(s.getAlbum());
+            }
+        });
+        playListV.setOnMouseClicked(event -> {
+            Song s = playListV.getSelectionModel().getSelectedItem();
+            if (s != null) {
+                selectedSong = s;
                 titelS.setText(s.getTitle());
                 interpret.setText(s.getInterpret());
                 album.setText(s.getAlbum());
@@ -152,13 +171,13 @@ public class View extends BorderPane{
         });
 
        commit.setOnAction(event -> {
-           Song s = songListV.getSelectionModel().getSelectedItem();
-           s.setAlbum(album.getText());
-           s.setInterpret(interpret.getText());
-           s.setTitle(titelS.getText());
-
-
-                }
+           if(selectedSong==null){
+               return;
+           }
+           selectedSong.setAlbum(album.getText());
+           selectedSong.setInterpret(interpret.getText());
+           selectedSong.setTitle(titelS.getText());
+               }
         );
 
     }
