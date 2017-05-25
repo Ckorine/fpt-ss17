@@ -4,25 +4,22 @@ import fpt.interfaces.Song;
 import fpt.model.Model;
 import fpt.model.SongList;
 import fpt.view.View;
-import javafx.scene.control.ListView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
-import java.io.File;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Iterator;
+
+import static javafx.scene.media.MediaPlayer.Status.*;
 
 
 /**
  * Created by corin on 09.05.2017.
  */
 public class Controller {
+    private static final String PATH = "C:\\Users\\corin\\Documents\\GitHub\\fpt-ss17\\Startprojekt u1\\u1\\src\\res\\files";
     private View view;
     private Model model;
-    private Media media;
-    MediaPlayer mediaPlayer;
-    private int seekForwarTime = 5000; // milliseconde
+    private MediaPlayer mediaPlayer ;
+    private Song currentSong;
 
     public Controller() {
 
@@ -31,6 +28,8 @@ public class Controller {
     public void link(Model model, View view) {
         this.model = model;
         this.view = view;
+
+        model.setSongsFromDir(PATH);
 
         view.fillSongList(model.getAllSongs());
         view.fillPlayList(model.getPlaylist());
@@ -73,68 +72,46 @@ public class Controller {
             }
         });
 
-        view.getPLay().setOnAction(e ->
+        view.getPlay().setOnAction(e ->
         {
-
+            Song s = view.getPlayList().getSelectionModel().getSelectedItem();
+            if(s == null){
+               s = model.getPlaylist().get(0);
+            }
+            Media media = new Media(s.getPath());
             if (mediaPlayer != null) {
-                if (!mediaPlayer.isMute()) {
+                if (mediaPlayer.getMedia().getSource().equals(media.getSource())) {
+                    MediaPlayer.Status st = mediaPlayer.getStatus();
+                    if (st == PAUSED || st == READY || st == STOPPED || st == STALLED) {
+                        mediaPlayer.play();
+                        return;
+                    }
+                } else {
                     mediaPlayer.stop();
                 }
-            }
-
-            Song s = view.getPlayList().getSelectionModel().getSelectedItem();
-            String s1 = s.getPath();
-            media = new Media(new File(s1).toURI().toString());
+           }
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.play();
-
-
         });
 
         view.getStop().setOnAction(e ->
         {
-            if (mediaPlayer != null) {
-                if (!mediaPlayer.isMute())
+            if(mediaPlayer!= null){
+                if(!mediaPlayer.isMute())
                     mediaPlayer.stop();
             }
 
         });
         view.getPause().setOnAction(e ->
         {
-            if (mediaPlayer != null) {
-                if (!mediaPlayer.isMute())
+            if(mediaPlayer!= null){
                     mediaPlayer.pause();
             }
-
         });
-        view.getNext().setOnAction(event -> {
-            Song s = view.getPlayList().getSelectionModel().getSelectedItem();
-            int listsize = view.size8();
-            int i = 0;
-            for (i = 0; i < listsize; i++) {
-                if (model.getPlaylist().get(i) == s) {
-                    break;
-                }
 
-
-            }
-            if (i < model.getPlaylist().size() - 1) {
-                s = model.getPlaylist().get(i + 1);
-                view.getPlayList().getSelectionModel().select(i+1);
+       /* mediaPlayer.setOnEndOfMedia(() -> {
                 mediaPlayer.stop();
-                String s1 = s.getPath();
-                media = new Media(new File(s1).toURI().toString());
-                mediaPlayer = new MediaPlayer(media);
-                mediaPlayer.play();
-
-
-            } else {
-                System.out.println("no songs selected");
-            }
-
-
-        });
-
+        });*/
     }
 }
 

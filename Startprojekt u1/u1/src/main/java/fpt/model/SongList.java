@@ -20,22 +20,6 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
 
     private ArrayList<Song> list = new ArrayList();
 
-    File lieder = new File("C:\\Users\\benja\\Music\\lieder");
-    File [] listOfLieder = lieder.listFiles();
-
-    public SongList file() throws RemoteException {
-        SongList sl = new SongList();
-        for (File f : listOfLieder) {
-            if (f.getAbsolutePath().endsWith(".mp3")) {
-                System.out.println(f.getName());
-                list.add(new fpt.model.Song(f.getName(), f.getAbsolutePath()));
-                sl.setList(getList());
-
-            }
-
-        }
-        return sl;
-    }
     @Override
     public boolean addSong(Song s) throws RemoteException {
         return list.add(s);
@@ -48,7 +32,7 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
 
     @Override
     public void setList(ArrayList<Song> s) throws RemoteException {
-
+        list = s;
     }
 
     @Override
