@@ -2,9 +2,21 @@ package fpt.view;
 
 import fpt.interfaces.Song;
 import fpt.model.SongList;
+import javafx.beans.binding.Bindings;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 
+
+import java.awt.*;
 import java.text.NumberFormat;
 
 
@@ -74,8 +86,8 @@ public class View extends BorderPane{
         album.setPrefSize(90, 10);
         songListV.setPrefSize(350, 550);
         playListV.setPrefSize(350, 550);
-        songListV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        playListV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+       // songListV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        // playListV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         songListV.setCellFactory(e -> new ListCell<Song>() {
             @Override
@@ -128,6 +140,9 @@ public class View extends BorderPane{
         choiceBox.getItems().addAll("stategie");//spaeter werden die Strategie hinzugzfuegt
         choiceBox.getSelectionModel().selectFirst();
 
+        stack3.setStyle("-fx-background: #DC143C;");
+        hBox2.setStyle("-fx-background: #DC143C;");
+
         hBox.setSpacing(40);
         hBox.getChildren().addAll(choiceBox, load, save);
         hBox2.getChildren().addAll(stack, stack2, stack3);
@@ -137,6 +152,12 @@ public class View extends BorderPane{
         stack3.setSpacing(10);
         hbox3.getChildren().addAll(stop, play, pause, next, commit);
         hbox3.setSpacing(5);
+        hBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL, CornerRadii.EMPTY, Insets.EMPTY)));
+        stack.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL, CornerRadii.EMPTY, Insets.EMPTY)));
+        hBox2.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL, CornerRadii.EMPTY, Insets.EMPTY)));
+        songListV.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        playListV.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        playListV.setStyle("#DC143C");
 
         setTop(hBox);
         setBottom(addAll);
