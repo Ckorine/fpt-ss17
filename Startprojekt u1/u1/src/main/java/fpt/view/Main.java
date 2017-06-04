@@ -1,16 +1,10 @@
 package fpt.view;
 
-import com.sun.corba.se.spi.activation.Server;
 import fpt.controller.Controller;
 import fpt.model.Model;
-import fpt.view.View;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.paint.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.awt.*;
 
 /**
  * Created by STELLA on 10/05/2017.
@@ -26,9 +20,9 @@ public class Main extends Application {
         Controller controller = new Controller();
         controller.link(model,view);
 
-        Scene scene = new Scene(view, 500, 500);
+        Scene scene = new Scene(view, 1000, 630);
         primaryStage.setResizable(false);
-        primaryStage.setTitle("Hardware Shop");
+        primaryStage.setTitle("Playlist");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
