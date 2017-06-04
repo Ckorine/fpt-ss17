@@ -12,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import javafx.scene.shape.Polygon;
 
 import java.awt.*;
 import java.awt.Rectangle;
@@ -133,12 +134,17 @@ public class View extends BorderPane{
         removeFromPlaylist = new Button("Remove from playlist");
         removeFromPlaylist.setPrefSize(160, 10);
         stop = new Button();
-        play = new Button("|>");
+        play = new Button();
         next = new Button(">>");
         commit = new Button("Commit");
         javafx.scene.shape.Rectangle r = new javafx.scene.shape.Rectangle(10,10);
-        javafx.scene.image.WritableImage tr = new WritableImage(10,10);
+        Polygon polygon = new Polygon();
+        polygon.getPoints().addAll(new Double[]{
+                0.0, 5.0,
+                10.0, 10.0,
+                0.0, 15.0 });
 
+        play.setGraphic(polygon);
         stop.setGraphic(r);
         stop.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
         play.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
