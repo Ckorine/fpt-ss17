@@ -32,7 +32,7 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
 
     @Override
     public void setAlbum(String album) {
-       this.album.set(album);
+        this.album.set(album);
     }
 
 
@@ -68,13 +68,16 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
 
     @Override
     public void setTitle(String title) {
-         this.titel.set(title);
+        this.titel.set(title);
     }
 
     @Override
     public long getId() {
+       
         return id;
+
     }
+
 
     @Override
     public void setId(long id) {
