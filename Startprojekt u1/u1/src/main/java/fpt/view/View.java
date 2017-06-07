@@ -2,13 +2,26 @@ package fpt.view;
 
 import fpt.interfaces.Song;
 import fpt.model.SongList;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
+import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
+import javafx.scene.shape.Polygon;
 
+import java.awt.*;
+import java.awt.Rectangle;
 import java.text.NumberFormat;
 
 
 public class View extends BorderPane{
+    private Song selectedSong;
+
     VBox stack = new VBox();
     VBox stack2 = new VBox();
     VBox stack3 = new VBox();
@@ -55,6 +68,9 @@ public class View extends BorderPane{
     public Button getPause(){
         return pause;
     }
+    public Button getNext(){
+        return next;
+    }
 
     public ListView<Song> getSongList(){
         return songListV;
@@ -63,9 +79,11 @@ public class View extends BorderPane{
         return playListV;
     }
 
+    public int size8(){
+        return songListV.getItems().size();
+    }
+
     public View() {
-
-
         Label label1 = new Label("titel :");
         titelS.setPrefSize(200, 10);
         Label label2 = new Label("interpret :");
@@ -74,8 +92,8 @@ public class View extends BorderPane{
         album.setPrefSize(90, 10);
         songListV.setPrefSize(350, 550);
         playListV.setPrefSize(350, 550);
-        songListV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        playListV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        // songListV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        // playListV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         songListV.setCellFactory(e -> new ListCell<Song>() {
             @Override
@@ -90,7 +108,6 @@ public class View extends BorderPane{
             }
         });
 
-
         playListV.setCellFactory(e -> new ListCell<Song>() {
             @Override
             protected void updateItem(Song item, boolean empty) {
@@ -99,34 +116,62 @@ public class View extends BorderPane{
                     setText(null);
                 } else {
                     setText(item.toString());
-                    //setText(String.format("%02d", item.getId())+ " | " + item.getTitle());
                 }
             }
         });
 
 
-
-        load = new Button("load");
-        save = new Button("save");
+        //ImageView stop = new ImageView();
+        load = new Button("Load");
+        save = new Button("Save");
         pause = new Button("||");
         load.setPrefSize(60, 10);
         save.setPrefSize(60, 10);
-        addAll = new Button("add all");
+        addAll = new Button("Add all");
         addAll.setPrefSize(100, 10);
         addToPlayList = new Button("Add to playlist");
         addToPlayList.setPrefSize(140, 10);
-        removeFromPlaylist = new Button("remove from playlist");
+        removeFromPlaylist = new Button("Remove from playlist");
         removeFromPlaylist.setPrefSize(160, 10);
-        //ImageView stop = new ImageView();
-        stop = new Button("stop");
-        play = new Button(">");
+        stop = new Button();
+        play = new Button();
         next = new Button(">>");
-        commit = new Button("commit");
+        commit = new Button("Commit");
+        javafx.scene.shape.Rectangle r = new javafx.scene.shape.Rectangle(10,10);
+        Polygon polygon = new Polygon();
+        polygon.getPoints().addAll(new Double[]{
+                0.0, 5.0,
+                10.0, 10.0,
+                0.0, 15.0 });
+
+        play.setGraphic(polygon);
+        stop.setGraphic(r);
+        stop.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        play.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        load.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        save.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        pause.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        addAll.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        addToPlayList.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        removeFromPlaylist.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        next.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        commit.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        stop.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
+        play.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
+        load.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
+        pause.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
+        save.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
+        addAll.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
+        addToPlayList.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
+        removeFromPlaylist.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
+        next.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
+        commit.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
 
         ChoiceBox choiceBox = new ChoiceBox();
         choiceBox.setPrefWidth(350);
-        choiceBox.getItems().addAll("stategie");//spaeter werden die Strategie hinzugzfuegt
+        choiceBox.getItems().addAll("Binäre Serialisierung");//spaeter werden die Strategie hinzugzfuegt
         choiceBox.getSelectionModel().selectFirst();
+        choiceBox.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
 
         hBox.setSpacing(40);
         hBox.getChildren().addAll(choiceBox, load, save);
@@ -137,27 +182,44 @@ public class View extends BorderPane{
         stack3.setSpacing(10);
         hbox3.getChildren().addAll(stop, play, pause, next, commit);
         hbox3.setSpacing(5);
+        hBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL, CornerRadii.EMPTY, Insets.EMPTY)));
+        stack.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL, CornerRadii.EMPTY, Insets.EMPTY)));
+        hBox2.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL, CornerRadii.EMPTY, Insets.EMPTY)));
+        songListV.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        //playListV.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+
 
         setTop(hBox);
         setBottom(addAll);
         setCenter(hBox2);
+        this.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL, CornerRadii.EMPTY, Insets.EMPTY)));
 
         songListV.setOnMouseClicked(event -> {
             Song s = songListV.getSelectionModel().getSelectedItem();
             if (s != null) {
+                selectedSong = s;
+                titelS.setText(s.getTitle());
+                interpret.setText(s.getInterpret());
+                album.setText(s.getAlbum());
+            }
+        });
+        playListV.setOnMouseClicked(event -> {
+            Song s = playListV.getSelectionModel().getSelectedItem();
+            if (s != null) {
+                selectedSong = s;
                 titelS.setText(s.getTitle());
                 interpret.setText(s.getInterpret());
                 album.setText(s.getAlbum());
             }
         });
 
-       commit.setOnAction(event -> {
-           Song s = songListV.getSelectionModel().getSelectedItem();
-           s.setAlbum(album.getText());
-           s.setInterpret(interpret.getText());
-           s.setTitle(titelS.getText());
-
-
+        commit.setOnAction(event -> {
+                    if(selectedSong==null){
+                        return;
+                    }
+                    selectedSong.setAlbum(album.getText());
+                    selectedSong.setInterpret(interpret.getText());
+                    selectedSong.setTitle(titelS.getText());
                 }
         );
 

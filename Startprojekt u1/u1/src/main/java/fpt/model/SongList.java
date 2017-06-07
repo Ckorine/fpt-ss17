@@ -42,7 +42,7 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
 
     @Override
     public void deleteAllSongs() throws RemoteException {
-     list.removeAll(list);
+        list.clear();
     }
 
     @Override
@@ -52,6 +52,11 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
 
     @Override
     public Song findSongByPath(String name) throws RemoteException {
+        for (Song s: list){
+            if(name.equals(s.getPath())){
+                return s;
+            }
+        }
         return null;
     }
 
@@ -72,16 +77,20 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
 
     @Override
     protected void doAdd(int index, Song element) {
+        list.add(index,element);
+
+
+
 
     }
 
     @Override
     protected Song doSet(int index, Song element) {
-        return null;
+        return list.set(index,element) ;
     }
 
     @Override
     protected Song doRemove(int index) {
-        return null;
+        return list.remove(index);
     }
 }

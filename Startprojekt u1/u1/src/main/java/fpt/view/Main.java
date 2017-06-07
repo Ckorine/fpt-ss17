@@ -5,6 +5,7 @@ import fpt.model.Model;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 /**
  * Created by STELLA on 10/05/2017.
@@ -23,6 +24,8 @@ public class Main extends Application {
         Scene scene = new Scene(view, 1000, 630);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Playlist");
+        primaryStage.setResizable(true);
+        primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
