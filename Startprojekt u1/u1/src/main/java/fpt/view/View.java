@@ -79,9 +79,6 @@ public class View extends BorderPane{
         return playListV;
     }
 
-    public int size8(){
-        return songListV.getItems().size();
-    }
 
     public View() {
         Label label1 = new Label("titel :");
