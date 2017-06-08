@@ -7,6 +7,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import org.apache.openjpa.lib.util.Files;
 
+import javax.persistence.Id;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.rmi.RemoteException;
@@ -19,6 +20,9 @@ import java.util.Iterator;
 public class SongList extends ModifiableObservableListBase<Song> implements fpt.interfaces.SongList {
 
     private ArrayList<Song> list = new ArrayList();
+    public SongList(){
+        super();
+    }
 
     @Override
     public boolean addSong(Song s) throws RemoteException {
@@ -93,4 +97,12 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
     protected Song doRemove(int index) {
         return list.remove(index);
     }
-}
+
+    public Song findSongByID(long id) {
+        for (Song song : this)
+            if (song.getId() == id) {
+                return song;
+            }
+            return null;
+    }
+    }

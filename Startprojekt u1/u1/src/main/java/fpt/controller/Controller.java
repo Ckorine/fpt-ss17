@@ -20,7 +20,7 @@ import static javafx.scene.media.MediaPlayer.Status.*;
  * Created by corin on 09.05.2017.
  */
 public class Controller {
-    private static final String PATH = "C:\\Users\\corin\\Documents\\GitHub\\fpt-ss17\\Startprojekt u1\\u1\\src\\res\\files";
+    private static final String PATH = "C:\\Users\\benja\\Music\\lieder";
     private View view;
     private Model model;
     private Media media;
