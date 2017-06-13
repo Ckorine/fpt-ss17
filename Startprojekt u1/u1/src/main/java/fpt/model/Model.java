@@ -5,8 +5,6 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 import fpt.interfaces.Song;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 
 /**
  * Created by corin on 09.05.2017.
@@ -38,7 +36,9 @@ public class Model {
             e.printStackTrace();
         }
     }
-
+    public Song findSongById(long id){
+        return allSongs.findSongByID(id);
+    }
     public SongList getAllSongs() {
         return allSongs;
     }
