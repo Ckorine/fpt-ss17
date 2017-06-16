@@ -4,16 +4,22 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
 /**
  * Created by corin on 05.05.2017.
  */
-public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
+public class Song implements fpt.interfaces.Song,Externalizable{
 
     private SimpleStringProperty path = new SimpleStringProperty();
     private SimpleStringProperty titel = new SimpleStringProperty();
     private SimpleStringProperty album = new SimpleStringProperty();
     private SimpleStringProperty interpret = new SimpleStringProperty();
     private long id;
+    public Song(){}
 
     public Song(long id, String titel, String path){
         this.id = id;
@@ -102,5 +108,15 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
     @Override
     public String toString() {
         return String.format("%02d", getId()) + " | " + getTitle();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+
     }
 }

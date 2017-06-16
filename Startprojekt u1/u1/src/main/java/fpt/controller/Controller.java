@@ -1,16 +1,22 @@
 package fpt.controller;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import com.thoughtworks.xstream.io.StreamException;
+import com.thoughtworks.xstream.mapper.CannotResolveClassException;
+import fpt.Strategy.BinaryStrategy;
+import fpt.Strategy.JDBCConnector;
+import fpt.Strategy.OpenJPA;
+import fpt.Strategy.XMLStrategy;
+import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
 import fpt.model.Model;
 import fpt.model.SongList;
 import fpt.view.View;
-import javafx.scene.control.ListView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Iterator;
 
+import java.io.IOException;
+import java.rmi.RemoteException;
 
 
 import static javafx.scene.media.MediaPlayer.Status.*;
@@ -21,11 +27,14 @@ import static javafx.scene.media.MediaPlayer.Status.*;
  */
 public class Controller {
     private static final String PATH = "C:\\Users\\benja\\Music\\lieder";
+    public static final String [] strategies= {"Binary Strategy","OpenJPA","XML Strategy","JDBCConnector"};
+
+    private SerializableStrategy strategy ;
     private View view;
     private Model model;
     private Media media;
     private MediaPlayer mediaPlayer ;
-    private Media currentSong;
+    private Media currentSong ;
     private int seekForwarTime = 5000; // milliseconde
 
 
@@ -36,11 +45,14 @@ public class Controller {
     public void link(Model model, View view) {
         this.model = model;
         this.view = view;
+        setStrategy(0);
+
 
         model.setSongsFromDir(PATH);
 
         view.fillSongList(model.getAllSongs());
         view.fillPlayList(model.getPlaylist());
+
 
         view.getAddToPlayButton().setOnAction(event -> {
             Song s = view.getSongList().getSelectionModel().getSelectedItem();
@@ -55,7 +67,8 @@ public class Controller {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            currentSong=mediaPlayer.getMedia();
+            System.out.println("mediaPlayer is "+mediaPlayer);
+            //mediaPlayer.getMedia();
         });
 
         view.getAddall().setOnMouseClicked(event -> {
@@ -75,7 +88,7 @@ public class Controller {
             if(model.getPlaylist().isEmpty()) {
                 return;
             } else if(mediaPlayer !=null){
-                currentSong = mediaPlayer.getMedia();
+                 mediaPlayer.getMedia();
             }
         });
 
@@ -130,6 +143,8 @@ public class Controller {
         view.getNext().setOnAction(event -> {
             playNext();
         });
+        view.getLoad().setOnAction(event -> load());
+        view.getSave().setOnAction(event -> save());
     }
 
     private void playNext() {
@@ -176,7 +191,7 @@ public class Controller {
         }
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
-        currentSong = mediaPlayer.getMedia();
+         mediaPlayer.getMedia();
         mediaPlayer.setOnEndOfMedia(() -> {
             playNext();
 
@@ -187,10 +202,69 @@ public class Controller {
             if(!mediaPlayer.isMute())
                 mediaPlayer.stop();
         }
+    }
+    public void setStrategy(int strategycase){
+        switch (strategycase){
+            case 0:
+                strategy =  strategy =  new XMLStrategy();
+                break;
+           /* case 1:
+                strategy = (SerializableStrategy) new OpenJPA();
 
+                break;
+            case 2:
+                strategy =  new XMLStrategy();
+                break;
+            case 3:
+                strategy = (SerializableStrategy) new JDBCConnector();
+                break;*/
+        }
+        }
+        public void load(){
+        try {
+            strategy.openReadableSongs();
+            strategy.openReadablePlaylist();
+
+
+              Song song = strategy.readSong();
+             /* if(song!=null){
+                  model.getAllSongs().add(song);
+                  model.getPlaylist().add(song);
+              }else{
+                  throw new IOException();
+              }*/
+
+        } catch (IOException | ArrayIndexOutOfBoundsException| StreamException|CannotResolveClassException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            strategy.closeReadable();
+        }
+        }
+
+        public void save(){
+         try {
+             strategy.openWriteableSongs();
+             strategy.openWriteablePlaylist();
+             for (Song s : model.getAllSongs()) {
+                 strategy.writeSong(s);
+             }
+                 for (Song s : model.getPlaylist()){
+                     strategy.writeSong(s);
+                 }
+
+         } catch (IOException e) {
+             e.printStackTrace();
+         } finally {
+             strategy.closeWriteable();
+         }
+        }
 
     }
-}
+
+
+
 
 
 
