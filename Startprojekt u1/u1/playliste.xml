@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <java version="1.8.0_131" class="java.beans.XMLDecoder">
  <object class="fpt.model.Song">
-  <void property="album">
-   <string>J</string>
-  </void>
   <void property="id">
    <long>1</long>
-  </void>
-  <void property="interpret">
-   <string>H</string>
   </void>
   <void property="path">
    <string>file:/C:/Users/benja/Music/lieder/David%20Charvet-%20Apprendre%20à%20aimer.mp3</string>
@@ -62,14 +56,8 @@
   </void>
  </object>
  <object class="fpt.model.Song">
-  <void property="album">
-   <string>J</string>
-  </void>
   <void property="id">
    <long>1</long>
-  </void>
-  <void property="interpret">
-   <string>H</string>
   </void>
   <void property="path">
    <string>file:/C:/Users/benja/Music/lieder/David%20Charvet-%20Apprendre%20à%20aimer.mp3</string>

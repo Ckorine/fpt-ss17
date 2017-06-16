@@ -143,8 +143,20 @@ public class Controller {
         view.getNext().setOnAction(event -> {
             playNext();
         });
-        view.getLoad().setOnAction(event -> load());
-        view.getSave().setOnAction(event -> save());
+        view.getLoad().setOnAction(event -> {
+            try {
+                load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        view.getSave().setOnAction(event -> {
+            try {
+                save();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void playNext() {
@@ -208,11 +220,11 @@ public class Controller {
             case 0:
                 strategy =  strategy =  new XMLStrategy();
                 break;
-           /* case 1:
-                strategy = (SerializableStrategy) new OpenJPA();
+            case 1:
+                strategy =  new BinaryStrategy();
 
                 break;
-            case 2:
+           /* case 2:
                 strategy =  new XMLStrategy();
                 break;
             case 3:
@@ -220,13 +232,13 @@ public class Controller {
                 break;*/
         }
         }
-        public void load(){
+        public void load() throws IOException {
         try {
             strategy.openReadableSongs();
             strategy.openReadablePlaylist();
 
 
-              Song song = strategy.readSong();
+              strategy.readSong();
              /* if(song!=null){
                   model.getAllSongs().add(song);
                   model.getPlaylist().add(song);
@@ -243,7 +255,7 @@ public class Controller {
         }
         }
 
-        public void save(){
+        public void save() throws IOException {
          try {
              strategy.openWriteableSongs();
              strategy.openWriteablePlaylist();
