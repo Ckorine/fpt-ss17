@@ -20,7 +20,7 @@ import static javafx.scene.media.MediaPlayer.Status.*;
  * Created by corin on 09.05.2017.
  */
 public class Controller {
-    private static final String PATH = "C:\\Users\\benja\\Music\\lieder";
+    private static final String PATH = "C:\\Users\\corin\\Desktop\\Sommersmester 2017\\FPT\\Aufgabe\\Lieder";
     private View view;
     private Model model;
     private Media media;
@@ -187,8 +187,9 @@ public class Controller {
             if(!mediaPlayer.isMute())
                 mediaPlayer.stop();
         }
-
-
+    }
+    public void binSe(){
+        model.getAllSongs();
     }
 }
 

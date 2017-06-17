@@ -1,4 +1,4 @@
-package fpt.serialisierungStrategies;
+package fpt.strategies;
 
 import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
@@ -6,33 +6,23 @@ import fpt.model.Model;
 import fpt.model.SongList;
 
 import java.io.*;
-import java.util.ArrayList;
 
 /**
  * Created by corin on 08.06.2017.
  */
-public class BinäreSerialisierung implements SerializableStrategy {
-    private static Model model;
-    public BinäreSerialisierung(Model model2){
-        this.model=model2;
-
-    }
-
-    public static void binaerSerial(SongList songList) throws IOException {
-        songList = model.getAllSongs();
-        try (FileOutputStream fos = new FileOutputStream("binSer.ser");
-             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-            oos.writeObject(songList);
-            oos.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+public class BinaryStrategy implements SerializableStrategy {
+    private Model model;
+    private fpt.model.Song song;
+    private FileOutputStream songOutputStream ;
+    private FileInputStream songInputStream ;
+    private ObjectOutputStream objectOutputStream ;
+    private ObjectInputStream objectInputStream;
 
 
-    }
 
     @Override
     public void openWriteableSongs() throws IOException {
+
 
     }
 

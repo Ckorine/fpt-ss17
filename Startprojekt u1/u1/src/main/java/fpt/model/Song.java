@@ -3,22 +3,31 @@ package fpt.model;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.media.Media;
+
+import java.io.Serializable;
 
 /**
  * Created by corin on 05.05.2017.
  */
-public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
+public class Song extends SimpleStringProperty implements fpt.interfaces.Song,Serializable{
 
     private SimpleStringProperty path = new SimpleStringProperty();
     private SimpleStringProperty titel = new SimpleStringProperty();
     private SimpleStringProperty album = new SimpleStringProperty();
     private SimpleStringProperty interpret = new SimpleStringProperty();
     private long id;
+    private Song song;
+    private Media media;
+
+
 
     public Song(long id, String titel, String path){
         this.id = id;
         this.path.set(path);
         this.titel.set(titel);
+
+        //Media media = new Media(song.getPath());
 
 
     }
@@ -62,7 +71,7 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song{
 
     @Override
     public String getTitle() {
-
+//System.out.println(titel.getValue());
         return titel.getValue();
     }
 

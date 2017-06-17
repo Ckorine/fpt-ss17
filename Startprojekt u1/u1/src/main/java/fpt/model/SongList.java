@@ -10,6 +10,7 @@ import org.apache.openjpa.lib.util.Files;
 import javax.persistence.Id;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,12 +18,15 @@ import java.util.Iterator;
 /**
  * Created by corin on 05.05.2017.
  */
-public class SongList extends ModifiableObservableListBase<Song> implements fpt.interfaces.SongList {
+public class SongList extends ModifiableObservableListBase<Song> implements fpt.interfaces.SongList,Serializable {
+    ;
+
 
     private ArrayList<Song> list = new ArrayList();
     public SongList(){
         super();
-    }
+
+      }
 
     @Override
     public boolean addSong(Song s) throws RemoteException {
@@ -102,7 +106,9 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
         for (Song song : this)
             if (song.getId() == id) {
                 return song;
+
             }
             return null;
     }
+
     }

@@ -81,11 +81,11 @@ public class View extends BorderPane{
 
 
     public View() {
-        Label label1 = new Label("titel :");
+        Label label1 = new Label("Titel :");
         titelS.setPrefSize(200, 10);
-        Label label2 = new Label("interpret :");
+        Label label2 = new Label("Interpret :");
         interpret.setPrefSize(200, 10);
-        Label label3 = new Label("album :");
+        Label label3 = new Label("Album :");
         album.setPrefSize(90, 10);
         songListV.setPrefSize(350, 550);
         playListV.setPrefSize(350, 550);
@@ -166,8 +166,8 @@ public class View extends BorderPane{
 
         ChoiceBox choiceBox = new ChoiceBox();
         choiceBox.setPrefWidth(350);
-        choiceBox.getItems().addAll("Binäre Serialisierung");//spaeter werden die Strategie hinzugzfuegt
-        choiceBox.getSelectionModel().selectFirst();
+        choiceBox.getItems().addAll("Binäre Serialisierung","XMLSerialisierung","XStreamSerialisierung");//spaeter werden die Strategie hinzugzfuegt
+        choiceBox.getSelectionModel().getSelectedItem();
         choiceBox.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
 
         hBox.setSpacing(40);
