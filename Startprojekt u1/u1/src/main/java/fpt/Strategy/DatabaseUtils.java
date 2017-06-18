@@ -17,17 +17,18 @@ public class DatabaseUtils {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (  ClassNotFoundException e ) {
-            e.printStackTrace();
-            /*System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-            System.exit(0);*/
+            //e.printStackTrace();
+            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            System.exit(0);
         }
         try(Connection c = DriverManager.getConnection("jdbc:sqlite:music.db")){
+            System.out.println("Opened database successfully");
         }catch(SQLException se){
-            /*System.err.println( se.getClass().getName() + ": " + se.getMessage() );
-            System.exit(0);*/
+            System.err.println( se.getClass().getName() + ": " + se.getMessage() );
+            System.exit(0);
 
-            se.printStackTrace();
+            //se.printStackTrace();
         }
-        System.out.println("Opened database successfully");
+
     }
 }
