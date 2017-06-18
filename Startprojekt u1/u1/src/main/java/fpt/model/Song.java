@@ -1,25 +1,30 @@
 package fpt.model;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.media.Media;
-
-import java.io.Serializable;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 
 /**
  * Created by corin on 05.05.2017.
  */
-public class Song extends SimpleStringProperty implements fpt.interfaces.Song,Serializable{
+
+
+public class Song implements fpt.interfaces.Song,Externalizable{
 
     private SimpleStringProperty path = new SimpleStringProperty();
     private SimpleStringProperty titel = new SimpleStringProperty();
     private SimpleStringProperty album = new SimpleStringProperty();
     private SimpleStringProperty interpret = new SimpleStringProperty();
     private long id;
-    private Song song;
     private Media media;
 
+
+
+    public Song(){}
 
 
     public Song(long id, String titel, String path){
@@ -27,7 +32,6 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song,Se
         this.path.set(path);
         this.titel.set(titel);
 
-        //Media media = new Media(song.getPath());
 
 
     }
@@ -71,7 +75,6 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song,Se
 
     @Override
     public String getTitle() {
-//System.out.println(titel.getValue());
         return titel.getValue();
     }
 
@@ -111,5 +114,15 @@ public class Song extends SimpleStringProperty implements fpt.interfaces.Song,Se
     @Override
     public String toString() {
         return String.format("%02d", getId()) + " | " + getTitle();
+    }
+
+    @Override
+    public void writeExternal(ObjectOutput out) throws IOException {
+
+    }
+
+    @Override
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+
     }
 }

@@ -17,39 +17,28 @@ import fpt.interfaces.Song;
 public class Model {
     private SongList allSongs = new SongList();
     private SongList playlist = new SongList();
-    private  Long serialVersionUID;
 
-    public Model() {
-        try {
-            serialVersionUID = IDgenerator.getNextId();
-        } catch (IDOverFlowException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void setSongsFromDir(String directory) {
-        ArrayList<Song> list = new ArrayList();
+    public void addSongsFromDir(String directory) {
         /*File lieder = new File(directory);
         File[] filelist = lieder.listFiles();*/
-        int i = 0;
-        for (File f : new File(directory).listFiles()) {
-            if (f.getAbsolutePath().endsWith(".mp3")) {
-                //System.out.println(f.getName());
-                list.add(new fpt.model.Song(++i, f.getName(), f.toURI().toString()));
-            }
-
-        }
 
         try {
-            allSongs.setList(list);
-        } catch (RemoteException e) {
-            e.printStackTrace();
+            for (File f : new File(directory).listFiles()) {
+                if (f.getAbsolutePath().endsWith(".mp3")) {
+                    allSongs.addSong(new fpt.model.Song(IDgenerator.getNextID(), f.getName(), f.toURI().toString()));
+                }
+            }
+        } catch (IDOverFlowException e1) {
+            e1.printStackTrace();
+        } catch (RemoteException e2) {
+            e2.printStackTrace();
         }
     }
+
     public Song findSongById(long id){
         return allSongs.findSongByID(id);
     }
+
     public SongList getAllSongs() {
         return allSongs;
     }

@@ -37,8 +37,8 @@ public interface SerializableStrategy {
     /*
      Finish writing/reading by closing all Streams
      */
-    void closeReadable();
+    void closeReadable() throws IOException;
 
-    void closeWriteable();
+    void closeWriteable() throws IOException;
 
 }

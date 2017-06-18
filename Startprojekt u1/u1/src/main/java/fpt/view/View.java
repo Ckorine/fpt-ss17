@@ -1,7 +1,9 @@
 package fpt.view;
 
+import fpt.controller.Controller;
 import fpt.interfaces.Song;
 import fpt.model.SongList;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -21,6 +23,7 @@ import java.text.NumberFormat;
 
 public class View extends BorderPane{
     private Song selectedSong;
+
 
     VBox stack = new VBox();
     VBox stack2 = new VBox();
@@ -45,6 +48,8 @@ public class View extends BorderPane{
     private Button next;
     private Button commit;
     private Button pause;
+    private ChoiceBox<String> choiceBox;
+    private Controller controller = new Controller();
 
 
     public Button getAddToPlayButton(){
@@ -71,6 +76,9 @@ public class View extends BorderPane{
     public Button getNext(){
         return next;
     }
+    public Button getLoad(){ return  load;}
+    public Button getSave(){return  save;}
+
 
     public ListView<Song> getSongList(){
         return songListV;
@@ -149,10 +157,12 @@ public class View extends BorderPane{
         save.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
         pause.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
         addAll.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+
         addToPlayList.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
         removeFromPlaylist.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
         next.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
         commit.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+
         stop.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
         play.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
         load.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
@@ -164,10 +174,15 @@ public class View extends BorderPane{
         next.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
         commit.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
 
-        ChoiceBox choiceBox = new ChoiceBox();
+         choiceBox = new ChoiceBox(FXCollections.observableArrayList(controller.strategies));
         choiceBox.setPrefWidth(350);
         choiceBox.getItems().addAll("Binäre Serialisierung","XMLSerialisierung","XStreamSerialisierung");//spaeter werden die Strategie hinzugzfuegt
         choiceBox.getSelectionModel().getSelectedItem();
+
+        //choiceBox.getItems().addAll("Binäre Serialisierung");//spaeter werden die Strategie hinzugzfuegt
+        choiceBox.getSelectionModel().selectFirst();
+        choiceBox.getSelectionModel().selectedItemProperty().addListener(e ->{controller.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());});
+
         choiceBox.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
 
         hBox.setSpacing(40);
@@ -219,6 +234,8 @@ public class View extends BorderPane{
                     selectedSong.setTitle(titelS.getText());
                 }
         );
+
+
 
     }
 
