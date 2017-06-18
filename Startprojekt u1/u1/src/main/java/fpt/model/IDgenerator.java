@@ -9,11 +9,11 @@ import java.util.UUID;
 public class IDgenerator {
     private static final long idstart = 0;
     private static final long idende = 9999;
-    private Model model ;
+    private static Model model ;
     public IDgenerator (Model model1){
         this.model=model1;
     }
-    public  Long getNextId()throws IDOverFlowException{
+    public  static Long getNextId()throws IDOverFlowException{
           long id = idstart;
           while (model.findSongById(id)!= null){
               id ++;
