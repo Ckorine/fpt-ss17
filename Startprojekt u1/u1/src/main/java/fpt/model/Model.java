@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+
+import fpt.Strategy.DatabaseUtils;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -25,7 +27,8 @@ public class Model {
         try {
             for (File f : new File(directory).listFiles()) {
                 if (f.getAbsolutePath().endsWith(".mp3")) {
-                    allSongs.addSong(new fpt.model.Song(IDgenerator.getNextID(), f.getName(), f.toURI().toString()));
+                    allSongs.addSong(new fpt.model.Song(IDgenerator.getNextID(),f.getName(),"","", f.toURI().toString()));
+
                 }
             }
         } catch (IDOverFlowException e1) {

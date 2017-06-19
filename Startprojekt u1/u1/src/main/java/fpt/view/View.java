@@ -174,12 +174,10 @@ public class View extends BorderPane{
         next.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
         commit.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
 
-         choiceBox = new ChoiceBox(FXCollections.observableArrayList(controller.strategies));
+        choiceBox = new ChoiceBox(FXCollections.observableArrayList(controller.strategies));
         choiceBox.setPrefWidth(350);
-        choiceBox.getItems().addAll("Binäre Serialisierung","XMLSerialisierung","XStreamSerialisierung");//spaeter werden die Strategie hinzugzfuegt
+        //choiceBox.getItems().addAll();//spaeter werden die Strategie hinzugzfuegt
         choiceBox.getSelectionModel().getSelectedItem();
-
-        //choiceBox.getItems().addAll("Binäre Serialisierung");//spaeter werden die Strategie hinzugzfuegt
         choiceBox.getSelectionModel().selectFirst();
         choiceBox.getSelectionModel().selectedItemProperty().addListener(e ->{controller.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());});
 

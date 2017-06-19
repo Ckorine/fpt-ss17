@@ -3,6 +3,7 @@ package fpt.controller;
 import com.thoughtworks.xstream.io.StreamException;
 import com.thoughtworks.xstream.mapper.CannotResolveClassException;
 import fpt.Strategy.BinaryStrategy;
+import fpt.Strategy.DatabaseUtils;
 import fpt.Strategy.XMLStrategy;
 import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
@@ -14,6 +15,7 @@ import javafx.scene.media.MediaPlayer;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 
 
 import static javafx.scene.media.MediaPlayer.Status.*;
@@ -28,6 +30,7 @@ public class Controller {
     public static final String [] strategies= {"Binary Strategy","OpenJPA","XML Strategy","JDBCConnector"};
 
     private SerializableStrategy strategy ;
+    private DatabaseUtils dbutils;
     private View view;
     private Model model;
     private Media media;
@@ -43,7 +46,9 @@ public class Controller {
     public void link(Model model, View view) {
         this.model = model;
         this.view = view;
+        setDatabase();
         setStrategy(0);
+
 
 
         model.addSongsFromDir(PATH);
@@ -97,6 +102,7 @@ public class Controller {
             }
             try {
                 Media media = new Media(s.getPath());
+
                 if(mediaPlayer==null){
                     model.getPlaylist().deleteSong(s);
                     view.fillPlayList(null);
@@ -116,6 +122,9 @@ public class Controller {
                     view.fillPlayList(model.getPlaylist());
 
                     }
+                /*if(strategy == dbutils){
+                    dbutils.deleteSongWithID(s.getId());
+                }*/
 
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -214,59 +223,81 @@ public class Controller {
         }
     }
 
-    public void binSe() {
-        model.getAllSongs();
-    }
     public void setStrategy(int strategycase){
         switch (strategycase){
             case 0:
-                strategy =  strategy =  new XMLStrategy();
+                strategy =  new XMLStrategy();
                 break;
             case 1:
                 strategy =  new BinaryStrategy();
-
                 break;
-           /* case 2:
-                strategy =  new XMLStrategy();
-                break;
-            case 3:
-                strategy = (SerializableStrategy) new JDBCConnector();
+            /*case 2:
+                strategy =  new Op();
                 break;*/
+            case 3:
+                strategy = dbutils;
+                break;
         }
+    }
+        public void setDatabase(){
+            dbutils = new DatabaseUtils();
         }
         public void load() throws IOException {
-        try {
-            strategy.openReadableSongs();
-            strategy.openReadablePlaylist();
+            try {
+                strategy.openReadableSongs();
+                try{
+                    while(true){
+                         model.getAllSongs().addSong(strategy.readSong());
+                    }
+                } catch (IOException | ClassNotFoundException e){
+                    //no more song to read
+                }
 
+                try{
+                    strategy.openReadablePlaylist();
+                    try {
+                        long id = strategy.readSong().getId();
+                        if(id == model.getAllSongs().findSongByID(id).getId()){
+                            model.getPlaylist().addSong(model.getAllSongs().findSongByID(id));
+                        }
+                    } catch (ClassNotFoundException e) {
+                        //different song´s id
+                    }
+                }catch (IOException e){
 
-              strategy.readSong();
-             /* if(song!=null){
-                  model.getAllSongs().add(song);
-                  model.getPlaylist().add(song);
-              }else{
-                  throw new IOException();
-              }*/
+                }
+                  /* if(song!=null){
+                      model.getAllSongs().add(song);
+                      model.getPlaylist().add(song);
+                  }else{
+                      throw new IOException();
+                  }*/
 
-        } catch (IOException | ArrayIndexOutOfBoundsException| StreamException|CannotResolveClassException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            strategy.closeReadable();
-        }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                strategy.closeReadable();
+            }
         }
 
         public void save() throws IOException {
          try {
              strategy.openWriteableSongs();
-             strategy.openWriteablePlaylist();
+
              for (Song s : model.getAllSongs()) {
                  strategy.writeSong(s);
              }
-                 for (Song s : model.getPlaylist()){
-                     strategy.writeSong(s);
-                 }
+
+             strategy.openWriteablePlaylist();
+
+             for (Song s : model.getPlaylist()){
+                 strategy.writeSong(s);
+             }
+             if(strategy==dbutils){
+                 Song song = view.getPlayList().getSelectionModel().getSelectedItem();
+                 dbutils.openWriteableSongs();
+                  dbutils.writeSong(song);
+             }
 
          } catch (IOException e) {
              e.printStackTrace();
