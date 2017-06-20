@@ -22,6 +22,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Model model = new Model();
         IDgenerator.init(model);
+        /*DatabaseUtils databaseUtils = new DatabaseUtils();
+        databaseUtils.insertSong(song);*/
         View view = new View();
         Controller controller = new Controller();
         controller.link(model,view);

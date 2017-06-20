@@ -177,11 +177,11 @@ public class View extends BorderPane{
         choiceBox = new ChoiceBox(FXCollections.observableArrayList(controller.strategies));
         choiceBox.setPrefWidth(350);
         //choiceBox.getItems().addAll();//spaeter werden die Strategie hinzugzfuegt
-        choiceBox.getSelectionModel().getSelectedItem();
-        choiceBox.getSelectionModel().selectFirst();
+         /*choiceBox.getSelectionModel().getSelectedItem();
+        choiceBox.getSelectionModel().selectFirst();*/
         choiceBox.getSelectionModel().selectedItemProperty().addListener(e ->{controller.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());});
-
         choiceBox.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        choiceBox.getSelectionModel().selectFirst();
 
         hBox.setSpacing(40);
         hBox.getChildren().addAll(choiceBox, load, save);

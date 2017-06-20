@@ -40,16 +40,12 @@ public class Controller {
 
 
     public Controller() {
-
+        setStrategy(3);
     }
 
     public void link(Model model, View view) {
         this.model = model;
         this.view = view;
-        setDatabase();
-        setStrategy(0);
-
-
 
         model.addSongsFromDir(PATH);
 
@@ -226,22 +222,22 @@ public class Controller {
     public void setStrategy(int strategycase){
         switch (strategycase){
             case 0:
-                strategy =  new XMLStrategy();
+                strategy = new BinaryStrategy();
                 break;
             case 1:
-                strategy =  new BinaryStrategy();
+                strategy =  new XMLStrategy();
                 break;
             /*case 2:
                 strategy =  new Op();
                 break;*/
             case 3:
-                strategy = dbutils;
+                strategy = new DatabaseUtils();
                 break;
         }
+        System.out.println("Strategy:" + strategycase);
+        System.out.println(strategy + " 4");
     }
-        public void setDatabase(){
-            dbutils = new DatabaseUtils();
-        }
+
         public void load() throws IOException {
             try {
                 strategy.openReadableSongs();
@@ -281,32 +277,34 @@ public class Controller {
         }
 
         public void save() throws IOException {
+            System.out.println(strategy + " 2");
+            System.out.println("Song  inserted");
          try {
+             System.out.println(strategy + " 1");
              strategy.openWriteableSongs();
 
+             System.out.println("Song  inserted");
              for (Song s : model.getAllSongs()) {
-                 strategy.writeSong(s);
+                 System.out.println(strategy);
+                 this.strategy.writeSong(s);
+                 //System.out.println("Song " + s.getTitle() + " inserted");
              }
-
              strategy.openWriteablePlaylist();
 
              for (Song s : model.getPlaylist()){
                  strategy.writeSong(s);
              }
-             if(strategy==dbutils){
-                 Song song = view.getPlayList().getSelectionModel().getSelectedItem();
-                 dbutils.openWriteableSongs();
-                  dbutils.writeSong(song);
-             }
 
          } catch (IOException e) {
              e.printStackTrace();
          } finally {
-             strategy.closeWriteable();
+             if (strategy != null) {
+                 strategy.closeWriteable();
+             }
          }
-        }
-
     }
+
+}
 
 
 

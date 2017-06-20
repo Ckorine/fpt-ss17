@@ -52,7 +52,7 @@ public class Song implements fpt.interfaces.Song,Externalizable{
         this.interpret.set(interpret);
         this.album.set(album);
         this.path.set(path);
-        this.media = new Media( path);
+        //this.media = new Media( path);
     }
 
 

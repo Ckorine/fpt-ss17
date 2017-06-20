@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class DatabaseUtils implements SerializableStrategy {
 
-    private Connection con = null;
+    private Connection con;
     private String tableName;
 
     public DatabaseUtils() {
@@ -57,7 +57,7 @@ public class DatabaseUtils implements SerializableStrategy {
     }
 
     public void insertSong(Song s) {
-        try (PreparedStatement pstmt = con.prepareStatement("INSERT INTO " + tableName + " VALUES (?,?,?,?,?)")) {
+        try (PreparedStatement pstmt = con.prepareStatement("INSERT INTO LIBRARY VALUES (?,?,?,?,?)")) {
             pstmt.setLong(1, s.getId());
             pstmt.setString(2, s.getTitle());
             pstmt.setString(3, s.getInterpret());
@@ -68,6 +68,7 @@ public class DatabaseUtils implements SerializableStrategy {
         } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
         }
+        System.out.println("Song insertSong inserted");
     }
     public fpt.model.Song findSongByID(long id){
         ResultSet rs;
@@ -133,11 +134,15 @@ public class DatabaseUtils implements SerializableStrategy {
 
     @Override
     public void writeSong(fpt.interfaces.Song s) throws IOException {
+
+        System.out.println("+++");
         if (s != null) {
             insertSong(s);
+            System.out.println("Song write inserted");
         } else {
             throw new IOException("Song to write doesn't exist");
         }
+        System.out.println("Song write2  inserted");
     }
 
     @Override
