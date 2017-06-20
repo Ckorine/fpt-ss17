@@ -23,10 +23,13 @@ public class Main extends Application {
         Model model = new Model();
         IDgenerator.init(model);
         /*DatabaseUtils databaseUtils = new DatabaseUtils();
-        databaseUtils.insertSong(song);*/
+        databaseUtils.createDatabase();
+        databaseUtils.returnSing();
+        databaseUtils.findSongByID(0);*/
         View view = new View();
         Controller controller = new Controller();
         controller.link(model,view);
+        view.link(controller);
 
         Scene scene = new Scene(view, 1000, 630);
         primaryStage.setResizable(false);

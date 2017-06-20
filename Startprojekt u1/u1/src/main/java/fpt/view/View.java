@@ -49,8 +49,7 @@ public class View extends BorderPane{
     private Button commit;
     private Button pause;
     private ChoiceBox<String> choiceBox;
-    private Controller controller = new Controller();
-
+    private Controller controller;
 
     public Button getAddToPlayButton(){
 
@@ -86,6 +85,9 @@ public class View extends BorderPane{
     public ListView<Song> getPlayList(){
         return playListV;
     }
+    public void link(Controller controller) {
+        this.controller = controller;
+    }
 
 
     public View() {
@@ -97,8 +99,6 @@ public class View extends BorderPane{
         album.setPrefSize(90, 10);
         songListV.setPrefSize(350, 550);
         playListV.setPrefSize(350, 550);
-        // songListV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        // playListV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         songListV.setCellFactory(e -> new ListCell<Song>() {
             @Override
@@ -108,7 +108,6 @@ public class View extends BorderPane{
                     setText(null);
                 } else {
                     setText(item.toString());
-                    //setText(String.format("%02d", item.getId()) + " | " + item.getTitle());
                 }
             }
         });
@@ -125,8 +124,6 @@ public class View extends BorderPane{
             }
         });
 
-
-        //ImageView stop = new ImageView();
         load = new Button("Load");
         save = new Button("Save");
         pause = new Button("||");
@@ -176,12 +173,11 @@ public class View extends BorderPane{
 
         choiceBox = new ChoiceBox(FXCollections.observableArrayList(controller.strategies));
         choiceBox.setPrefWidth(350);
-        //choiceBox.getItems().addAll();//spaeter werden die Strategie hinzugzfuegt
-         /*choiceBox.getSelectionModel().getSelectedItem();
-        choiceBox.getSelectionModel().selectFirst();*/
+         //choiceBox.getSelectionModel().getSelectedItem();
+        choiceBox.getSelectionModel().selectFirst();
         choiceBox.getSelectionModel().selectedItemProperty().addListener(e ->{controller.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());});
         choiceBox.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
-        choiceBox.getSelectionModel().selectFirst();
+
 
         hBox.setSpacing(40);
         hBox.getChildren().addAll(choiceBox, load, save);

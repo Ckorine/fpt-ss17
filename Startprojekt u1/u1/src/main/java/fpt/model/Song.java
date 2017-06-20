@@ -6,9 +6,7 @@ import javafx.scene.media.Media;
 import org.apache.openjpa.persistence.Persistent;
 import org.apache.openjpa.persistence.jdbc.Strategy;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -18,7 +16,8 @@ import java.io.ObjectOutput;
  * Created by corin on 05.05.2017.
  */
 
-
+@Entity
+@Table(name = "Library")
 public class Song implements fpt.interfaces.Song,Externalizable{
 
     @Persistent
@@ -52,7 +51,7 @@ public class Song implements fpt.interfaces.Song,Externalizable{
         this.interpret.set(interpret);
         this.album.set(album);
         this.path.set(path);
-        //this.media = new Media( path);
+        this.media = new Media(path);
     }
 
 

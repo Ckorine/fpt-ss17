@@ -6,6 +6,7 @@ import fpt.interfaces.Song;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by corin on 17.06.2017.
@@ -14,6 +15,7 @@ public class DatabaseUtils implements SerializableStrategy {
 
     private Connection con;
     private String tableName;
+    private List<fpt.model.Song> songTable;
 
     public DatabaseUtils() {
         createDatabase();
@@ -57,7 +59,7 @@ public class DatabaseUtils implements SerializableStrategy {
     }
 
     public void insertSong(Song s) {
-        try (PreparedStatement pstmt = con.prepareStatement("INSERT INTO LIBRARY VALUES (?,?,?,?,?)")) {
+        try (PreparedStatement pstmt = con.prepareStatement("INSERT INTO  " +tableName+ "  VALUES (?,?,?,?,?)")) {
             pstmt.setLong(1, s.getId());
             pstmt.setString(2, s.getTitle());
             pstmt.setString(3, s.getInterpret());
@@ -66,16 +68,19 @@ public class DatabaseUtils implements SerializableStrategy {
             pstmt.executeUpdate();
             System.out.println("Song " + s.getTitle() + " inserted");
         } catch (SQLException | NullPointerException e) {
-            e.printStackTrace();
+            System.out.println("Song already exist");
+            //e.printStackTrace();
+
         }
-        System.out.println("Song insertSong inserted");
+        //System.out.println("Song insertSong inserted");
     }
     public fpt.model.Song findSongByID(long id){
-        ResultSet rs;
-        fpt.model.Song s = new fpt.model.Song();
-        try (PreparedStatement pstmt = con.prepareStatement("SELECT ID,TITEL,INTERPRET,ALBUM,PATH FROM " + tableName + " WHERE ID =" + id)){
-            rs = pstmt.executeQuery();
 
+        fpt.model.Song s = new fpt.model.Song();
+        try {
+            PreparedStatement pstmt = con.prepareStatement("SELECT *  FROM  " + tableName + "  WHERE ID =" + id);
+            ResultSet rs;
+            rs = pstmt.executeQuery();
             s.setId(rs.getInt("ID"));
             s.setTitle(rs.getString("TITEL"));
             s.setInterpret(rs.getString("INTERPRET"));
@@ -83,33 +88,42 @@ public class DatabaseUtils implements SerializableStrategy {
             s.setPath(rs.getString("PATH"));
 
             System.out.println("Song :" + rs.getString("TITEL"));
+            System.out.println("id :" + rs.getLong("ID"));
+            rs.close();
         } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
         }
         return s;
     }
-    public ArrayList<fpt.model.Song> getAllSongsFromTable(){
 
+    public ArrayList<fpt.model.Song> getAllSongsFromTable(){
         ArrayList<fpt.model.Song> sList = new ArrayList<>();
-        ResultSet res;
-        try{
-            PreparedStatement pstmtL = con.prepareStatement("SELECT ID,TITEL,INTERPRET,ALBUM,PATH FROM " + tableName );
-            res = pstmtL.executeQuery();
+        try {
+            PreparedStatement pstmtL = con.prepareStatement("SELECT * FROM  " + tableName) ;
+            ResultSet res = pstmtL.executeQuery();
             while(res.next()){
                 sList.add(new fpt.model.Song(res.getInt("ID"),res.getString("TITEL"),res.getString("INTERPRET"),res.getString("ALBUM"),res.getString("PATH")));
-            }
-        }catch (SQLException sl){}
+
+            }res.close();
+        }catch (SQLException sl){
+            //sl.printStackTrace();
+        }
         return sList;
+
     }
+
     public void deleteSongWithID(long id){
         try {
-            PreparedStatement pstmtL = con.prepareStatement("DELETE ID,TITEL,INTERPRET,ALBUM,PATH FROM " + tableName + "WHERE ID =" + id);
+            PreparedStatement pstmtL = con.prepareStatement("DELETE ID,TITEL,INTERPRET,ALBUM,PATH FROM " + tableName + " WHERE ID = ?" );
+            pstmtL.setLong(1,id);
             pstmtL.executeUpdate();
+            System.out.println("Song deleted");
         }catch (SQLException|NullPointerException e){}
     }
 
     @Override
     public void openWriteableSongs() throws IOException {
+
         connect();
         tableName = "LIBRARY";
     }
@@ -135,25 +149,34 @@ public class DatabaseUtils implements SerializableStrategy {
     @Override
     public void writeSong(fpt.interfaces.Song s) throws IOException {
 
-        System.out.println("+++");
+        //System.out.println("+++");
         if (s != null) {
             insertSong(s);
-            System.out.println("Song write inserted");
+            /*if(s.getTitle() == findSongByID(s.getId()).getTitle()){
+                deleteSongWithID(findSongByID(s.getId()).getId());
+                insertSong(s);
+            }else {
+                insertSong(s);
+                //System.out.println("Song write inserted");
+            }*/
         } else {
             throw new IOException("Song to write doesn't exist");
         }
-        System.out.println("Song write2  inserted");
+        //System.out.println("Song write2  inserted");
     }
 
     @Override
     public fpt.interfaces.Song readSong() throws IOException, ClassNotFoundException {
+        if (songTable == null) {
+            songTable = getAllSongsFromTable();
+        }
+        if (songTable.isEmpty()) {
+            songTable = null;
+            throw new IOException("End of table");
 
-            if (getAllSongsFromTable().isEmpty()) {
-                return null;
-            } else {
-                return getAllSongsFromTable().remove(0);
-            }
-
+        }
+        System.out.println(songTable);
+        return songTable.remove(0);
     }
 
     @Override
@@ -178,5 +201,14 @@ public class DatabaseUtils implements SerializableStrategy {
         } catch (SQLException e) {
             throw new IOException("Couldn't open Database Connection");
         }
+    }
+    public void returnSing(){
+        try {
+            connect();
+            System.out.println(getAllSongsFromTable());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

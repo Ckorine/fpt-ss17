@@ -4,6 +4,7 @@ import com.thoughtworks.xstream.io.StreamException;
 import com.thoughtworks.xstream.mapper.CannotResolveClassException;
 import fpt.Strategy.BinaryStrategy;
 import fpt.Strategy.DatabaseUtils;
+import fpt.Strategy.OpenJPA;
 import fpt.Strategy.XMLStrategy;
 import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
@@ -40,15 +41,15 @@ public class Controller {
 
 
     public Controller() {
-        setStrategy(3);
+
     }
 
     public void link(Model model, View view) {
         this.model = model;
         this.view = view;
+        setStrategy(0);
 
         model.addSongsFromDir(PATH);
-
         view.fillSongList(model.getAllSongs());
         view.fillPlayList(model.getPlaylist());
 
@@ -103,6 +104,8 @@ public class Controller {
                     model.getPlaylist().deleteSong(s);
                     view.fillPlayList(null);
                     view.fillPlayList(model.getPlaylist());
+
+
                     return;
                 }
 
@@ -227,9 +230,9 @@ public class Controller {
             case 1:
                 strategy =  new XMLStrategy();
                 break;
-            /*case 2:
-                strategy =  new Op();
-                break;*/
+            case 2:
+                strategy =  new OpenJPA();
+                break;
             case 3:
                 strategy = new DatabaseUtils();
                 break;
@@ -239,24 +242,40 @@ public class Controller {
     }
 
         public void load() throws IOException {
+
+            model.getAllSongs().deleteAllSongs();
+
             try {
+
                 strategy.openReadableSongs();
                 try{
+
                     while(true){
-                         model.getAllSongs().addSong(strategy.readSong());
+                        model.getAllSongs().addSong(strategy.readSong());
+                        view.fillSongList(model.getAllSongs());
                     }
-                } catch (IOException | ClassNotFoundException e){
-                    //no more song to read
+                } catch (IOException | ClassNotFoundException   e){
+                    e.printStackTrace();
+                    System.out.println("Library loaded");
+                    //no more song to be read
                 }
 
                 try{
                     strategy.openReadablePlaylist();
                     try {
-                        long id = strategy.readSong().getId();
-                        if(id == model.getAllSongs().findSongByID(id).getId()){
-                            model.getPlaylist().addSong(model.getAllSongs().findSongByID(id));
+                        /*for(Song s : model.getPlaylist()){
+                            model.getPlaylist().deleteAllSongs();
+                        }*/
+                        while(true) {
+                            long id = strategy.readSong().getId();
+                            if (id == model.getAllSongs().findSongByID(id).getId()) {
+                                model.getPlaylist().addSong(model.getAllSongs().findSongByID(id));
+                                view.fillPlayList(null);
+                                view.fillPlayList(model.getPlaylist());
+                            }
                         }
-                    } catch (ClassNotFoundException e) {
+                    } catch (IOException|ClassNotFoundException e) {
+                        System.out.println("Playlist loaded");
                         //different song´s id
                     }
                 }catch (IOException e){
@@ -277,13 +296,13 @@ public class Controller {
         }
 
         public void save() throws IOException {
-            System.out.println(strategy + " 2");
-            System.out.println("Song  inserted");
+            System.out.println(strategy + " 1");
+            //System.out.println("Song  inserted");
          try {
-             System.out.println(strategy + " 1");
+             System.out.println(strategy + " 2");
              strategy.openWriteableSongs();
 
-             System.out.println("Song  inserted");
+             //System.out.println("Song  inserted");
              for (Song s : model.getAllSongs()) {
                  System.out.println(strategy);
                  this.strategy.writeSong(s);
