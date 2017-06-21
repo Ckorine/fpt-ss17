@@ -4,6 +4,7 @@ import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
 
 import java.io.*;
+import java.util.List;
 
 /**
  * Created by benja on 16.06.2017.
@@ -13,6 +14,7 @@ public class  BinaryStrategy implements SerializableStrategy{
     private FileOutputStream fileOutputStream;
     private ObjectInputStream inputStream;
     private ObjectOutputStream outputStream;
+    private Song song;
     @Override
     public void openWriteableSongs() throws IOException {
         fileOutputStream = new FileOutputStream("bin.ser");
@@ -53,9 +55,11 @@ public class  BinaryStrategy implements SerializableStrategy{
     @Override
     public Song readSong() throws IOException, ClassNotFoundException {
         if (inputStream!= null){
-            return (Song) inputStream.readObject();
+            while(inputStream.read() != -1) {
+                song = (Song) inputStream.readObject();
+            }
         }else{throw  new IOException("warning ! ObjectInputStream DOES NOT EXIST");}
-
+            return song;
     }
 
     @Override

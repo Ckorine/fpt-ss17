@@ -114,11 +114,13 @@ public class DatabaseUtils implements SerializableStrategy {
 
     public void deleteSongWithID(long id){
         try {
-            PreparedStatement pstmtL = con.prepareStatement("DELETE ID,TITEL,INTERPRET,ALBUM,PATH FROM " + tableName + " WHERE ID = ?" );
+            PreparedStatement pstmtL = con.prepareStatement("DELETE *  FROM " + tableName + " WHERE ID = ?" );
             pstmtL.setLong(1,id);
             pstmtL.executeUpdate();
             System.out.println("Song deleted");
-        }catch (SQLException|NullPointerException e){}
+        }catch (SQLException|NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -151,6 +153,7 @@ public class DatabaseUtils implements SerializableStrategy {
 
         //System.out.println("+++");
         if (s != null) {
+            //deleteSongWithID(s.getId());
             insertSong(s);
             /*if(s.getTitle() == findSongByID(s.getId()).getTitle()){
                 deleteSongWithID(findSongByID(s.getId()).getId());

@@ -228,10 +228,10 @@ public class Controller {
                 strategy = new BinaryStrategy();
                 break;
             case 1:
-                strategy =  new XMLStrategy();
+                strategy = new OpenJPA() ;
                 break;
             case 2:
-                strategy =  new OpenJPA();
+                strategy = new XMLStrategy() ;
                 break;
             case 3:
                 strategy = new DatabaseUtils();
@@ -244,14 +244,20 @@ public class Controller {
         public void load() throws IOException {
 
             model.getAllSongs().deleteAllSongs();
-
+            if(model.getPlaylist()!=null) {
+                model.getPlaylist().deleteAllSongs();
+            }
             try {
 
                 strategy.openReadableSongs();
                 try{
 
                     while(true){
-                        model.getAllSongs().addSong(strategy.readSong());
+                        try {
+                            model.getAllSongs().addSong(strategy.readSong());
+                        }catch (ArrayIndexOutOfBoundsException a){
+
+                        }
                         view.fillSongList(model.getAllSongs());
                     }
                 } catch (IOException | ClassNotFoundException   e){
@@ -269,9 +275,12 @@ public class Controller {
                         while(true) {
                             long id = strategy.readSong().getId();
                             if (id == model.getAllSongs().findSongByID(id).getId()) {
-                                model.getPlaylist().addSong(model.getAllSongs().findSongByID(id));
-                                view.fillPlayList(null);
-                                view.fillPlayList(model.getPlaylist());
+                                    model.getPlaylist().addSong(model.getAllSongs().findSongByID(id));
+                                    view.fillPlayList(null);
+                                    view.fillPlayList(model.getPlaylist());
+
+                            }else{
+                                throw  new IOException("id different");
                             }
                         }
                     } catch (IOException|ClassNotFoundException e) {
@@ -299,19 +308,19 @@ public class Controller {
             System.out.println(strategy + " 1");
             //System.out.println("Song  inserted");
          try {
-             System.out.println(strategy + " 2");
+             //System.out.println(strategy + " 2");
              strategy.openWriteableSongs();
 
              //System.out.println("Song  inserted");
              for (Song s : model.getAllSongs()) {
-                 System.out.println(strategy);
+                 //System.out.println(strategy);
                  this.strategy.writeSong(s);
                  //System.out.println("Song " + s.getTitle() + " inserted");
              }
              strategy.openWriteablePlaylist();
 
              for (Song s : model.getPlaylist()){
-                 strategy.writeSong(s);
+                 this.strategy.writeSong(s);
              }
 
          } catch (IOException e) {
