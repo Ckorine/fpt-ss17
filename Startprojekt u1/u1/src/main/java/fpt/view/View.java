@@ -85,8 +85,10 @@ public class View extends BorderPane{
     public ListView<Song> getPlayList(){
         return playListV;
     }
+
     public void link(Controller controller) {
         this.controller = controller;
+        choiceBox.getSelectionModel().selectFirst();
     }
 
 
@@ -174,10 +176,8 @@ public class View extends BorderPane{
         choiceBox = new ChoiceBox(FXCollections.observableArrayList(controller.strategies));
         choiceBox.setPrefWidth(350);
          //choiceBox.getSelectionModel().getSelectedItem();
-        choiceBox.getSelectionModel().selectFirst();
         choiceBox.getSelectionModel().selectedItemProperty().addListener(e ->{controller.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());});
         choiceBox.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
-
 
         hBox.setSpacing(40);
         hBox.getChildren().addAll(choiceBox, load, save);

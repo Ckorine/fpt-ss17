@@ -2,80 +2,104 @@ package fpt.Strategy;
 
 import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
+import fpt.interfaces.SongList;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by benja on 16.06.2017.
  */
-public class  BinaryStrategy implements SerializableStrategy{
-    private FileInputStream fileInputStream;
-    private FileOutputStream fileOutputStream;
-    private ObjectInputStream inputStream;
-    private ObjectOutputStream outputStream;
-    private Song song;
+public class BinaryStrategy implements SerializableStrategy {
+    private FileInputStream fileInputStream = null;
+    private FileOutputStream fileOutputStream = null;
+    private ObjectInputStream inputStream = null;
+    private ObjectOutputStream outputStream = null;
+
     @Override
     public void openWriteableSongs() throws IOException {
-        fileOutputStream = new FileOutputStream("bin.ser");
-        outputStream= new ObjectOutputStream(fileOutputStream);
+        fileOutputStream = new FileOutputStream("library.ser",false);
+        outputStream = new ObjectOutputStream(fileOutputStream);
 
     }
 
     @Override
     public void openReadableSongs() throws IOException {
-        fileInputStream =new FileInputStream("bin.ser");
-        inputStream=new ObjectInputStream(fileInputStream);
+        fileInputStream = new FileInputStream("library.ser");
+        inputStream = new ObjectInputStream(fileInputStream);
+        try {
+            Song song = (Song)inputStream.readObject();
+            System.out.println(song.getId());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void openWriteablePlaylist() throws IOException {
-        fileOutputStream = new FileOutputStream("play.ser");
-        outputStream= new ObjectOutputStream(fileOutputStream);
+        fileOutputStream = new FileOutputStream("playlist.ser",false);
+        outputStream = new ObjectOutputStream(fileOutputStream);
 
 
     }
 
     @Override
     public void openReadablePlaylist() throws IOException {
-        fileInputStream =new FileInputStream("play.ser");
-        inputStream=new ObjectInputStream(fileInputStream);
+        fileInputStream = new FileInputStream("playlist.ser");
+        inputStream = new ObjectInputStream(fileInputStream);
 
+            try {
+                Song song = (Song)inputStream.readObject();
+                System.out.println(song.getId());
+            } catch (ClassNotFoundException e) {
+                System.out.println("error");
+                e.printStackTrace();
+            }
     }
 
     @Override
     public void writeSong(Song s) throws IOException {
-        if(s!= null && outputStream!=null){
+
             outputStream.writeObject(s);
             outputStream.flush();//schreib gepufferte Daten
-        }else { throw new IOException("objectOutputStream does not exist!!!!!!!!!!!");}
+            System.out.println(s.getTitle());
 
     }
 
     @Override
     public Song readSong() throws IOException, ClassNotFoundException {
-        if (inputStream!= null){
-            while(inputStream.read() != -1) {
-                song = (Song) inputStream.readObject();
+        Song readSong =null;
+        if(inputStream!=null){
+            try {
+               while(inputStream.read()>-1) {
+                   readSong = (Song) inputStream.readObject();
+                   System.out.println(readSong.getTitle());
+               }
+            } catch (EOFException e){
+          return null;
             }
-        }else{throw  new IOException("warning ! ObjectInputStream DOES NOT EXIST");}
-            return song;
+        }
+        return readSong;
     }
 
     @Override
     public void closeReadable() throws IOException {
-
-if (inputStream!=null){
-    inputStream.close();
-    inputStream=null;
-}
+        try{
+        fileInputStream.close();
+            inputStream.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void closeWriteable() throws IOException {
-        if(outputStream!=null){
+        try {
+        fileOutputStream.close();
             outputStream.close();
-            inputStream=null;
+        }catch (IOException es){
+            es.printStackTrace();
         }
 
     }

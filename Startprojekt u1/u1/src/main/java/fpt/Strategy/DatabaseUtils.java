@@ -1,5 +1,6 @@
 package fpt.Strategy;
 
+import com.sun.xml.internal.bind.v2.model.core.ID;
 import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
 
@@ -108,19 +109,22 @@ public class DatabaseUtils implements SerializableStrategy {
         }catch (SQLException sl){
             //sl.printStackTrace();
         }
+
         return sList;
+
 
     }
 
     public void deleteSongWithID(long id){
         try {
-            PreparedStatement pstmtL = con.prepareStatement("DELETE *  FROM " + tableName + " WHERE ID = ?" );
+            PreparedStatement pstmtL = con.prepareStatement("DELETE  FROM PLAYLIST WHERE ID = ? ");
             pstmtL.setLong(1,id);
             pstmtL.executeUpdate();
             System.out.println("Song deleted");
         }catch (SQLException|NullPointerException e){
             e.printStackTrace();
         }
+
     }
 
     @Override
@@ -151,17 +155,16 @@ public class DatabaseUtils implements SerializableStrategy {
     @Override
     public void writeSong(fpt.interfaces.Song s) throws IOException {
 
-        //System.out.println("+++");
         if (s != null) {
-            //deleteSongWithID(s.getId());
-            insertSong(s);
-            /*if(s.getTitle() == findSongByID(s.getId()).getTitle()){
-                deleteSongWithID(findSongByID(s.getId()).getId());
-                insertSong(s);
-            }else {
-                insertSong(s);
-                //System.out.println("Song write inserted");
-            }*/
+            for(Song songInTable :getAllSongsFromTable()) {
+                Song songs = songInTable;
+                if (songs.getId()!= s.getId()) {
+                    deleteSongWithID(songs.getId());
+                }
+            }
+
+                    insertSong(s);
+
         } else {
             throw new IOException("Song to write doesn't exist");
         }

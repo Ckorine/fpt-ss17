@@ -28,15 +28,14 @@ import static javafx.scene.media.MediaPlayer.Status.*;
 public class Controller {
 
     private static final String PATH = "C:\\Users\\corin\\Desktop\\Sommersmester 2017\\FPT\\Aufgabe\\Lieder";
-    public static final String [] strategies= {"Binary Strategy","OpenJPA","XML Strategy","JDBCConnector"};
+    public static final String[] strategies = {"Binary Strategy", "OpenJPA", "XML Strategy", "JDBCConnector"};
 
-    private SerializableStrategy strategy ;
-    private DatabaseUtils dbutils;
+    private SerializableStrategy strategy;
     private View view;
     private Model model;
     private Media media;
-    private MediaPlayer mediaPlayer ;
-    private Media currentSong ;
+    private MediaPlayer mediaPlayer;
+    private Media currentSong;
     private int seekForwarTime = 5000; // milliseconde
 
 
@@ -47,7 +46,6 @@ public class Controller {
     public void link(Model model, View view) {
         this.model = model;
         this.view = view;
-        setStrategy(0);
 
         model.addSongsFromDir(PATH);
         view.fillSongList(model.getAllSongs());
@@ -56,7 +54,7 @@ public class Controller {
 
         view.getAddToPlayButton().setOnAction(event -> {
             Song s = view.getSongList().getSelectionModel().getSelectedItem();
-            if(s==null){
+            if (s == null) {
                 return;
             }
             try {
@@ -67,7 +65,7 @@ public class Controller {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            System.out.println("mediaPlayer is "+mediaPlayer);
+            System.out.println("mediaPlayer is " + mediaPlayer);
 
         });
 
@@ -85,22 +83,22 @@ public class Controller {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-            if(model.getPlaylist().isEmpty()) {
+            if (model.getPlaylist().isEmpty()) {
                 return;
-            } else if(mediaPlayer !=null){
-                 mediaPlayer.getMedia();
+            } else if (mediaPlayer != null) {
+                mediaPlayer.getMedia();
             }
         });
 
         view.getRemoveFromPLay().setOnMousePressed(event -> {
             Song s = view.getPlayList().getSelectionModel().getSelectedItem();
-            if(s==null){
+            if (s == null) {
                 return;
             }
             try {
                 Media media = new Media(s.getPath());
 
-                if(mediaPlayer==null){
+                if (mediaPlayer == null) {
                     model.getPlaylist().deleteSong(s);
                     view.fillPlayList(null);
                     view.fillPlayList(model.getPlaylist());
@@ -120,7 +118,7 @@ public class Controller {
                     view.fillPlayList(null);
                     view.fillPlayList(model.getPlaylist());
 
-                    }
+                }
                 /*if(strategy == dbutils){
                     dbutils.deleteSongWithID(s.getId());
                 }*/
@@ -142,7 +140,7 @@ public class Controller {
         });
         view.getPause().setOnAction(e ->
         {
-            if(mediaPlayer!= null){
+            if (mediaPlayer != null) {
                 mediaPlayer.pause();
             }
         });
@@ -166,13 +164,13 @@ public class Controller {
     }
 
     private void playNext() {
-        if(model.getPlaylist().isEmpty()) {
+        if (model.getPlaylist().isEmpty()) {
             return;
         }
 
         int index = view.getPlayList().getSelectionModel().getSelectedIndex();
-        System.out.println(index);
-        if(index == -1 || index == model.getPlaylist().size() - 1){
+            System.out.println(index);
+            if (index == -1 || index == model.getPlaylist().size() - 1) {
             view.getPlayList().getSelectionModel().clearAndSelect(0);
         } else {
             view.getPlayList().getSelectionModel().clearAndSelect(index + 1);
@@ -184,11 +182,11 @@ public class Controller {
     }
 
     private void play() {
-        if(model.getPlaylist().isEmpty()) {
+        if (model.getPlaylist().isEmpty()) {
             return;
         }
         Song s = view.getPlayList().getSelectionModel().getSelectedItem();
-        if(s == null){
+        if (s == null) {
             s = model.getPlaylist().get(0);
             view.getPlayList().getSelectionModel().clearAndSelect(0);
             s = view.getPlayList().getSelectionModel().getSelectedItem();
@@ -209,29 +207,30 @@ public class Controller {
         }
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
-         mediaPlayer.getMedia();
+        mediaPlayer.getMedia();
         mediaPlayer.setOnEndOfMedia(() -> {
             playNext();
 
         });
     }
-    public void stop(){
-        if(mediaPlayer!= null){
-            if(!mediaPlayer.isMute())
+
+    public void stop() {
+        if (mediaPlayer != null) {
+            if (!mediaPlayer.isMute())
                 mediaPlayer.stop();
         }
     }
 
-    public void setStrategy(int strategycase){
-        switch (strategycase){
+    public void setStrategy(int strategycase) {
+        switch (strategycase) {
             case 0:
                 strategy = new BinaryStrategy();
                 break;
             case 1:
-                strategy = new OpenJPA() ;
+                strategy = new OpenJPA();
                 break;
             case 2:
-                strategy = new XMLStrategy() ;
+                strategy = new XMLStrategy();
                 break;
             case 3:
                 strategy = new DatabaseUtils();
@@ -241,95 +240,98 @@ public class Controller {
         System.out.println(strategy + " 4");
     }
 
-        public void load() throws IOException {
+    public void load() throws IOException {
 
-            model.getAllSongs().deleteAllSongs();
-            if(model.getPlaylist()!=null) {
-                model.getPlaylist().deleteAllSongs();
-            }
-            try {
 
-                strategy.openReadableSongs();
-                try{
+        model.getAllSongs().deleteAllSongs();
+        view.fillSongList(null);
+        System.out.println("balaka");
 
-                    while(true){
-                        try {
-                            model.getAllSongs().addSong(strategy.readSong());
-                        }catch (ArrayIndexOutOfBoundsException a){
-
-                        }
-                        view.fillSongList(model.getAllSongs());
-                    }
-                } catch (IOException | ClassNotFoundException   e){
-                    e.printStackTrace();
-                    System.out.println("Library loaded");
-                    //no more song to be read
-                }
-
-                try{
-                    strategy.openReadablePlaylist();
-                    try {
-                        /*for(Song s : model.getPlaylist()){
-                            model.getPlaylist().deleteAllSongs();
-                        }*/
-                        while(true) {
-                            long id = strategy.readSong().getId();
-                            if (id == model.getAllSongs().findSongByID(id).getId()) {
-                                    model.getPlaylist().addSong(model.getAllSongs().findSongByID(id));
-                                    view.fillPlayList(null);
-                                    view.fillPlayList(model.getPlaylist());
-
-                            }else{
-                                throw  new IOException("id different");
-                            }
-                        }
-                    } catch (IOException|ClassNotFoundException e) {
-                        System.out.println("Playlist loaded");
-                        //different song´s id
-                    }
-                }catch (IOException e){
-
-                }
-                  /* if(song!=null){
-                      model.getAllSongs().add(song);
-                      model.getPlaylist().add(song);
-                  }else{
-                      throw new IOException();
-                  }*/
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                strategy.closeReadable();
-            }
+        if (model.getPlaylist() != null) {
+            model.getPlaylist().deleteAllSongs();
         }
 
-        public void save() throws IOException {
-            System.out.println(strategy + " 1");
+        try {
+            strategy.openReadableSongs();
+            Song readSongL = null;
+             readSongL = strategy.readSong();
+
+                while (readSongL != null) {
+                        model.getAllSongs().addSong(readSongL);
+                        readSongL = strategy.readSong();
+
+
+                    }
+            view.fillSongList(model.getAllSongs());
+
+              System.out.println("bOlakO");
+
+            System.out.println("Library loaded!!!");
+        } catch (IOException|ClassNotFoundException e) {
+            System.out.println("Library loaded");
+            e.printStackTrace();
+            //no more song to be read
+        } finally {
+            strategy.closeReadable();
+        }
+
+        try {
+            strategy.openReadablePlaylist();
+            Song readSong = strategy.readSong();
+            Song result = null;
+            long id =0;
+            while (readSong!=null) {
+                id = readSong.getId();
+                if(id == model.getAllSongs().findSongByID(id).getId()) {
+                    result = model.getAllSongs().findSongByID(id);
+                    model.getPlaylist().addSong(result);
+                    readSong = strategy.readSong();
+                    view.fillPlayList(null);
+                    view.fillPlayList(model.getPlaylist());
+                }
+            }
+
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Playlist loaded");
+            e.printStackTrace();
+            //different song´s id
+        } finally {
+            strategy.closeReadable();
+        }
+    }
+
+
+    public void save() throws IOException {
+        System.out.println(strategy + " 1");
+        //System.out.println("Song  inserted");
+        try {
+            //System.out.println(strategy + " 2");
+            strategy.openWriteableSongs();
+
             //System.out.println("Song  inserted");
-         try {
-             //System.out.println(strategy + " 2");
-             strategy.openWriteableSongs();
+            for (Song s : model.getAllSongs()) {
+                //System.out.println(strategy);
+                strategy.writeSong(s);
+                //System.out.println("Song " + s.getTitle() + " inserted");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+                strategy.closeWriteable();
+        }
+        try {
+            strategy.openWriteablePlaylist();
 
-             //System.out.println("Song  inserted");
-             for (Song s : model.getAllSongs()) {
-                 //System.out.println(strategy);
-                 this.strategy.writeSong(s);
-                 //System.out.println("Song " + s.getTitle() + " inserted");
-             }
-             strategy.openWriteablePlaylist();
+            for (Song s : model.getPlaylist()) {
+                strategy.writeSong(s);
+            }
 
-             for (Song s : model.getPlaylist()){
-                 this.strategy.writeSong(s);
-             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            strategy.closeWriteable();
+        }
 
-         } catch (IOException e) {
-             e.printStackTrace();
-         } finally {
-             if (strategy != null) {
-                 strategy.closeWriteable();
-             }
-         }
     }
 
 }
