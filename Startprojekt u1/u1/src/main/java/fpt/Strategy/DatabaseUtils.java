@@ -1,6 +1,5 @@
 package fpt.Strategy;
 
-import com.sun.xml.internal.bind.v2.model.core.ID;
 import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
 
@@ -144,6 +143,8 @@ public class DatabaseUtils implements SerializableStrategy {
     public void openWriteablePlaylist() throws IOException {
         connect();
         tableName = "PLAYLIST";
+        Song s =getAllSongsFromTable().remove(0);
+        deleteSongWithID(s.getId());
     }
 
     @Override
@@ -156,15 +157,7 @@ public class DatabaseUtils implements SerializableStrategy {
     public void writeSong(fpt.interfaces.Song s) throws IOException {
 
         if (s != null) {
-            for(Song songInTable :getAllSongsFromTable()) {
-                Song songs = songInTable;
-                if (songs.getId()!= s.getId()) {
-                    deleteSongWithID(songs.getId());
-                }
-            }
-
-                    insertSong(s);
-
+            insertSong(s);
         } else {
             throw new IOException("Song to write doesn't exist");
         }

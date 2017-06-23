@@ -259,10 +259,9 @@ public class Controller {
                 while (readSongL != null) {
                         model.getAllSongs().addSong(readSongL);
                         readSongL = strategy.readSong();
+                    view.fillSongList(model.getAllSongs());
+                }
 
-
-                    }
-            view.fillSongList(model.getAllSongs());
 
               System.out.println("bOlakO");
 
