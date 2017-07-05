@@ -1,9 +1,12 @@
 package fpt.model;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.media.Media;
+import org.apache.openjpa.persistence.Persistent;
+import org.apache.openjpa.persistence.jdbc.Strategy;
 
+import javax.persistence.*;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -12,21 +15,43 @@ import java.io.ObjectOutput;
 /**
  * Created by corin on 05.05.2017.
  */
+
+@Entity
+@Table(name = "Library")
 public class Song implements fpt.interfaces.Song,Externalizable{
 
+    @Persistent
+    @Strategy("StringPropertyValueHandler")
     private SimpleStringProperty path = new SimpleStringProperty();
+    @Persistent
+    @Strategy("StringPropertyValueHandler")
     private SimpleStringProperty titel = new SimpleStringProperty();
+    @Persistent
+    @Strategy("StringPropertyValueHandler")
     private SimpleStringProperty album = new SimpleStringProperty();
+    @Persistent
+    @Strategy("StringPropertyValueHandler")
     private SimpleStringProperty interpret = new SimpleStringProperty();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "Song_SEQ")
     private long id;
+    private Media media;
+
+
+
+
+
     public Song(){}
 
-    public Song(long id, String titel, String path){
+
+    public Song(long id, String titel,String interpret,String album, String path){
         this.id = id;
         this.path.set(path);
         this.titel.set(titel);
-
-
+        this.interpret.set(interpret);
+        this.album.set(album);
+        this.path.set(path);
+        this.media = new Media(path);
     }
 
 
@@ -68,7 +93,6 @@ public class Song implements fpt.interfaces.Song,Externalizable{
 
     @Override
     public String getTitle() {
-
         return titel.getValue();
     }
 

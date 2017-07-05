@@ -49,8 +49,7 @@ public class View extends BorderPane{
     private Button commit;
     private Button pause;
     private ChoiceBox<String> choiceBox;
-    private Controller controller = new Controller();
-
+    private Controller controller;
 
     public Button getAddToPlayButton(){
 
@@ -87,21 +86,21 @@ public class View extends BorderPane{
         return playListV;
     }
 
-    public int size8(){
-        return songListV.getItems().size();
+    public void link(Controller controller) {
+        this.controller = controller;
+        choiceBox.getSelectionModel().selectFirst();
     }
 
+
     public View() {
-        Label label1 = new Label("titel :");
+        Label label1 = new Label("Titel :");
         titelS.setPrefSize(200, 10);
-        Label label2 = new Label("interpret :");
+        Label label2 = new Label("Interpret :");
         interpret.setPrefSize(200, 10);
-        Label label3 = new Label("album :");
+        Label label3 = new Label("Album :");
         album.setPrefSize(90, 10);
         songListV.setPrefSize(350, 550);
         playListV.setPrefSize(350, 550);
-        // songListV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        // playListV.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         songListV.setCellFactory(e -> new ListCell<Song>() {
             @Override
@@ -111,7 +110,6 @@ public class View extends BorderPane{
                     setText(null);
                 } else {
                     setText(item.toString());
-                    //setText(String.format("%02d", item.getId()) + " | " + item.getTitle());
                 }
             }
         });
@@ -128,8 +126,6 @@ public class View extends BorderPane{
             }
         });
 
-
-        //ImageView stop = new ImageView();
         load = new Button("Load");
         save = new Button("Save");
         pause = new Button("||");
@@ -177,10 +173,9 @@ public class View extends BorderPane{
         next.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
         commit.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
 
-         choiceBox = new ChoiceBox(FXCollections.observableArrayList(controller.strategies));
+        choiceBox = new ChoiceBox(FXCollections.observableArrayList(controller.strategies));
         choiceBox.setPrefWidth(350);
-        //choiceBox.getItems().addAll("Binäre Serialisierung");//spaeter werden die Strategie hinzugzfuegt
-        choiceBox.getSelectionModel().selectFirst();
+         //choiceBox.getSelectionModel().getSelectedItem();
         choiceBox.getSelectionModel().selectedItemProperty().addListener(e ->{controller.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());});
         choiceBox.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
 

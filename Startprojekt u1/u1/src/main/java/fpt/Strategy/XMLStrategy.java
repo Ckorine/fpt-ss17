@@ -18,7 +18,7 @@ public class XMLStrategy implements SerializableStrategy {
 
     @Override
     public void openWriteableSongs() throws IOException {
-        fileOutputStream= new FileOutputStream("song.xml");
+        fileOutputStream= new FileOutputStream("library.xml");
         xmlencoder=new XMLEncoder(fileOutputStream);
 
     }
@@ -26,14 +26,14 @@ public class XMLStrategy implements SerializableStrategy {
 
     @Override
     public void openReadableSongs() throws IOException {
-       fileInputStream=new FileInputStream("song.xml");
+       fileInputStream=new FileInputStream("library.xml");
        xmldecoder = new XMLDecoder(fileInputStream);
 
     }
 
     @Override
     public void openWriteablePlaylist() throws IOException {
-        fileOutputStream= new FileOutputStream("playliste.xml");
+        fileOutputStream= new FileOutputStream("playlist.xml");
         xmlencoder=new XMLEncoder(fileOutputStream);
 
 
@@ -41,7 +41,7 @@ public class XMLStrategy implements SerializableStrategy {
 
     @Override
     public void openReadablePlaylist() throws IOException {
-        fileInputStream=new FileInputStream("playliste.xml");
+        fileInputStream=new FileInputStream("playlist.xml");
         xmldecoder = new XMLDecoder(fileInputStream);
 
 
@@ -58,10 +58,16 @@ public class XMLStrategy implements SerializableStrategy {
 
     @Override
     public Song readSong() throws IOException, ClassNotFoundException {
+        Song readSong = null;
         if (xmldecoder!= null){
-            return (Song) xmldecoder.readObject();
-        }else{throw  new IOException("warning ! XMLDecoder DOES NOT EXIST");}
+                try{
+                    readSong = (Song) xmldecoder.readObject();
+                }catch (ArrayIndexOutOfBoundsException a){
 
+                }
+
+        }else{throw  new IOException("warning ! XMLDecoder DOES NOT EXIST");}
+        return readSong;
     }
 
     @Override

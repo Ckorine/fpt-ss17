@@ -1,7 +1,11 @@
 package fpt.view;
 
+
+import fpt.Strategy.DatabaseUtils;
 import fpt.controller.Controller;
+import fpt.model.IDgenerator;
 import fpt.model.Model;
+import fpt.model.Song;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,9 +21,15 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Model model = new Model();
+        IDgenerator.init(model);
+        /*DatabaseUtils databaseUtils = new DatabaseUtils();
+        databaseUtils.createDatabase();
+        databaseUtils.returnSing();
+        databaseUtils.findSongByID(0);*/
         View view = new View();
         Controller controller = new Controller();
         controller.link(model,view);
+        view.link(controller);
 
         Scene scene = new Scene(view, 1000, 630);
         primaryStage.setResizable(false);

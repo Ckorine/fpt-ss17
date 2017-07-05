@@ -18,12 +18,15 @@ import java.util.Iterator;
 /**
  * Created by corin on 05.05.2017.
  */
-public class SongList extends ModifiableObservableListBase<Song> implements fpt.interfaces.SongList , Serializable{
+
+public class SongList extends ModifiableObservableListBase<Song> implements fpt.interfaces.SongList,Serializable {
+
 
     private ArrayList<Song> list = new ArrayList();
     public SongList(){
         super();
-    }
+
+      }
 
     @Override
     public boolean addSong(Song s) throws RemoteException {
@@ -84,9 +87,6 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
     protected void doAdd(int index, Song element) {
         list.add(index,element);
 
-
-
-
     }
 
     @Override
@@ -100,10 +100,11 @@ public class SongList extends ModifiableObservableListBase<Song> implements fpt.
     }
 
     public Song findSongByID(long id) {
-        for (Song song : this)
+        for (Song song : list)
             if (song.getId() == id) {
                 return song;
+
             }
             return null;
     }
-    }
+}

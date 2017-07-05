@@ -1,26 +1,24 @@
 package fpt.model;
 
-import javax.persistence.Id;
-import java.util.UUID;
-
 /**
  * Created by benja on 07.06.2017.
  */
 public class IDgenerator {
-    private static final long idstart = 0;
-    private static final long idende = 9999;
+    private static final long idStart = 0;
+    private static final long idEnde = 9999;
     private static Model model ;
-    public IDgenerator (Model model1){
-        this.model=model1;
+
+    public static void init(Model model1){
+        model= model1;
     }
-    public  static Long getNextId()throws IDOverFlowException{
-          long id = idstart;
-          while (model.findSongById(id)!= null){
-              id ++;
-             if (id > idende) throw new IDOverFlowException ();
-          }
+
+    public static Long getNextID() throws IDOverFlowException {
+        if (model==null) throw new IDOverFlowException();
+        long id = idStart;
+        while (model.findSongById(id) != null) {
+            id++;
+        }
+        if (id > idEnde) throw new IDOverFlowException();
         return id;
     }
-    //RIEN
-
 }
