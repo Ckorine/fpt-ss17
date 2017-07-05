@@ -1,6 +1,6 @@
 package fpt.view;
 
-import fpt.controller.Controller;
+import fpt.controller.ControllerClient;
 import fpt.interfaces.Song;
 import fpt.model.SongList;
 import javafx.collections.FXCollections;
@@ -9,16 +9,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
-import javafx.scene.paint.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
 import javafx.scene.shape.Polygon;
-
-import java.awt.*;
-import java.awt.Rectangle;
-import java.text.NumberFormat;
 
 
 public class View extends BorderPane{
@@ -49,7 +42,7 @@ public class View extends BorderPane{
     private Button commit;
     private Button pause;
     private ChoiceBox<String> choiceBox;
-    private Controller controller;
+    private ControllerClient controller;
 
     public Button getAddToPlayButton(){
 
@@ -86,7 +79,7 @@ public class View extends BorderPane{
         return playListV;
     }
 
-    public void link(Controller controller) {
+    public void link(ControllerClient controller) {
         this.controller = controller;
         choiceBox.getSelectionModel().selectFirst();
     }
@@ -150,17 +143,17 @@ public class View extends BorderPane{
 
         play.setGraphic(polygon);
         stop.setGraphic(r);
-        stop.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
-        play.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
-        load.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
-        save.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
-        pause.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
-        addAll.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        stop.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
+        play.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
+        load.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
+        save.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
+        pause.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
+        addAll.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        addToPlayList.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
-        removeFromPlaylist.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
-        next.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
-        commit.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        addToPlayList.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
+        removeFromPlaylist.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
+        next.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
+        commit.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
 
         stop.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
         play.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
@@ -177,7 +170,7 @@ public class View extends BorderPane{
         choiceBox.setPrefWidth(350);
          //choiceBox.getSelectionModel().getSelectedItem();
         choiceBox.getSelectionModel().selectedItemProperty().addListener(e ->{controller.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());});
-        choiceBox.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        choiceBox.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 
         hBox.setSpacing(40);
         hBox.getChildren().addAll(choiceBox, load, save);
@@ -188,17 +181,17 @@ public class View extends BorderPane{
         stack3.setSpacing(10);
         hbox3.getChildren().addAll(stop, play, pause, next, commit);
         hbox3.setSpacing(5);
-        hBox.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL, CornerRadii.EMPTY, Insets.EMPTY)));
-        stack.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL, CornerRadii.EMPTY, Insets.EMPTY)));
-        hBox2.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL, CornerRadii.EMPTY, Insets.EMPTY)));
-        songListV.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
+        hBox.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        stack.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        hBox2.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+        songListV.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
         //playListV.setBackground(new Background(new BackgroundFill(Color.INDIANRED, CornerRadii.EMPTY, Insets.EMPTY)));
 
 
         setTop(hBox);
         setBottom(addAll);
         setCenter(hBox2);
-        this.setBackground(new Background(new BackgroundFill(Color.LIGHTCORAL, CornerRadii.EMPTY, Insets.EMPTY)));
+        this.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 
         songListV.setOnMouseClicked(event -> {
             Song s = songListV.getSelectionModel().getSelectedItem();

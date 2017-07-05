@@ -1,7 +1,5 @@
 package fpt.controller;
 
-import com.thoughtworks.xstream.io.StreamException;
-import com.thoughtworks.xstream.mapper.CannotResolveClassException;
 import fpt.Strategy.BinaryStrategy;
 import fpt.Strategy.DatabaseUtils;
 import fpt.Strategy.OpenJPA;
@@ -16,7 +14,6 @@ import javafx.scene.media.MediaPlayer;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 
 
 import static javafx.scene.media.MediaPlayer.Status.*;
@@ -25,7 +22,7 @@ import static javafx.scene.media.MediaPlayer.Status.*;
 /**
  * Created by corin on 09.05.2017.
  */
-public class Controller {
+public class ControllerClient {
 
     private static final String PATH = "C:\\Users\\corin\\Desktop\\Sommersmester 2017\\FPT\\Aufgabe\\Lieder";
     public static final String[] strategies = {"Binary Strategy", "OpenJPA", "XML Strategy", "JDBCConnector"};
@@ -39,7 +36,7 @@ public class Controller {
     private int seekForwarTime = 5000; // milliseconde
 
 
-    public Controller() {
+    public ControllerClient() {
 
     }
 

@@ -1,11 +1,9 @@
-package fpt.view;
+package fpt.main;
 
-import com.thoughtworks.xstream.core.ReferenceByIdMarshaller;
-import fpt.Strategy.DatabaseUtils;
-import fpt.controller.Controller;
+import fpt.controller.ControllerClient;
 import fpt.model.IDgenerator;
 import fpt.model.Model;
-import fpt.model.Song;
+import fpt.view.View;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -14,7 +12,7 @@ import javafx.stage.StageStyle;
 /**
  * Created by STELLA on 10/05/2017.
  */
-public class Main extends Application {
+public class MainServer extends Application {
     public static void main(String[] args) {
         Application.launch(args);
     }
@@ -22,12 +20,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Model model = new Model();
         IDgenerator.init(model);
-        /*DatabaseUtils databaseUtils = new DatabaseUtils();
-        databaseUtils.createDatabase();
-        databaseUtils.returnSing();
-        databaseUtils.findSongByID(0);*/
         View view = new View();
-        Controller controller = new Controller();
+        ControllerClient controller = new ControllerClient();
         controller.link(model,view);
         view.link(controller);
 
