@@ -8,7 +8,7 @@ import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
 import fpt.model.Model;
 import fpt.model.SongList;
-import fpt.view.View;
+import fpt.view.ViewServer;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -27,7 +27,7 @@ public class ControllerServer {
     public static final String[] strategies = {"Binary Strategy", "OpenJPA", "XML Strategy", "JDBCConnector"};
 
     private SerializableStrategy strategy;
-    private View view;
+    private ViewServer view;
     private Model model;
     private Media media;
     private MediaPlayer mediaPlayer;
@@ -39,7 +39,7 @@ public class ControllerServer {
 
     }
 
-    public void link(Model model, View view) {
+    public void link(Model model, ViewServer view) {
         this.model = model;
         this.view = view;
 

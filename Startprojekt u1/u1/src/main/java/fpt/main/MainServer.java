@@ -1,9 +1,10 @@
 package fpt.main;
 
 import fpt.controller.ControllerClient;
+import fpt.controller.ControllerServer;
 import fpt.model.IDgenerator;
 import fpt.model.Model;
-import fpt.view.View;
+import fpt.view.ViewServer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -20,10 +21,10 @@ public class MainServer extends Application {
     public void start(Stage primaryStage) throws Exception {
         Model model = new Model();
         IDgenerator.init(model);
-        View view = new View();
-        ControllerClient controller = new ControllerClient();
-        controller.link(model,view);
-        view.link(controller);
+        ViewServer view = new ViewServer();
+        ControllerServer controllerServer = new ControllerServer();
+        controllerServer.link(model,view);
+        view.link(controllerServer);
 
         Scene scene = new Scene(view, 1000, 630);
         primaryStage.setResizable(false);

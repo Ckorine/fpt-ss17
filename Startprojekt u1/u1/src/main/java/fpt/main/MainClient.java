@@ -3,7 +3,8 @@ package fpt.main;
 import fpt.controller.ControllerClient;
 import fpt.model.IDgenerator;
 import fpt.model.Model;
-import fpt.view.View;
+import fpt.view.ViewClient;
+import fpt.view.ViewServer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -20,12 +21,12 @@ public class MainClient extends Application {
     public void start(Stage primaryStage) throws Exception {
         Model model = new Model();
         IDgenerator.init(model);
-        View  view = new View();
-        ControllerClient controller = new ControllerClient();
-        controller.link(model,view);
-        view.link(controller);
+        ViewClient viewClient = new ViewClient();
+        ControllerClient controllerClient = new ControllerClient();
+        controllerClient.link(model,viewClient);
+        viewClient.link(controllerClient);
 
-        Scene scene = new Scene(view, 1000, 630);
+        Scene scene = new Scene(viewClient, 1000, 630);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Playlist");
         primaryStage.setResizable(true);
@@ -33,7 +34,4 @@ public class MainClient extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-    // @Override
-
 }

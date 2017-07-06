@@ -8,7 +8,8 @@ import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
 import fpt.model.Model;
 import fpt.model.SongList;
-import fpt.view.View;
+import fpt.view.ViewClient;
+import fpt.view.ViewServer;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -28,7 +29,7 @@ public class ControllerClient {
     public static final String[] strategies = {"Binary Strategy", "OpenJPA", "XML Strategy", "JDBCConnector"};
 
     private SerializableStrategy strategy;
-    private View view;
+    private ViewClient viewClient;
     private Model model;
     private Media media;
     private MediaPlayer mediaPlayer;
@@ -40,24 +41,24 @@ public class ControllerClient {
 
     }
 
-    public void link(Model model, View view) {
+    public void link(Model model, ViewClient viewClient) {
         this.model = model;
-        this.view = view;
+        this.viewClient = viewClient;
 
         model.addSongsFromDir(PATH);
-        view.fillSongList(model.getAllSongs());
-        view.fillPlayList(model.getPlaylist());
+        viewClient.fillSongList(model.getAllSongs());
+        viewClient.fillPlayList(model.getPlaylist());
 
 
-        view.getAddToPlayButton().setOnAction(event -> {
-            Song s = view.getSongList().getSelectionModel().getSelectedItem();
+        viewClient.getAddToPlayButton().setOnAction(event -> {
+            Song s = viewClient.getSongList().getSelectionModel().getSelectedItem();
             if (s == null) {
                 return;
             }
             try {
                 model.getPlaylist().addSong(s);
-                view.fillPlayList(null);
-                view.fillPlayList(model.getPlaylist());
+                viewClient.fillPlayList(null);
+                viewClient.fillPlayList(model.getPlaylist());
 
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -66,7 +67,7 @@ public class ControllerClient {
 
         });
 
-        view.getAddall().setOnMouseClicked(event -> {
+        viewClient.getAddall().setOnMouseClicked(event -> {
 
             try {
                 model.getPlaylist().deleteAllSongs();
@@ -74,8 +75,8 @@ public class ControllerClient {
                 for (Song s : sl) {
                     model.getPlaylist().addSong(s);
                 }
-                view.fillPlayList(null);
-                view.fillPlayList(model.getPlaylist());
+                viewClient.fillPlayList(null);
+                viewClient.fillPlayList(model.getPlaylist());
 
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -87,8 +88,8 @@ public class ControllerClient {
             }
         });
 
-        view.getRemoveFromPLay().setOnMousePressed(event -> {
-            Song s = view.getPlayList().getSelectionModel().getSelectedItem();
+        viewClient.getRemoveFromPLay().setOnMousePressed(event -> {
+            Song s = viewClient.getPlayList().getSelectionModel().getSelectedItem();
             if (s == null) {
                 return;
             }
@@ -97,8 +98,8 @@ public class ControllerClient {
 
                 if (mediaPlayer == null) {
                     model.getPlaylist().deleteSong(s);
-                    view.fillPlayList(null);
-                    view.fillPlayList(model.getPlaylist());
+                    viewClient.fillPlayList(null);
+                    viewClient.fillPlayList(model.getPlaylist());
 
 
                     return;
@@ -108,17 +109,14 @@ public class ControllerClient {
 
                     model.getPlaylist().deleteSong(s);
                     stop();
-                    view.fillPlayList(null);
-                    view.fillPlayList(model.getPlaylist());
+                    viewClient.fillPlayList(null);
+                    viewClient.fillPlayList(model.getPlaylist());
                 } else {
                     model.getPlaylist().deleteSong(s);
-                    view.fillPlayList(null);
-                    view.fillPlayList(model.getPlaylist());
+                    viewClient.fillPlayList(null);
+                    viewClient.fillPlayList(model.getPlaylist());
 
                 }
-                /*if(strategy == dbutils){
-                    dbutils.deleteSongWithID(s.getId());
-                }*/
 
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -126,32 +124,32 @@ public class ControllerClient {
 
         });
 
-        view.getPlay().setOnAction(e ->
+        viewClient.getPlay().setOnAction(e ->
         {
             play();
         });
 
-        view.getStop().setOnAction(e ->
+        viewClient.getStop().setOnAction(e ->
         {
             stop();
         });
-        view.getPause().setOnAction(e ->
+        viewClient.getPause().setOnAction(e ->
         {
             if (mediaPlayer != null) {
                 mediaPlayer.pause();
             }
         });
-        view.getNext().setOnAction(event -> {
+        viewClient.getNext().setOnAction(event -> {
             playNext();
         });
-        view.getLoad().setOnAction(event -> {
+        viewClient.getLoad().setOnAction(event -> {
             try {
                 load();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-        view.getSave().setOnAction(event -> {
+        viewClient.getSave().setOnAction(event -> {
             try {
                 save();
             } catch (IOException e) {
@@ -165,12 +163,12 @@ public class ControllerClient {
             return;
         }
 
-        int index = view.getPlayList().getSelectionModel().getSelectedIndex();
+        int index = viewClient.getPlayList().getSelectionModel().getSelectedIndex();
             System.out.println(index);
             if (index == -1 || index == model.getPlaylist().size() - 1) {
-            view.getPlayList().getSelectionModel().clearAndSelect(0);
+            viewClient.getPlayList().getSelectionModel().clearAndSelect(0);
         } else {
-            view.getPlayList().getSelectionModel().clearAndSelect(index + 1);
+            viewClient.getPlayList().getSelectionModel().clearAndSelect(index + 1);
         }
 
         play();
@@ -182,11 +180,11 @@ public class ControllerClient {
         if (model.getPlaylist().isEmpty()) {
             return;
         }
-        Song s = view.getPlayList().getSelectionModel().getSelectedItem();
+        Song s = viewClient.getPlayList().getSelectionModel().getSelectedItem();
         if (s == null) {
             s = model.getPlaylist().get(0);
-            view.getPlayList().getSelectionModel().clearAndSelect(0);
-            s = view.getPlayList().getSelectionModel().getSelectedItem();
+            viewClient.getPlayList().getSelectionModel().clearAndSelect(0);
+            s = viewClient.getPlayList().getSelectionModel().getSelectedItem();
 
 
         }
@@ -241,7 +239,7 @@ public class ControllerClient {
 
 
         model.getAllSongs().deleteAllSongs();
-        view.fillSongList(null);
+        viewClient.fillSongList(null);
         System.out.println("balaka");
 
         if (model.getPlaylist() != null) {
@@ -256,7 +254,7 @@ public class ControllerClient {
                 while (readSongL != null) {
                         model.getAllSongs().addSong(readSongL);
                         readSongL = strategy.readSong();
-                    view.fillSongList(model.getAllSongs());
+                    viewClient.fillSongList(model.getAllSongs());
                 }
 
 
@@ -282,8 +280,8 @@ public class ControllerClient {
                     result = model.getAllSongs().findSongByID(id);
                     model.getPlaylist().addSong(result);
                     readSong = strategy.readSong();
-                    view.fillPlayList(null);
-                    view.fillPlayList(model.getPlaylist());
+                    viewClient.fillPlayList(null);
+                    viewClient.fillPlayList(model.getPlaylist());
                 }
             }
 
