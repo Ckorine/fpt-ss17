@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\benja\Desktop\fpt\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\model\Song.java
 C:\Users\benja\Desktop\fpt\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\interfaces\SongList.java
 C:\Users\benja\Desktop\fpt\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\controller\Controller.java
@@ -14,3 +15,21 @@ C:\Users\benja\Desktop\fpt\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\view\Ma
 C:\Users\benja\Desktop\fpt\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\interfaces\SerializableStrategy.java
 C:\Users\benja\Desktop\fpt\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\Strategy\BinaryStrategy.java
 C:\Users\benja\Desktop\fpt\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\view\View.java
+=======
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\model\Song.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\Strategy\OpenJPA.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\Strategy\DatabaseUtils.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\Strategy\JDBCConnector.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\interfaces\SongList.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\Strategy\XMLStrategy.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\Strategy\BinaryStrategy.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\view\View.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\controller\Controller.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\model\IDOverFlowException.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\interfaces\Song.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\model\IDgenerator.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\model\Model.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\view\Main.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\interfaces\SerializableStrategy.java
+C:\Users\corin\Documents\playlist\fpt-ss17\Startprojekt u1\u1\src\main\java\fpt\model\SongList.java
+>>>>>>> 6cf3712c0f4fd4d107e7b8019b30d3ba10e1109a
