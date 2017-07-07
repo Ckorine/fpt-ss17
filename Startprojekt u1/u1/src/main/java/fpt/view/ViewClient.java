@@ -10,7 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 
-import java.time.Duration;
+import javafx.util.Duration;
 import javafx.scene.control.Slider;
 import javafx.scene.media.MediaView;
 
@@ -33,6 +33,8 @@ public class ViewClient extends BorderPane{
     private TextField interpret = new TextField();
     private TextField album = new TextField();
     private TextField timeBox = new TextField();
+
+
     private Button addToPlayList;
     private Button removeFromPlaylist;
     private Button addAll;
@@ -44,7 +46,7 @@ public class ViewClient extends BorderPane{
     private Button commit;
     private Button pause;
     private ChoiceBox<String> choiceBox;
-    private ControllerClient controller;
+    private ControllerClient controllerClient;
 
 
     public Button getAddToPlayButton(){
@@ -82,60 +84,21 @@ public class ViewClient extends BorderPane{
         return playListV;
     }
 
-    public void link(ControllerClient controller) {
-        this.controller = controller;
+
+    public void link(ControllerClient controllerClient) {
+        this.controllerClient = controllerClient;
         choiceBox.getSelectionModel().selectFirst();
     }
-   /* private static String formatTime(Duration elapsed, Duration duration) {
-        int intElapsed = (int)Math.floor(elapsed.toSeconds());
-        int elapsedHours = intElapsed / (60 * 60);
-        if (elapsedHours > 0) {
-            intElapsed -= elapsedHours * 60 * 60;
-        }
-        int elapsedMinutes = intElapsed / 60;
-        int elapsedSeconds = intElapsed - elapsedHours * 60 * 60
-                - elapsedMinutes * 60;
-
-        if (duration.greaterThan(Duration.ZERO)) {
-            int intDuration = (int)Math.floor(duration.toSeconds());
-            int durationHours = intDuration / (60 * 60);
-            if (durationHours > 0) {
-                intDuration -= durationHours * 60 * 60;
-            }
-            int durationMinutes = intDuration / 60;
-            int durationSeconds = intDuration - durationHours * 60 * 60 -
-                    durationMinutes * 60;
-            if (durationHours > 0) {
-                return String.format("%d:%02d:%02d/%d:%02d:%02d",
-                        elapsedHours, elapsedMinutes, elapsedSeconds,
-                        durationHours, durationMinutes, durationSeconds);
-            } else {
-                return String.format("%02d:%02d/%02d:%02d",
-                        elapsedMinutes, elapsedSeconds,durationMinutes,
-                        durationSeconds);
-            }
-        } else {
-            if (elapsedHours > 0) {
-                return String.format("%d:%02d:%02d", elapsedHours,
-                        elapsedMinutes, elapsedSeconds);
-            } else {
-                return String.format("%02d:%02d",elapsedMinutes,
-                        elapsedSeconds);
-            }
-        }
-    }*/
-
 
     public ViewClient() {
         Label label1 = new Label("Titel :");
         titelS.setPrefSize(200, 10);
         Label label2 = new Label("Interpret :");
         interpret.setPrefSize(200, 10);
+        Label time = new Label("Time");
+        time.setPrefSize(40,10);
         Label label3 = new Label("Album :");
         album.setPrefSize(90, 10);
-        Label time = new Label();
-        timeBox.setText("");
-        time.setPrefSize(40,10);
         songListV.setPrefSize(350, 550);
         playListV.setPrefSize(350, 550);
 
@@ -199,25 +162,14 @@ public class ViewClient extends BorderPane{
         next.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
         commit.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        /*stop.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
-        play.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
-        load.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
-        pause.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
-        save.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
-        addAll.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
-        addToPlayList.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
-        removeFromPlaylist.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
-        next.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
-        commit.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));*/
-
-        choiceBox = new ChoiceBox(FXCollections.observableArrayList(controller.strategies));
+        choiceBox = new ChoiceBox(FXCollections.observableArrayList(controllerClient.strategies));
         choiceBox.setPrefWidth(350);
          //choiceBox.getSelectionModel().getSelectedItem();
-        choiceBox.getSelectionModel().selectedItemProperty().addListener(e ->{controller.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());});
+        choiceBox.getSelectionModel().selectedItemProperty().addListener(e ->{controllerClient.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());});
         choiceBox.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 
         hBox.setSpacing(40);
-        hBox.getChildren().addAll(choiceBox, load, save,time);
+        hBox.getChildren().addAll(choiceBox, load, save,time,timeBox);
         hBox2.getChildren().addAll(stack, stack2, stack3);
         stack.getChildren().addAll(songListV);
         stack2.getChildren().addAll(playListV);
@@ -276,5 +228,9 @@ public class ViewClient extends BorderPane{
 
     public void fillSongList(SongList items) {
         songListV.setItems(items);
+    }
+
+    public void fillTimeBox(String timeSong){
+        timeBox.setText(timeSong);
     }
 }
