@@ -10,11 +10,14 @@ import fpt.model.Model;
 import fpt.model.SongList;
 import fpt.view.ViewClient;
 import fpt.view.ViewServer;
+import javafx.scene.control.Slider;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+
 
 
 import static javafx.scene.media.MediaPlayer.Status.*;
@@ -34,7 +37,9 @@ public class ControllerClient {
     private Media media;
     private MediaPlayer mediaPlayer;
     private Media currentSong;
-    private int seekForwarTime = 5000; // milliseconde
+    private int seekForwarTime = 5000;// milliseconde
+    private Duration duration;
+    private Slider timeSlider;
 
 
     public ControllerClient() {
@@ -48,6 +53,7 @@ public class ControllerClient {
         model.addSongsFromDir(PATH);
         viewClient.fillSongList(model.getAllSongs());
         viewClient.fillPlayList(model.getPlaylist());
+
 
 
         viewClient.getAddToPlayButton().setOnAction(event -> {
@@ -95,13 +101,10 @@ public class ControllerClient {
             }
             try {
                 Media media = new Media(s.getPath());
-
                 if (mediaPlayer == null) {
                     model.getPlaylist().deleteSong(s);
                     viewClient.fillPlayList(null);
                     viewClient.fillPlayList(model.getPlaylist());
-
-
                     return;
                 }
 
@@ -127,7 +130,9 @@ public class ControllerClient {
         viewClient.getPlay().setOnAction(e ->
         {
             play();
+
         });
+
 
         viewClient.getStop().setOnAction(e ->
         {
@@ -156,6 +161,7 @@ public class ControllerClient {
                 e.printStackTrace();
             }
         });
+
     }
 
     private void playNext() {
@@ -194,6 +200,12 @@ public class ControllerClient {
                 MediaPlayer.Status st = mediaPlayer.getStatus();
                 if (st == PAUSED || st == READY || st == STOPPED || st == STALLED) {
                     mediaPlayer.play();
+                    System.out.println("mediaPlayer is " + mediaPlayer);
+                    Duration currentTime = mediaPlayer.getCurrentTime();
+                    duration = mediaPlayer.getMedia().getDuration();
+                    viewClient.fillTimeBox(formatTime(currentTime,duration));
+                    System.out.println("mediaPlayer is " + mediaPlayer);
+
                 }
                 return;
             } else {
@@ -203,11 +215,58 @@ public class ControllerClient {
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
         mediaPlayer.getMedia();
+        System.out.println("mediaPlayer is " + mediaPlayer);
+        Duration currentTime = mediaPlayer.getCurrentTime();
+        duration = mediaPlayer.getMedia().getDuration();
+        viewClient.fillTimeBox(formatTime(currentTime,duration));
+        System.out.println("mediaPlayer is " + mediaPlayer);
+
         mediaPlayer.setOnEndOfMedia(() -> {
             playNext();
 
         });
     }
+    public String formatTime(Duration elapsed, Duration duration) {
+        int intElapsed = (int)Math.floor(elapsed.toSeconds());
+        int elapsedHours = intElapsed / (60 * 60);
+        if (elapsedHours > 0) {
+            intElapsed -= elapsedHours * 60 * 60;
+        }
+        int elapsedMinutes = intElapsed / 60;
+        int elapsedSeconds = intElapsed - elapsedHours * 60 * 60
+                - elapsedMinutes * 60;
+
+        if (duration.compareTo(Duration.ZERO)>0) {
+            int intDuration = (int)Math.floor(duration.toSeconds());
+            int durationHours = intDuration / (60 * 60);
+            if (durationHours > 0) {
+                intDuration -= durationHours * 60 * 60;
+            }
+            int durationMinutes = intDuration / 60;
+            int durationSeconds = intDuration - durationHours * 60 * 60 -
+                    durationMinutes * 60;
+            if (durationHours > 0) {
+                return String.format("%d:%02d:%02d/%d:%02d:%02d",
+                        elapsedHours, elapsedMinutes, elapsedSeconds,
+                        durationHours, durationMinutes, durationSeconds);
+            } else {
+                return String.format("%02d:%02d/%02d:%02d",
+                        elapsedMinutes, elapsedSeconds,durationMinutes,
+                        durationSeconds);
+            }
+        } else {
+            if (elapsedHours > 0) {
+                return String.format("%d:%02d:%02d", elapsedHours,
+                        elapsedMinutes, elapsedSeconds);
+            } else {
+                return String.format("%02d:%02d",elapsedMinutes,
+                        elapsedSeconds);
+            }
+        }
+    }
+
+
+
 
     public void stop() {
         if (mediaPlayer != null) {
