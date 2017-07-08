@@ -1,11 +1,10 @@
-package fpt.view;
+package fpt.main;
 
-
-import fpt.Strategy.DatabaseUtils;
-import fpt.controller.Controller;
+import fpt.controller.ControllerClient;
 import fpt.model.IDgenerator;
 import fpt.model.Model;
-import fpt.model.Song;
+import fpt.view.ViewClient;
+import fpt.view.ViewServer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -14,7 +13,7 @@ import javafx.stage.StageStyle;
 /**
  * Created by STELLA on 10/05/2017.
  */
-public class Main extends Application {
+public class MainClient extends Application {
     public static void main(String[] args) {
         Application.launch(args);
     }
@@ -22,16 +21,12 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Model model = new Model();
         IDgenerator.init(model);
-        /*DatabaseUtils databaseUtils = new DatabaseUtils();
-        databaseUtils.createDatabase();
-        databaseUtils.returnSing();
-        databaseUtils.findSongByID(0);*/
-        View view = new View();
-        Controller controller = new Controller();
-        controller.link(model,view);
-        view.link(controller);
+        ViewClient viewClient = new ViewClient();
+        ControllerClient controllerClient = new ControllerClient();
+        controllerClient.link(model,viewClient);
+        viewClient.link(controllerClient);
 
-        Scene scene = new Scene(view, 1000, 630);
+        Scene scene = new Scene(viewClient, 1000, 630);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Playlist");
         primaryStage.setResizable(true);
@@ -39,7 +34,4 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-    // @Override
-
 }
