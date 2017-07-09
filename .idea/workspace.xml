@@ -2,69 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e59d8c56-1ece-4b99-a445-29e659c23c76" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/res/files/Labrinth - Jealous.mp3" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_thoughtworks_xstream_xstream_1_4_7.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_collections_commons_collections_3_2_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_pool_commons_pool_1_5_4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_3_8_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_sourceforge_serp_serp_1_15_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_geronimo_specs_geronimo_jms_1_1_spec_1_1_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_geronimo_specs_geronimo_jpa_2_0_spec_1_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_geronimo_specs_geronimo_jta_1_1_spec_1_1_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_openjpa_openjpa_2_4_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_xbean_xbean_asm5_shaded_3_17.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_xerial_sqlite_jdbc_3_8_11_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__postgresql_postgresql_9_1_901_1_jdbc4.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xmlpull_xmlpull_1_1_3_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/.idea/libraries/Maven__org_xerial_sqlite_jdbc_3_8_11_1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/DatabaseUtils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/u2.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/playliste.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/song.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/Strategy/BinaryStrategy.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/Strategy/JDBCConnector.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/Strategy/OpenJPA.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/Strategy/XMLStrategy.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/controller/Controller.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/interfaces/SerializableStrategy.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/interfaces/Song.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/interfaces/SongList.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/model/IDOverFlowException.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/model/IDgenerator.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/model/Model.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/model/Song.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/model/SongList.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/view/Main.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/view/View$1.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/view/View$2.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/classes/fpt/view/View.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/target/play.ser" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/.idea/workspace.xml" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/library.ser" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/library.ser" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/playlist.ser" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/playlist.ser" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/playlist.xml" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/playlist.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/pom.xml" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/BinaryStrategy.java" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/BinaryStrategy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/JDBCConnector.java" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/JDBCConnector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/OpenJPA.java" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/OpenJPA.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/XMLStrategy.java" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/XMLStrategy.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/controller/Controller.java" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/controller/Controller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/model/IDgenerator.java" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/model/IDgenerator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/model/Model.java" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/model/Model.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/model/Song.java" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/model/Song.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/model/SongList.java" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/model/SongList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/view/Main.java" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/view/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/view/View.java" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/view/View.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/u1-G420.iml" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/u1-G420.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/u2.iml" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/u2.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/Anmeldung.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/TCPClient.java" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/TCPClient.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/TCPServer.java" afterPath="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/TCPServer.java" />
     </list>
     <ignored path="$PROJECT_DIR$/Startprojekt u1/u1/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -80,11 +21,72 @@
       <file leaf-file-name="BinaryStrategy.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/BinaryStrategy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
+            <state relative-caret-position="17">
               <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TCPServer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/TCPServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="80">
+              <caret line="28" column="43" lean-forward="true" selection-start-line="28" selection-start-column="43" selection-end-line="28" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UDPClient.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/UDPClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="259">
+              <caret line="39" column="9" lean-forward="true" selection-start-line="34" selection-start-column="6" selection-end-line="39" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TCPClient.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/TCPClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="515">
+              <caret line="37" column="31" lean-forward="false" selection-start-line="37" selection-start-column="31" selection-end-line="37" selection-end-column="31" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#1327#1328#0" expanded="true" />
+                <element signature="e#1353#1354#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Anmeldung.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/Anmeldung.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="16" column="33" lean-forward="true" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
+              <folding>
+                <element signature="e#186#187#0" expanded="true" />
+                <element signature="e#217#218#0" expanded="true" />
+                <element signature="e#252#253#0" expanded="true" />
+                <element signature="e#283#284#0" expanded="true" />
+                <element signature="e#314#315#0" expanded="true" />
+                <element signature="e#354#355#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UDPServer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/UDPServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -95,19 +97,24 @@
             <state relative-caret-position="34">
               <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/view/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
+                <marker date="1499601184512" expanded="true" signature="266:308" ph="/**...*/" />
+                <marker date="1499601184512" expanded="false" signature="500:511" ph=" { " />
+                <marker date="1499601184512" expanded="false" signature="528:534" ph=" }" />
+                <marker date="1499601184512" expanded="true" signature="569:2284" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="2321:2992" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="3040:3791" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="3852:4401" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="4444:4781" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="4853:4911" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="4982:5039" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="5114:5259" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="5333:5391" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="5475:5683" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="5784:6084" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="6151:6256" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="6324:6429" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="6477:6753" ph="{...}" />
+                <marker date="1499601184512" expanded="true" signature="6782:6960" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -123,17 +130,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/controller/Controller.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4505">
-              <caret line="284" column="50" lean-forward="false" selection-start-line="284" selection-start-column="50" selection-end-line="284" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <dirStrings>
@@ -153,6 +157,9 @@
       <list>
         <option value="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/DatabaseUtils.java" />
         <option value="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/view/Main.java" />
+        <option value="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/Anmeldung.java" />
+        <option value="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/TCPServer.java" />
+        <option value="$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/TCPClient.java" />
       </list>
     </option>
   </component>
@@ -185,6 +192,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -329,6 +338,36 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="sockets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="u2" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="u1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="fpt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="model" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -391,9 +430,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -649,7 +686,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.019089574" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -663,6 +700,35 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.019089574" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -674,6 +740,51 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/BinaryStrategy.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/DatabaseUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding>
+            <marker date="1499601184512" expanded="true" signature="266:308" ph="/**...*/" />
+            <marker date="1499601184512" expanded="false" signature="500:511" ph=" { " />
+            <marker date="1499601184512" expanded="false" signature="528:534" ph=" }" />
+            <marker date="1499601184512" expanded="true" signature="569:2284" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="2321:2992" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="3040:3791" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="3852:4401" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="4444:4781" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="4853:4911" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="4982:5039" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="5114:5259" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="5333:5391" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="5475:5683" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="5784:6084" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="6151:6256" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="6324:6429" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="6477:6753" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="6782:6960" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/JDBCConnector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/BinaryStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
           <folding>
@@ -687,7 +798,24 @@
         <state relative-caret-position="34">
           <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <marker date="1499601184512" expanded="true" signature="266:308" ph="/**...*/" />
+            <marker date="1499601184512" expanded="false" signature="500:511" ph=" { " />
+            <marker date="1499601184512" expanded="false" signature="528:534" ph=" }" />
+            <marker date="1499601184512" expanded="true" signature="569:2284" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="2321:2992" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="3040:3791" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="3852:4401" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="4444:4781" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="4853:4911" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="4982:5039" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="5114:5259" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="5333:5391" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="5475:5683" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="5784:6084" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="6151:6256" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="6324:6429" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="6477:6753" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="6782:6960" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -700,24 +828,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/controller/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4505">
-          <caret line="284" column="50" lean-forward="true" selection-start-line="284" selection-start-column="50" selection-end-line="284" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/view/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" lean-forward="true" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/controller/Controller.java" />
+    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/view/Main.java" />
     <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/BinaryStrategy.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -728,20 +840,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/controller/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4505">
-          <caret line="284" column="50" lean-forward="false" selection-start-line="284" selection-start-column="50" selection-end-line="284" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/controller/Controller.java" />
     <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/DatabaseUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <marker date="1499601184512" expanded="true" signature="266:308" ph="/**...*/" />
+            <marker date="1499601184512" expanded="false" signature="500:511" ph=" { " />
+            <marker date="1499601184512" expanded="false" signature="528:534" ph=" }" />
+            <marker date="1499601184512" expanded="true" signature="569:2284" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="2321:2992" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="3040:3791" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="3852:4401" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="4444:4781" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="4853:4911" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="4982:5039" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="5114:5259" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="5333:5391" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="5475:5683" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="5784:6084" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="6151:6256" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="6324:6429" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="6477:6753" ph="{...}" />
+            <marker date="1499601184512" expanded="true" signature="6782:6960" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -756,7 +878,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/Strategy/BinaryStrategy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
+        <state relative-caret-position="17">
           <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -764,12 +886,54 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/view/Main.java">
+    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/view/Main.java" />
+    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/UDPServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+        <state relative-caret-position="119">
+          <caret line="17" column="13" lean-forward="false" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/Anmeldung.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="33" lean-forward="true" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
+          <folding>
+            <element signature="e#186#187#0" expanded="true" />
+            <element signature="e#217#218#0" expanded="true" />
+            <element signature="e#252#253#0" expanded="true" />
+            <element signature="e#283#284#0" expanded="true" />
+            <element signature="e#314#315#0" expanded="true" />
+            <element signature="e#354#355#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/UDPClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="259">
+          <caret line="39" column="9" lean-forward="true" selection-start-line="34" selection-start-column="6" selection-end-line="39" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/TCPServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="28" column="43" lean-forward="true" selection-start-line="28" selection-start-column="43" selection-end-line="28" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Startprojekt u1/u1/src/main/java/fpt/sockets/TCPClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="515">
+          <caret line="37" column="31" lean-forward="false" selection-start-line="37" selection-start-column="31" selection-end-line="37" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1327#1328#0" expanded="true" />
+            <element signature="e#1353#1354#0" expanded="true" />
           </folding>
         </state>
       </provider>
