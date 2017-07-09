@@ -8,6 +8,8 @@ import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
 import fpt.model.Model;
 import fpt.model.SongList;
+import fpt.sockets.UDPClient;
+import fpt.sockets.UDPServer;
 import fpt.view.ViewClient;
 import fpt.view.ViewServer;
 import javafx.scene.control.Slider;
@@ -40,12 +42,12 @@ public class ControllerClient {
     private int seekForwarTime = 5000;// milliseconde
     private Duration duration;
     private Slider timeSlider;
+    private static String temps = "";
 
 
     public ControllerClient() {
 
     }
-
     public void link(Model model, ViewClient viewClient) {
         this.model = model;
         this.viewClient = viewClient;
@@ -142,6 +144,10 @@ public class ControllerClient {
         {
             if (mediaPlayer != null) {
                 mediaPlayer.pause();
+                Duration currentTime = mediaPlayer.getCurrentTime();
+                duration = mediaPlayer.getMedia().getDuration();
+                temps = formatTime(currentTime,duration);
+                viewClient.fillTimeBox(UDPClient.getZeit());
             }
         });
         viewClient.getNext().setOnAction(event -> {
@@ -201,9 +207,16 @@ public class ControllerClient {
                 if (st == PAUSED || st == READY || st == STOPPED || st == STALLED) {
                     mediaPlayer.play();
                     System.out.println("mediaPlayer is " + mediaPlayer);
-                    Duration currentTime = mediaPlayer.getCurrentTime();
                     duration = mediaPlayer.getMedia().getDuration();
-                    viewClient.fillTimeBox(formatTime(currentTime,duration));
+                    Duration currentTime = mediaPlayer.getCurrentTime();
+                    while (currentTime.lessThan(duration)) {
+                        duration = mediaPlayer.getMedia().getDuration();
+                        currentTime = mediaPlayer.getCurrentTime();
+                        temps = formatTime(currentTime,duration);
+                        viewClient.fillTimeBox(UDPClient.getZeit());
+
+                    }
+
                     System.out.println("mediaPlayer is " + mediaPlayer);
 
                 }
@@ -215,11 +228,10 @@ public class ControllerClient {
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
         mediaPlayer.getMedia();
-        System.out.println("mediaPlayer is " + mediaPlayer);
         Duration currentTime = mediaPlayer.getCurrentTime();
         duration = mediaPlayer.getMedia().getDuration();
-        viewClient.fillTimeBox(formatTime(currentTime,duration));
-        System.out.println("mediaPlayer is " + mediaPlayer);
+        temps = formatTime(currentTime,duration);
+        viewClient.fillTimeBox(UDPClient.getZeit());
 
         mediaPlayer.setOnEndOfMedia(() -> {
             playNext();
@@ -299,7 +311,6 @@ public class ControllerClient {
 
         model.getAllSongs().deleteAllSongs();
         viewClient.fillSongList(null);
-        System.out.println("balaka");
 
         if (model.getPlaylist() != null) {
             model.getPlaylist().deleteAllSongs();
@@ -315,9 +326,6 @@ public class ControllerClient {
                         readSongL = strategy.readSong();
                     viewClient.fillSongList(model.getAllSongs());
                 }
-
-
-              System.out.println("bOlakO");
 
             System.out.println("Library loaded!!!");
         } catch (IOException|ClassNotFoundException e) {
@@ -385,6 +393,10 @@ public class ControllerClient {
             strategy.closeWriteable();
         }
 
+    }
+
+    public static String getTemps() {
+        return temps;
     }
 
 }

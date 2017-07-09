@@ -210,6 +210,7 @@ public class ViewServer extends BorderPane{
                 album.setText(s.getAlbum());
             }
         });
+        
 
         commit.setOnAction(event -> {
                     if(selectedSong==null){
