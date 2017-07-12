@@ -1,41 +1,47 @@
 package fpt.sockets;
 
+import fpt.controller.ControllerServer;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
+import java.rmi.Naming;
+import java.rmi.Remote;
 
 /**
  * Created by corin on 08.07.2017.
  */
-public class TCPServer implements Runnable {
-    private boolean run = true;
-    public void run(){
-        try (ServerSocket server = new ServerSocket(5020)){
-             while (isRunning())  {
-                 try(Socket client = server.accept();
-                     InputStream in = client.getInputStream();
-                     OutputStream  output = client.getOutputStream()){
-                    ;
-                     output.flush();
+public class TCPServer  {
+    String password ;
+    String dienstname;
 
-
-             } catch (IOException e) {
-                     e.printStackTrace();
-                 }
-
-             }
-
-        }catch (IOException e2){
-            e2.printStackTrace();
+    public TCPServer(String password,String dienstname) throws Exception {
+        this.password = password;
+        this.dienstname = dienstname;
+        byte [] dienstnameB = dienstname.getBytes();
+        Remote remote = new ControllerServer();
+        Naming.rebind(dienstname,remote);
+        try (ServerSocket server = new ServerSocket(5020);) {
+            int connections = 0;
+            // Timeout nach 1 Minute
+            // server.setSoTimeout(60000);
+            while (true) {
+                try {
+                    Socket socket = server.accept();
+                    connections++;
+                    new TCPClientThread(connections, socket,password,dienstnameB).start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e1) {
+            e1.printStackTrace();
         }
+
+
     }
 
 
 
-
-    public synchronized boolean isRunning() {
-        return run;
-    }
 }

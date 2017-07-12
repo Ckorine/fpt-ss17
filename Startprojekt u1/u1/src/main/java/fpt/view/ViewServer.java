@@ -29,8 +29,9 @@ public class ViewServer extends BorderPane{
     private final ListView<Song> playListV = new ListView<>();
 
     private TextField titelS = new TextField();
-    TextField interpret = new TextField();
-    TextField album = new TextField();
+    private TextField interpret = new TextField();
+    private TextField album = new TextField();
+    private TextField timeBox = new TextField();
     private Button addToPlayList;
     private Button removeFromPlaylist;
     private Button addAll;
@@ -90,6 +91,7 @@ public class ViewServer extends BorderPane{
         titelS.setPrefSize(200, 10);
         Label label2 = new Label("Interpret :");
         interpret.setPrefSize(200, 10);
+        Label time = new Label("Time");
         Label label3 = new Label("Album :");
         album.setPrefSize(90, 10);
         songListV.setPrefSize(350, 550);
@@ -174,7 +176,7 @@ public class ViewServer extends BorderPane{
         choiceBox.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 
         hBox.setSpacing(40);
-        hBox.getChildren().addAll(choiceBox, load, save);
+        hBox.getChildren().addAll(choiceBox, load, save,time,timeBox);
         hBox2.getChildren().addAll(stack, stack2, stack3);
         stack.getChildren().addAll(songListV);
         stack2.getChildren().addAll(playListV);
@@ -232,5 +234,9 @@ public class ViewServer extends BorderPane{
 
     public void fillSongList(SongList items) {
         songListV.setItems(items);
+    }
+
+    public void fillTimeBox(String timeSong){
+        timeBox.setText(timeSong);
     }
 }

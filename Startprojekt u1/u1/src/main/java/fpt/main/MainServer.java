@@ -4,6 +4,8 @@ import fpt.controller.ControllerClient;
 import fpt.controller.ControllerServer;
 import fpt.model.IDgenerator;
 import fpt.model.Model;
+import fpt.sockets.TCPClient;
+import fpt.sockets.TCPServer;
 import fpt.view.ViewServer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -23,6 +25,7 @@ public class MainServer extends Application {
         IDgenerator.init(model);
         ViewServer view = new ViewServer();
         ControllerServer controllerServer = new ControllerServer();
+        TCPServer tcpServer = new TCPServer("music","musicplayer");
         controllerServer.link(model,view);
         view.link(controllerServer);
 

@@ -96,7 +96,7 @@ public class ViewClient extends BorderPane{
         Label label2 = new Label("Interpret :");
         interpret.setPrefSize(200, 10);
         Label time = new Label("Time");
-        time.setPrefSize(40,10);
+        time.setPrefSize(40, 10);
         Label label3 = new Label("Album :");
         album.setPrefSize(90, 10);
         songListV.setPrefSize(350, 550);
@@ -141,12 +141,12 @@ public class ViewClient extends BorderPane{
         play = new Button();
         next = new Button(">>");
         commit = new Button("Commit");
-        javafx.scene.shape.Rectangle r = new javafx.scene.shape.Rectangle(10,10);
+        javafx.scene.shape.Rectangle r = new javafx.scene.shape.Rectangle(10, 10);
         Polygon polygon = new Polygon();
         polygon.getPoints().addAll(new Double[]{
                 0.0, 5.0,
                 10.0, 10.0,
-                0.0, 15.0 });
+                0.0, 15.0});
 
         play.setGraphic(polygon);
         stop.setGraphic(r);
@@ -162,18 +162,17 @@ public class ViewClient extends BorderPane{
         next.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
         commit.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        choiceBox = new ChoiceBox(FXCollections.observableArrayList(controllerClient.strategies));
+        choiceBox = new ChoiceBox(FXCollections.observableArrayList());
         choiceBox.setPrefWidth(350);
-         //choiceBox.getSelectionModel().getSelectedItem();
-        choiceBox.getSelectionModel().selectedItemProperty().addListener(e ->{controllerClient.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());});
+        //choiceBox.getSelectionModel().getSelectedItem();
         choiceBox.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 
         hBox.setSpacing(40);
-        hBox.getChildren().addAll(choiceBox, load, save,time,timeBox);
+        hBox.getChildren().addAll(choiceBox, load, save, time, timeBox);
         hBox2.getChildren().addAll(stack, stack2, stack3);
         stack.getChildren().addAll(songListV);
         stack2.getChildren().addAll(playListV);
-        stack3.getChildren().addAll(label1, titelS, label2, interpret, label3, album, hbox3, addToPlayList,removeFromPlaylist);
+        stack3.getChildren().addAll(label1, titelS, label2, interpret, label3, album, hbox3, addToPlayList, removeFromPlaylist);
         stack3.setSpacing(10);
         hbox3.getChildren().addAll(stop, play, pause, next, commit);
         hbox3.setSpacing(5);
@@ -189,48 +188,5 @@ public class ViewClient extends BorderPane{
         setCenter(hBox2);
         this.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        songListV.setOnMouseClicked(event -> {
-            Song s = songListV.getSelectionModel().getSelectedItem();
-            if (s != null) {
-                selectedSong = s;
-                titelS.setText(s.getTitle());
-                interpret.setText(s.getInterpret());
-                album.setText(s.getAlbum());
-            }
-        });
-        playListV.setOnMouseClicked(event -> {
-            Song s = playListV.getSelectionModel().getSelectedItem();
-            if (s != null) {
-                selectedSong = s;
-                titelS.setText(s.getTitle());
-                interpret.setText(s.getInterpret());
-                album.setText(s.getAlbum());
-            }
-        });
-
-        commit.setOnAction(event -> {
-                    if(selectedSong==null){
-                        return;
-                    }
-                    selectedSong.setAlbum(album.getText());
-                    selectedSong.setInterpret(interpret.getText());
-                    selectedSong.setTitle(titelS.getText());
-                }
-        );
-
-
-
-    }
-
-    public void fillPlayList(SongList items) {
-        playListV.setItems(items);
-    }
-
-    public void fillSongList(SongList items) {
-        songListV.setItems(items);
-    }
-
-    public void fillTimeBox(String timeSong){
-        timeBox.setText(timeSong);
     }
 }

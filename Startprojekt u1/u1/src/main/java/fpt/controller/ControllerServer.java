@@ -4,59 +4,99 @@ import fpt.Strategy.BinaryStrategy;
 import fpt.Strategy.DatabaseUtils;
 import fpt.Strategy.OpenJPA;
 import fpt.Strategy.XMLStrategy;
+import fpt.interfaces.MusikPlayer;
 import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
 import fpt.model.Model;
 import fpt.model.SongList;
+import fpt.sockets.UDPClient;
+import fpt.view.ViewClient;
 import fpt.view.ViewServer;
+import javafx.application.Platform;
+import javafx.scene.control.Slider;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+import java.util.concurrent.TimeUnit;
 
+
+import static java.lang.Thread.sleep;
 import static javafx.scene.media.MediaPlayer.Status.*;
 
 
 /**
  * Created by corin on 09.05.2017.
  */
-public class ControllerServer {
+public class ControllerServer extends UnicastRemoteObject implements MusikPlayer {
 
     private static final String PATH = "C:\\Users\\corin\\Desktop\\Sommersmester 2017\\FPT\\Aufgabe\\Lieder";
     public static final String[] strategies = {"Binary Strategy", "OpenJPA", "XML Strategy", "JDBCConnector"};
 
     private SerializableStrategy strategy;
-    private ViewServer view;
+    private ViewServer viewServer;
     private Model model;
     private Media media;
     private MediaPlayer mediaPlayer;
     private Media currentSong;
-    private int seekForwarTime = 5000; // milliseconde
+    private int seekForwarTime = 5000;// milliseconde
+    private Duration duration;
+    private Slider timeSlider;
+    private static String temps = "";
 
 
-    public ControllerServer() {
+    public ControllerServer() throws RemoteException {
+        super();
+
+    }
+    public String returnZeit() {
+
+            // UI updaten
+        Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    // entsprechende UI Komponente updaten
+                    Duration currentTime = mediaPlayer.getCurrentTime();
+                    duration = mediaPlayer.getMedia().getDuration();
+                    temps = formatTime(currentTime,duration);
+                    viewServer.fillTimeBox(UDPClient.getZeit());
+
+                }
+            });
+
+            // Thread schlafen
+            try {
+                // fuer 1 Sekunde
+                sleep(TimeUnit.SECONDS.toMillis(1));
+            } catch (InterruptedException ex) {
+
+            }
+        return temps;
 
     }
 
-    public void link(Model model, ViewServer view) {
+    public void link(Model model, ViewServer viewServer) {
         this.model = model;
-        this.view = view;
+        this.viewServer = viewServer;
 
         model.addSongsFromDir(PATH);
-        view.fillSongList(model.getAllSongs());
-        view.fillPlayList(model.getPlaylist());
+        viewServer.fillSongList(model.getAllSongs());
+        viewServer.fillPlayList(model.getPlaylist());
 
 
-        view.getAddToPlayButton().setOnAction(event -> {
-            Song s = view.getSongList().getSelectionModel().getSelectedItem();
+
+        viewServer.getAddToPlayButton().setOnAction(event -> {
+            Song s = viewServer.getSongList().getSelectionModel().getSelectedItem();
             if (s == null) {
                 return;
             }
             try {
                 model.getPlaylist().addSong(s);
-                view.fillPlayList(null);
-                view.fillPlayList(model.getPlaylist());
+                viewServer.fillPlayList(null);
+                viewServer.fillPlayList(model.getPlaylist());
 
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -65,7 +105,7 @@ public class ControllerServer {
 
         });
 
-        view.getAddall().setOnMouseClicked(event -> {
+        viewServer.getAddall().setOnMouseClicked(event -> {
 
             try {
                 model.getPlaylist().deleteAllSongs();
@@ -73,8 +113,8 @@ public class ControllerServer {
                 for (Song s : sl) {
                     model.getPlaylist().addSong(s);
                 }
-                view.fillPlayList(null);
-                view.fillPlayList(model.getPlaylist());
+                viewServer.fillPlayList(null);
+                viewServer.fillPlayList(model.getPlaylist());
 
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -86,38 +126,32 @@ public class ControllerServer {
             }
         });
 
-        view.getRemoveFromPLay().setOnMousePressed(event -> {
-            Song s = view.getPlayList().getSelectionModel().getSelectedItem();
+        viewServer.getRemoveFromPLay().setOnMousePressed(event -> {
+            Song s = viewServer.getPlayList().getSelectionModel().getSelectedItem();
             if (s == null) {
                 return;
             }
             try {
                 Media media = new Media(s.getPath());
-
                 if (mediaPlayer == null) {
                     model.getPlaylist().deleteSong(s);
-                    view.fillPlayList(null);
-                    view.fillPlayList(model.getPlaylist());
-
-
+                    viewServer.fillPlayList(null);
+                    viewServer.fillPlayList(model.getPlaylist());
                     return;
                 }
 
                 if (mediaPlayer != null && mediaPlayer.getMedia().getSource().equals(media.getSource())) {
 
                     model.getPlaylist().deleteSong(s);
-                    stop();
-                    view.fillPlayList(null);
-                    view.fillPlayList(model.getPlaylist());
+                    stopButton();
+                    viewServer.fillPlayList(null);
+                    viewServer.fillPlayList(model.getPlaylist());
                 } else {
                     model.getPlaylist().deleteSong(s);
-                    view.fillPlayList(null);
-                    view.fillPlayList(model.getPlaylist());
+                    viewServer.fillPlayList(null);
+                    viewServer.fillPlayList(model.getPlaylist());
 
                 }
-                /*if(strategy == dbutils){
-                    dbutils.deleteSongWithID(s.getId());
-                }*/
 
             } catch (RemoteException e) {
                 e.printStackTrace();
@@ -125,51 +159,57 @@ public class ControllerServer {
 
         });
 
-        view.getPlay().setOnAction(e ->
+        viewServer.getPlay().setOnAction(e ->
         {
             play();
+            returnZeit();
+
+
         });
 
-        view.getStop().setOnAction(e ->
+
+        viewServer.getStop().setOnAction(e ->
         {
-            stop();
+            stopButton();
         });
-        view.getPause().setOnAction(e ->
+        viewServer.getPause().setOnAction(e ->
         {
             if (mediaPlayer != null) {
                 mediaPlayer.pause();
+
             }
         });
-        view.getNext().setOnAction(event -> {
+        viewServer.getNext().setOnAction(event -> {
             playNext();
         });
-        view.getLoad().setOnAction(event -> {
+        viewServer.getLoad().setOnAction(event -> {
             try {
                 load();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
-        view.getSave().setOnAction(event -> {
+        viewServer.getSave().setOnAction(event -> {
             try {
                 save();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+
     }
 
-    private void playNext() {
+    public void playNext() {
         if (model.getPlaylist().isEmpty()) {
             return;
         }
 
-        int index = view.getPlayList().getSelectionModel().getSelectedIndex();
-            System.out.println(index);
-            if (index == -1 || index == model.getPlaylist().size() - 1) {
-            view.getPlayList().getSelectionModel().clearAndSelect(0);
+        int index = viewServer.getPlayList().getSelectionModel().getSelectedIndex();
+        System.out.println(index);
+        if (index == -1 || index == model.getPlaylist().size() - 1) {
+            viewServer.getPlayList().getSelectionModel().clearAndSelect(0);
         } else {
-            view.getPlayList().getSelectionModel().clearAndSelect(index + 1);
+            viewServer.getPlayList().getSelectionModel().clearAndSelect(index + 1);
         }
 
         play();
@@ -177,15 +217,15 @@ public class ControllerServer {
 
     }
 
-    private void play() {
+    public void play() {
         if (model.getPlaylist().isEmpty()) {
             return;
         }
-        Song s = view.getPlayList().getSelectionModel().getSelectedItem();
+        Song s = viewServer.getPlayList().getSelectionModel().getSelectedItem();
         if (s == null) {
             s = model.getPlaylist().get(0);
-            view.getPlayList().getSelectionModel().clearAndSelect(0);
-            s = view.getPlayList().getSelectionModel().getSelectedItem();
+            viewServer.getPlayList().getSelectionModel().clearAndSelect(0);
+            s = viewServer.getPlayList().getSelectionModel().getSelectedItem();
 
 
         }
@@ -195,6 +235,8 @@ public class ControllerServer {
                 MediaPlayer.Status st = mediaPlayer.getStatus();
                 if (st == PAUSED || st == READY || st == STOPPED || st == STALLED) {
                     mediaPlayer.play();
+                    System.out.println("mediaPlayer is " + mediaPlayer);
+
                 }
                 return;
             } else {
@@ -209,8 +251,49 @@ public class ControllerServer {
 
         });
     }
+    public static String formatTime(Duration elapsed, Duration duration) {
+        int intElapsed = (int)Math.floor(elapsed.toSeconds());
+        int elapsedHours = intElapsed / (60 * 60);
+        if (elapsedHours > 0) {
+            intElapsed -= elapsedHours * 60 * 60;
+        }
+        int elapsedMinutes = intElapsed / 60;
+        int elapsedSeconds = intElapsed - elapsedHours * 60 * 60
+                - elapsedMinutes * 60;
 
-    public void stop() {
+        if (duration.compareTo(Duration.ZERO)>0) {
+            int intDuration = (int)Math.floor(duration.toSeconds());
+            int durationHours = intDuration / (60 * 60);
+            if (durationHours > 0) {
+                intDuration -= durationHours * 60 * 60;
+            }
+            int durationMinutes = intDuration / 60;
+            int durationSeconds = intDuration - durationHours * 60 * 60 -
+                    durationMinutes * 60;
+            if (durationHours > 0) {
+                return String.format("%d:%02d:%02d/%d:%02d:%02d",
+                        elapsedHours, elapsedMinutes, elapsedSeconds,
+                        durationHours, durationMinutes, durationSeconds);
+            } else {
+                return String.format("%02d:%02d/%02d:%02d",
+                        elapsedMinutes, elapsedSeconds,durationMinutes,
+                        durationSeconds);
+            }
+        } else {
+            if (elapsedHours > 0) {
+                return String.format("%d:%02d:%02d", elapsedHours,
+                        elapsedMinutes, elapsedSeconds);
+            } else {
+                return String.format("%02d:%02d",elapsedMinutes,
+                        elapsedSeconds);
+            }
+        }
+    }
+
+
+
+
+    public void stopButton() {
         if (mediaPlayer != null) {
             if (!mediaPlayer.isMute())
                 mediaPlayer.stop();
@@ -240,8 +323,7 @@ public class ControllerServer {
 
 
         model.getAllSongs().deleteAllSongs();
-        view.fillSongList(null);
-        System.out.println("balaka");
+        viewServer.fillSongList(null);
 
         if (model.getPlaylist() != null) {
             model.getPlaylist().deleteAllSongs();
@@ -250,16 +332,13 @@ public class ControllerServer {
         try {
             strategy.openReadableSongs();
             Song readSongL = null;
-             readSongL = strategy.readSong();
+            readSongL = strategy.readSong();
 
-                while (readSongL != null) {
-                        model.getAllSongs().addSong(readSongL);
-                        readSongL = strategy.readSong();
-                    view.fillSongList(model.getAllSongs());
-                }
-
-
-              System.out.println("bOlakO");
+            while (readSongL != null) {
+                model.getAllSongs().addSong(readSongL);
+                readSongL = strategy.readSong();
+                viewServer.fillSongList(model.getAllSongs());
+            }
 
             System.out.println("Library loaded!!!");
         } catch (IOException|ClassNotFoundException e) {
@@ -281,8 +360,8 @@ public class ControllerServer {
                     result = model.getAllSongs().findSongByID(id);
                     model.getPlaylist().addSong(result);
                     readSong = strategy.readSong();
-                    view.fillPlayList(null);
-                    view.fillPlayList(model.getPlaylist());
+                    viewServer.fillPlayList(null);
+                    viewServer.fillPlayList(model.getPlaylist());
                 }
             }
 
@@ -312,7 +391,7 @@ public class ControllerServer {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-                strategy.closeWriteable();
+            strategy.closeWriteable();
         }
         try {
             strategy.openWriteablePlaylist();
@@ -327,6 +406,10 @@ public class ControllerServer {
             strategy.closeWriteable();
         }
 
+    }
+
+    public static String getTemps() {
+        return temps;
     }
 
 }

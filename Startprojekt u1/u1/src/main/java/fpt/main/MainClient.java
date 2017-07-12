@@ -3,6 +3,7 @@ package fpt.main;
 import fpt.controller.ControllerClient;
 import fpt.model.IDgenerator;
 import fpt.model.Model;
+import fpt.sockets.TCPClient;
 import fpt.view.ViewClient;
 import fpt.view.ViewServer;
 import javafx.application.Application;
@@ -23,6 +24,7 @@ public class MainClient extends Application {
         IDgenerator.init(model);
         ViewClient viewClient = new ViewClient();
         ControllerClient controllerClient = new ControllerClient();
+        TCPClient tcpClient = new TCPClient("client","music");
         controllerClient.link(model,viewClient);
         viewClient.link(controllerClient);
 
