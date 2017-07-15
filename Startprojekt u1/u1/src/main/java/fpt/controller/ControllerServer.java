@@ -48,8 +48,9 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
     private static String temps = "";
 
 
-    public ControllerServer() throws RemoteException {
-        super();
+    public ControllerServer(Model model,ViewServer viewServer) throws RemoteException {
+        this.model = model;
+        this.viewServer = viewServer;
 
     }
     public String returnZeit() {
@@ -161,7 +162,11 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
 
         viewServer.getPlay().setOnAction(e ->
         {
-            play();
+            try {
+                play();
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
             returnZeit();
 
 
@@ -170,7 +175,11 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
 
         viewServer.getStop().setOnAction(e ->
         {
-            stopButton();
+            try {
+                stopButton();
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
         });
         viewServer.getPause().setOnAction(e ->
         {
@@ -180,7 +189,11 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
             }
         });
         viewServer.getNext().setOnAction(event -> {
-            playNext();
+            try {
+                playNext();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         });
         viewServer.getLoad().setOnAction(event -> {
             try {
@@ -198,8 +211,25 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
         });
 
     }
+    public void linkModel(Model model) throws RemoteException{
+        this.model = model;
+    }
 
-    public void playNext() {
+    public String[] returnStrategies(){
+        return strategies;
+    }
+    @Override
+    public fpt.model.SongList songList() throws RemoteException {
+
+        model.addSongsFromDir(PATH);
+
+        return model.getAllSongs();
+    }
+
+    @Override
+
+
+    public void playNext() throws RemoteException {
         if (model.getPlaylist().isEmpty()) {
             return;
         }
@@ -217,7 +247,17 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
 
     }
 
-    public void play() {
+    public void play() throws RemoteException{
+        /*
+
+        for(String s: clientNames){
+            RMIInterface client = registry.lookup(s);
+            client.play();
+        }
+
+         */
+
+
         if (model.getPlaylist().isEmpty()) {
             return;
         }
@@ -247,7 +287,11 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
         mediaPlayer.play();
         mediaPlayer.getMedia();
         mediaPlayer.setOnEndOfMedia(() -> {
-            playNext();
+            try {
+                playNext();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
 
         });
     }
@@ -291,16 +335,14 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
     }
 
 
-
-
-    public void stopButton() {
+    public void stopButton() throws RemoteException {
         if (mediaPlayer != null) {
             if (!mediaPlayer.isMute())
                 mediaPlayer.stop();
         }
     }
 
-    public void setStrategy(int strategycase) {
+    public void setStrategy(int strategycase) throws RemoteException {
         switch (strategycase) {
             case 0:
                 strategy = new BinaryStrategy();
@@ -319,7 +361,7 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
         System.out.println(strategy + " 4");
     }
 
-    public void load() throws IOException {
+    public void load() throws IOException,RemoteException {
 
 
         model.getAllSongs().deleteAllSongs();
@@ -375,7 +417,7 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
     }
 
 
-    public void save() throws IOException {
+    public void save() throws IOException,RemoteException {
         System.out.println(strategy + " 1");
         //System.out.println("Song  inserted");
         try {

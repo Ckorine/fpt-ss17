@@ -2,46 +2,56 @@ package fpt.sockets;
 
 import fpt.controller.ControllerServer;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.*;
 import java.rmi.Naming;
 import java.rmi.Remote;
+import java.rmi.registry.LocateRegistry;
+import java.util.ArrayList;
 
 /**
  * Created by corin on 08.07.2017.
  */
-public class TCPServer  {
-    String password ;
-    String dienstname;
+public class TCPServer extends Thread {
+    private String serverPassword;
+    String dienst = "musicplayer";
+     String dienstname = "BLAH";
+    private ArrayList<String> nameList = new ArrayList<>();
 
-    public TCPServer(String password,String dienstname) throws Exception {
-        this.password = password;
-        this.dienstname = dienstname;
-        byte [] dienstnameB = dienstname.getBytes();
-        Remote remote = new ControllerServer();
-        Naming.rebind(dienstname,remote);
-        try (ServerSocket server = new ServerSocket(5020);) {
-            int connections = 0;
-            // Timeout nach 1 Minute
-            // server.setSoTimeout(60000);
-            while (true) {
-                try {
-                    Socket socket = server.accept();
-                    connections++;
-                    new TCPClientThread(connections, socket,password,dienstnameB).start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (IOException e1) {
-            e1.printStackTrace();
-        }
-
-
+    public TCPServer(String serverPassword){
+        this.serverPassword = serverPassword;
     }
 
+    public void run(){
+        try(ServerSocket server = new ServerSocket(5021) ){
+                while(true){
+                    try{Socket client = server.accept();
+                        InputStream in = client.getInputStream();
+                        OutputStream out = client.getOutputStream();
+                        ObjectOutputStream oout = new ObjectOutputStream(out);
+                        ObjectInputStream ois = new ObjectInputStream(in);
+                        String clientName = (String) ois.readObject();
+                        String password = (String) ois.readObject();
+                        if(clientName!=null && password.equals(serverPassword)){
+                            synchronized (clientName) {
+                                nameList.add(clientName);
+                                oout.writeObject(dienstname);
+                            }
+                        }else{
+                            String error = "wrong password or name";
+                            oout.writeObject(error.getBytes());
+                        }
+                        oout.flush();
+                    }catch (IOException ie){
+                            ie.printStackTrace();
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+        }catch (IOException ie2){
+            ie2.printStackTrace();
+        }
+    }
 
 
 }

@@ -27,7 +27,7 @@ public class TCPClientThread extends Thread{
     }
 
     public void run() {
-        String msg = "EchoServer: Verbindung " + name;
+        String msg = "Server: Verbindung " + name;
         System.out.println(msg + " hergestellt");
         try (InputStream in = socket.getInputStream();
              OutputStream out = socket.getOutputStream()) {

@@ -1,6 +1,7 @@
 package fpt.view;
 
 import fpt.controller.ControllerServer;
+import fpt.interfaces.MusikPlayer;
 import fpt.interfaces.Song;
 import fpt.model.SongList;
 import javafx.collections.FXCollections;
@@ -12,6 +13,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.server.RemoteServer;
 
 
 public class ViewServer extends BorderPane{
@@ -43,8 +51,7 @@ public class ViewServer extends BorderPane{
     private Button commit;
     private Button pause;
     private ChoiceBox<String> choiceBox;
-    private ControllerServer controllerServer;
-
+    private MusikPlayer remoteServer;
     public Button getAddToPlayButton(){
 
         return addToPlayList;
@@ -80,10 +87,13 @@ public class ViewServer extends BorderPane{
         return playListV;
     }
 
-    public void link(ControllerServer controllerServer) {
-        this.controllerServer = controllerServer;
-        choiceBox.getSelectionModel().selectFirst();
-    }
+    /*public void link(MusikPlayer remoteServer) {
+
+
+
+
+    }*/
+
 
 
     public ViewServer() {
@@ -168,11 +178,34 @@ public class ViewServer extends BorderPane{
         next.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
         commit.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
 
-        choiceBox = new ChoiceBox(FXCollections.observableArrayList(controllerServer.strategies));
-        choiceBox.setPrefWidth(350);
-         //choiceBox.getSelectionModel().getSelectedItem();
-        choiceBox.getSelectionModel().selectedItemProperty().addListener(e ->{
-            controllerServer.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());});
+
+        try {
+            this.remoteServer = (MusikPlayer) Naming.lookup("//localhost/musicplayer");
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            choiceBox = new ChoiceBox(FXCollections.observableArrayList(remoteServer.returnStrategies()));
+            choiceBox.setPrefWidth(350);
+            //choiceBox.getSelectionModel().getSelectedItem();
+            choiceBox.getSelectionModel().selectedItemProperty().addListener(e ->{
+                try {
+                    remoteServer.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+            });
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        choiceBox.getSelectionModel().selectFirst();
         choiceBox.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
 
         hBox.setSpacing(40);

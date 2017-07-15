@@ -1,6 +1,8 @@
 package fpt.view;
 
 import fpt.controller.ControllerClient;
+import fpt.interfaces.MusikPlayer;
+import fpt.interfaces.RemoteClient;
 import fpt.interfaces.Song;
 import fpt.model.SongList;
 import javafx.collections.FXCollections;
@@ -13,6 +15,12 @@ import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 import javafx.scene.control.Slider;
 import javafx.scene.media.MediaView;
+
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 
 public class ViewClient extends BorderPane{
@@ -46,7 +54,7 @@ public class ViewClient extends BorderPane{
     private Button commit;
     private Button pause;
     private ChoiceBox<String> choiceBox;
-    private ControllerClient controllerClient;
+    private Remote controllerClient;
 
 
     public Button getAddToPlayButton(){
@@ -85,7 +93,7 @@ public class ViewClient extends BorderPane{
     }
 
 
-    public void link(ControllerClient controllerClient) {
+    public void link(Remote controllerClient) {
         this.controllerClient = controllerClient;
         choiceBox.getSelectionModel().selectFirst();
     }
@@ -157,6 +165,20 @@ public class ViewClient extends BorderPane{
         pause.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
         addAll.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
 
+        play.setOnAction((e)->{
+            try {
+                MusikPlayer server =(MusikPlayer) Naming.lookup("Server");
+                server.play();
+            } catch (NotBoundException e1) {
+                e1.printStackTrace();
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
+
+        });
+
         addToPlayList.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
         removeFromPlaylist.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
         next.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -188,5 +210,13 @@ public class ViewClient extends BorderPane{
         setCenter(hBox2);
         this.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 
+
+    }
+    public void fillPlayList(SongList items) {
+        playListV.setItems(items);
+    }
+
+    public void fillSongList(SongList items) {
+        songListV.setItems(items);
     }
 }
