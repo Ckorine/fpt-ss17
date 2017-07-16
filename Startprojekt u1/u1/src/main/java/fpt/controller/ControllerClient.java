@@ -36,36 +36,32 @@ import static javafx.scene.media.MediaPlayer.Status.*;
  */
 public class ControllerClient extends UnicastRemoteObject implements RemoteClient {
     private MusikPlayer remote;
-    private ViewClient viewClient;
+    private ViewClient view;
     private Model model;
 
     public ControllerClient(Model model,ViewClient viewClient) throws RemoteException{
-        this.viewClient = viewClient;
+        this.view = view;
         this.model = model;
+
 
     }
 
     public void link(Model model, ViewClient viewClient) throws RemoteException  {
         this.model = model;
-        this.viewClient = viewClient;
-
-        MusikPlayer remoteServer = null;
+        this.view = view;
+        /*MusikPlayer remoteServer = null;
         try {
             remoteServer = (MusikPlayer) Naming.lookup("//localhost/musicplayer");
-            viewClient.fillSongList(null);
-            viewClient.fillSongList(remoteServer.songList());
+            //viewClient.fillSongList(null);
+            //view.fillSongList(remoteServer.songList());
+
         } catch (NotBoundException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (RemoteException e) {
             e.printStackTrace();
-        }
-
-
-
-
-
+        }*/
     }
     public void linkModel(Model model) throws  RemoteException{
         this.model = model;

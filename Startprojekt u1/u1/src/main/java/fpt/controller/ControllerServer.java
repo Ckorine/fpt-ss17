@@ -33,11 +33,14 @@ import static javafx.scene.media.MediaPlayer.Status.*;
  */
 public class ControllerServer extends UnicastRemoteObject implements MusikPlayer {
 
+    private static final long serialVersionUID = 1L;
+
     private static final String PATH = "C:\\Users\\corin\\Desktop\\Sommersmester 2017\\FPT\\Aufgabe\\Lieder";
     public static final String[] strategies = {"Binary Strategy", "OpenJPA", "XML Strategy", "JDBCConnector"};
 
     private SerializableStrategy strategy;
     private ViewServer viewServer;
+    private ViewClient viewClient;
     private Model model;
     private Media media;
     private MediaPlayer mediaPlayer;
@@ -48,9 +51,16 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
     private static String temps = "";
 
 
-    public ControllerServer(Model model,ViewServer viewServer) throws RemoteException {
+    public ControllerServer(Model model,ViewServer viewServer,ViewClient viewClient) throws RemoteException {
         this.model = model;
         this.viewServer = viewServer;
+        this.viewClient = viewClient;
+        //fillView();
+        //System.out.println(viewServer.getSongList().getItems());
+        /*model.addSongsFromDir(PATH);
+        viewServer.fillSongList(model.getAllSongs());
+        viewServer.fillPlayList(model.getPlaylist());*/
+
 
     }
     public String returnZeit() {
@@ -83,9 +93,10 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
         this.model = model;
         this.viewServer = viewServer;
 
-        model.addSongsFromDir(PATH);
+
+        /*model.addSongsFromDir(PATH);
         viewServer.fillSongList(model.getAllSongs());
-        viewServer.fillPlayList(model.getPlaylist());
+        viewServer.fillPlayList(model.getPlaylist());*/
 
 
 
@@ -211,22 +222,23 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
         });
 
     }
-    public void linkModel(Model model) throws RemoteException{
-        this.model = model;
-    }
 
     public String[] returnStrategies(){
         return strategies;
     }
     @Override
     public fpt.model.SongList songList() throws RemoteException {
-
-        model.addSongsFromDir(PATH);
-
+        System.out.print(model.getAllSongs());
         return model.getAllSongs();
     }
 
-    @Override
+    public void fillView(SongList songList) throws RemoteException{
+        this.viewClient = viewClient;
+        model.addSongsFromDir(PATH);
+        viewClient.fillSongList(null);
+        viewClient.fillSongList(songList);
+        //viewClient.fillSongList(model.getAllSongs());
+    }
 
 
     public void playNext() throws RemoteException {

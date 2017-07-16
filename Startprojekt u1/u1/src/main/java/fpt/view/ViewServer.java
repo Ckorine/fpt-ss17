@@ -87,14 +87,6 @@ public class ViewServer extends BorderPane{
         return playListV;
     }
 
-    /*public void link(MusikPlayer remoteServer) {
-
-
-
-
-    }*/
-
-
 
     public ViewServer() {
         Label label1 = new Label("Titel :");
@@ -178,35 +170,11 @@ public class ViewServer extends BorderPane{
         next.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
         commit.setTextFill(javafx.scene.paint.Paint.valueOf("#000000"));
 
-
-        try {
-            this.remoteServer = (MusikPlayer) Naming.lookup("//localhost/musicplayer");
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        choiceBox = new ChoiceBox(FXCollections.observableArrayList());
 
 
-        try {
-            choiceBox = new ChoiceBox(FXCollections.observableArrayList(remoteServer.returnStrategies()));
-            choiceBox.setPrefWidth(350);
-            //choiceBox.getSelectionModel().getSelectedItem();
-            choiceBox.getSelectionModel().selectedItemProperty().addListener(e ->{
-                try {
-                    remoteServer.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());
-                } catch (RemoteException e1) {
-                    e1.printStackTrace();
-                }
-            });
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
 
-        choiceBox.getSelectionModel().selectFirst();
-        choiceBox.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+
 
         hBox.setSpacing(40);
         hBox.getChildren().addAll(choiceBox, load, save,time,timeBox);
@@ -259,6 +227,35 @@ public class ViewServer extends BorderPane{
 
 
 
+    }
+    public void choiceBox() {
+        try {
+            this.remoteServer = (MusikPlayer) Naming.lookup("//localhost/musicplayer");
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            choiceBox = new ChoiceBox(FXCollections.observableArrayList(remoteServer.returnStrategies()));
+            choiceBox.setPrefWidth(350);
+            //choiceBox.getSelectionModel().getSelectedItem();
+            choiceBox.getSelectionModel().selectedItemProperty().addListener(e -> {
+                try {
+                    remoteServer.setStrategy(choiceBox.getSelectionModel().getSelectedIndex());
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+            });
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        choiceBox.getSelectionModel().selectFirst();
+        choiceBox.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
     public void fillPlayList(SongList items) {

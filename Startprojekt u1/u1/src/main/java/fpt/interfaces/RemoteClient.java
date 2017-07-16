@@ -14,7 +14,7 @@ public interface RemoteClient {
     fpt.model.SongList songList() throws RemoteException;
     void playNext() throws RemoteException;
     void play() throws RemoteException;
-    void link(Model model, ViewClient viewClient) throws RemoteException;
+    void link(Model model, ViewClient view) throws RemoteException;
     void stopButton() throws RemoteException;
     void setStrategy(int a) throws RemoteException;
     void load() throws IOException,RemoteException;

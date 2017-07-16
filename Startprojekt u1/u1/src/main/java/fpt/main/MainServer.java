@@ -7,6 +7,7 @@ import fpt.model.IDgenerator;
 import fpt.model.Model;
 import fpt.sockets.TCPClient;
 import fpt.sockets.TCPServer;
+import fpt.view.ViewClient;
 import fpt.view.ViewServer;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -30,15 +31,7 @@ public class MainServer extends Application {
         Model model = new Model();
         IDgenerator.init(model);
         ViewServer view = new ViewServer();
-        try {
-            Remote remote = new ControllerServer(model,view);//Model is here 0, have to link
-            Naming.rebind("musicplayer", remote);
-
-            System.out.println("musicplayer started");
-        }catch(RemoteException ex) {
-            System.out.println("error");
-            ex.printStackTrace();
-        }
+        ViewClient viewClient = new ViewClient();
 
         try {
             LocateRegistry.createRegistry(1099);
@@ -48,9 +41,17 @@ public class MainServer extends Application {
             re.printStackTrace();
         }
 
-            TCPServer tcpServer = new TCPServer("music");
+        try {
+            TCPServer tcpServer = new TCPServer("music",model);
             tcpServer.start();
             System.out.println("server started");
+
+
+        }catch(Exception ex) {
+            System.out.println("error");
+            ex.printStackTrace();
+        }
+
 
 
         Scene scene = new Scene(view, 1000, 630);

@@ -1,11 +1,15 @@
 package fpt.sockets;
 
 import fpt.controller.ControllerServer;
+import fpt.model.Model;
+import fpt.view.ViewClient;
+import fpt.view.ViewServer;
 
 import java.io.*;
 import java.net.*;
 import java.rmi.Naming;
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
 
@@ -13,13 +17,30 @@ import java.util.ArrayList;
  * Created by corin on 08.07.2017.
  */
 public class TCPServer extends Thread {
+    private Model model;
     private String serverPassword;
     String dienst = "musicplayer";
      String dienstname = "BLAH";
     private ArrayList<String> nameList = new ArrayList<>();
+    private static final String PATH = "C:\\Users\\corin\\Desktop\\Sommersmester 2017\\FPT\\Aufgabe\\Lieder";
+    private ViewClient viewClient;
+    private ViewServer viewServer;
 
-    public TCPServer(String serverPassword){
+    public TCPServer(String serverPassword,Model model) throws RemoteException {
+        this.model = model;
         this.serverPassword = serverPassword;
+        model.addSongsFromDir(PATH);
+
+        Remote remote = new ControllerServer(model,viewServer, viewClient);//Model is here 0, have to link
+
+        try {
+            Naming.rebind("musicplayer", remote);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+
+        System.out.println("musicplayer started");
     }
 
     public void run(){

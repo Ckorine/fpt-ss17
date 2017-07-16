@@ -93,7 +93,7 @@ public class ViewClient extends BorderPane{
     }
 
 
-    public void link(Remote controllerClient) {
+    public void linkController(Remote controllerClient) {
         this.controllerClient = controllerClient;
         choiceBox.getSelectionModel().selectFirst();
     }
@@ -110,29 +110,6 @@ public class ViewClient extends BorderPane{
         songListV.setPrefSize(350, 550);
         playListV.setPrefSize(350, 550);
 
-        songListV.setCellFactory(e -> new ListCell<Song>() {
-            @Override
-            protected void updateItem(Song item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null || item.getTitle() == null) {
-                    setText(null);
-                } else {
-                    setText(item.toString());
-                }
-            }
-        });
-
-        playListV.setCellFactory(e -> new ListCell<Song>() {
-            @Override
-            protected void updateItem(Song item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null || item.getTitle() == null) {
-                    setText(null);
-                } else {
-                    setText(item.toString());
-                }
-            }
-        });
 
         load = new Button("Load");
         save = new Button("Save");
@@ -218,5 +195,32 @@ public class ViewClient extends BorderPane{
 
     public void fillSongList(SongList items) {
         songListV.setItems(items);
+
+        songListV.setCellFactory(e -> new ListCell<Song>() {
+            @Override
+            protected void updateItem(Song item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null || item.getTitle() == null) {
+                    setText(null);
+                } else {
+                    setText(item.toString());
+                }
+            }
+        });
+
+        playListV.setCellFactory(e -> new ListCell<Song>() {
+            @Override
+            protected void updateItem(Song item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null || item.getTitle() == null) {
+                    setText(null);
+                } else {
+                    setText(item.toString());
+                }
+            }
+        });
+
+
+        System.out.println(getSongList().getItems());
     }
 }

@@ -37,16 +37,21 @@ public class MainClient extends Application {
             re.printStackTrace();
         }*/
         try {
+            TCPClient tcpClient = new TCPClient("client", "music");
+            MusikPlayer remoteServer = (MusikPlayer) Naming.lookup("//localhost/musicplayer");
 
             Remote remoteClient = new ControllerClient(model,viewClient);
             Naming.rebind("remoteClient",remoteClient);
             System.out.println("remote created");
             System.out.println("connected");
+            remoteServer.fillView(remoteServer.songList());
+            System.out.println(remoteServer.songList());
+            viewClient.fillSongList(null);
+            viewClient.fillSongList(remoteServer.songList());
+
+            //viewClient.link(remoteClient);
 
 
-            viewClient.link(remoteClient);
-            TCPClient tcpClient = new TCPClient("client", "music");
-            MusikPlayer remoteServer = (MusikPlayer) Naming.lookup("//localhost/musicplayer");
             //remoteServer.linkModel(model);
 
         }catch (Exception e){

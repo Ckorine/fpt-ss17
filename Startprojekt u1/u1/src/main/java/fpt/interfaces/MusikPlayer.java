@@ -1,6 +1,8 @@
 package fpt.interfaces;
 
 import fpt.model.*;
+import fpt.model.SongList;
+import fpt.view.ViewClient;
 import fpt.view.ViewServer;
 
 import java.io.IOException;
@@ -15,8 +17,8 @@ public interface MusikPlayer extends Remote {
     void playNext() throws RemoteException;
     void play() throws RemoteException;
     void link(Model model, ViewServer viewServer) throws RemoteException;
-    void linkModel(Model model) throws RemoteException;
     void stopButton() throws RemoteException;
+    void fillView(SongList songList) throws RemoteException;
     void setStrategy(int a) throws RemoteException;
     void load() throws IOException,RemoteException;
     void save() throws IOException,RemoteException;
