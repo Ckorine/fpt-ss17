@@ -1,17 +1,23 @@
 package fpt.sockets;
 
 import fpt.controller.ControllerServer;
+import fpt.interfaces.RemoteClient;
 import fpt.model.Model;
+import fpt.model.Song;
+import fpt.model.SongList;
 import fpt.view.ViewClient;
 import fpt.view.ViewServer;
 
 import java.io.*;
 import java.net.*;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.rmi.server.*;
 
 /**
  * Created by corin on 08.07.2017.
@@ -19,45 +25,72 @@ import java.util.ArrayList;
 public class TCPServer extends Thread {
     private Model model;
     private String serverPassword;
-    String dienst = "musicplayer";
-     String dienstname = "BLAH";
-    private ArrayList<String> nameList = new ArrayList<>();
+    private String dienstname = "musicplayer";
+    private static ArrayList<String> nameList = new ArrayList<>();
     private static final String PATH = "C:\\Users\\corin\\Desktop\\Sommersmester 2017\\FPT\\Aufgabe\\Lieder";
-    private ViewClient viewClient;
     private ViewServer viewServer;
+    private static final int PORT = 1099;
+    private ObjectInputStream ois = null;
+    private ObjectOutputStream oout = null;
 
-    public TCPServer(String serverPassword,Model model) throws RemoteException {
+
+    public TCPServer(String serverPassword,Model model,ViewServer viewServer) throws RemoteException {
+        this.viewServer = viewServer;
         this.model = model;
         this.serverPassword = serverPassword;
         model.addSongsFromDir(PATH);
-
-        Remote remote = new ControllerServer(model,viewServer, viewClient);//Model is here 0, have to link
-
-        try {
-            Naming.rebind("musicplayer", remote);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        viewServer.fillSongList(model.getAllSongs());
+        System.out.println(nameList);
 
 
-        System.out.println("musicplayer started");
+
     }
 
     public void run(){
         try(ServerSocket server = new ServerSocket(5021) ){
+
+            Remote remote = new ControllerServer(model,viewServer);//Model is here 0, have to link
+            try {
+                Registry registry = LocateRegistry.getRegistry(PORT);
+
+                registry.rebind(dienstname, remote);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            System.out.println( "Remote " + dienstname +" bound to registry port " + PORT);
+            SongList songList = model.getAllSongs();
                 while(true){
-                    try{Socket client = server.accept();
-                        InputStream in = client.getInputStream();
-                        OutputStream out = client.getOutputStream();
-                        ObjectOutputStream oout = new ObjectOutputStream(out);
-                        ObjectInputStream ois = new ObjectInputStream(in);
+                    try{Socket clientSocket = server.accept();
+                        InputStream in = clientSocket.getInputStream();
+                        OutputStream out = clientSocket.getOutputStream();
+                        oout = new ObjectOutputStream(out);
+                        ois = new ObjectInputStream(in);
                         String clientName = (String) ois.readObject();
                         String password = (String) ois.readObject();
+
                         if(clientName!=null && password.equals(serverPassword)){
-                            synchronized (clientName) {
+                            synchronized (nameList) {
+
                                 nameList.add(clientName);
-                                oout.writeObject(dienstname);
+
                             }
+                            oout.writeObject(dienstname);
+                                try {
+                                    System.out.println(clientSocket.getInetAddress().getHostAddress());
+                                    RemoteClient remoteClient = (RemoteClient) Naming.lookup("//localhost/" + clientName);
+                                    System.out.println("connection to Remote " + clientName + " accepted");
+                                    System.out.println(songList);
+
+                                    for(fpt.interfaces.Song s: songList){
+                                        remoteClient.fillSongs(s.getId(),s.getTitle(),s.getInterpret(),s.getAlbum());
+
+                                    }
+
+                                } catch (NotBoundException e) {
+                                    e.printStackTrace();
+                                }
+
+
                         }else{
                             String error = "wrong password or name";
                             oout.writeObject(error.getBytes());
@@ -68,10 +101,23 @@ public class TCPServer extends Thread {
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
+                    finally {
+                        if(oout!=null) {
+                            oout.close();
+                        }
+                        if(ois!=null) {
+                            oout.close();
+                        }
+                    }
                 }
         }catch (IOException ie2){
             ie2.printStackTrace();
         }
+    }
+    public static ArrayList<String> getNameList(){
+        System.out.println(nameList);
+        return nameList;
+
     }
 
 

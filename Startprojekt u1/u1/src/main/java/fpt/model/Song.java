@@ -7,10 +7,7 @@ import org.apache.openjpa.persistence.Persistent;
 import org.apache.openjpa.persistence.jdbc.Strategy;
 
 import javax.persistence.*;
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
+import java.io.*;
 
 /**
  * Created by corin on 05.05.2017.
@@ -18,7 +15,10 @@ import java.io.ObjectOutput;
 
 @Entity
 @Table(name = "Library")
-public class Song implements fpt.interfaces.Song,Externalizable{
+public class Song implements fpt.interfaces.Song,Externalizable,Serializable{
+
+    private static final long serialVersionUID = 1L;
+
 
     @Persistent
     @Strategy("StringPropertyValueHandler")
@@ -46,7 +46,6 @@ public class Song implements fpt.interfaces.Song,Externalizable{
 
     public Song(long id, String titel,String interpret,String album, String path){
         this.id = id;
-        this.path.set(path);
         this.titel.set(titel);
         this.interpret.set(interpret);
         this.album.set(album);
@@ -136,11 +135,20 @@ public class Song implements fpt.interfaces.Song,Externalizable{
 
     @Override
     public void writeExternal(ObjectOutput out) throws IOException {
-
+        out.writeLong(id);
+        out.writeObject(titel);
+        out.writeObject(interpret);
+        out.writeObject(album);
+        out.writeObject(path);
     }
 
     @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        id = in.readInt();
+        titel = (SimpleStringProperty) in.readObject();
+        interpret = (SimpleStringProperty) in.readObject();
+        album = (SimpleStringProperty) in.readObject();
+        path = (SimpleStringProperty) in.readObject();
 
     }
 }

@@ -5,6 +5,7 @@ import fpt.interfaces.MusikPlayer;
 import fpt.model.IDgenerator;
 import fpt.model.Model;
 import fpt.sockets.TCPClient;
+import fpt.sockets.UDPClient;
 import fpt.view.ViewClient;
 import fpt.view.ViewServer;
 import javafx.application.Application;
@@ -29,34 +30,20 @@ public class MainClient extends Application {
         Model model = new Model();
         IDgenerator.init(model);
         ViewClient viewClient = new ViewClient();
-        /*try{
-            LocateRegistry.createRegistry(1090);
-            System.out.println("registry started");
-        }catch (RemoteException re){
-            System.out.println("registry not started");
-            re.printStackTrace();
+
+        /*try {
+            UDPClient udpClient = new UDPClient();
+        }catch (Exception ex){
+            ex.printStackTrace();
         }*/
+
         try {
-            TCPClient tcpClient = new TCPClient("client", "music");
-            MusikPlayer remoteServer = (MusikPlayer) Naming.lookup("//localhost/musicplayer");
-
-            Remote remoteClient = new ControllerClient(model,viewClient);
-            Naming.rebind("remoteClient",remoteClient);
-            System.out.println("remote created");
-            System.out.println("connected");
-            remoteServer.fillView(remoteServer.songList());
-            System.out.println(remoteServer.songList());
-            viewClient.fillSongList(null);
-            viewClient.fillSongList(remoteServer.songList());
-
-            //viewClient.link(remoteClient);
-
-
-            //remoteServer.linkModel(model);
-
+            TCPClient tcpClient = new TCPClient("remoteClient", "music",model,viewClient);
+            //viewClient.link(tcpClient);
         }catch (Exception e){
             e.printStackTrace();
         }
+
 
         Scene scene = new Scene(viewClient, 1000, 630);
         primaryStage.setResizable(false);

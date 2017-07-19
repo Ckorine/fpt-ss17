@@ -10,6 +10,8 @@ import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
 import fpt.model.Model;
 import fpt.model.SongList;
+import fpt.sockets.TCPClient;
+import fpt.sockets.TCPServer;
 import fpt.sockets.UDPClient;
 import fpt.sockets.UDPServer;
 import fpt.view.ViewClient;
@@ -35,72 +37,127 @@ import static javafx.scene.media.MediaPlayer.Status.*;
  * Created by corin on 09.05.2017.
  */
 public class ControllerClient extends UnicastRemoteObject implements RemoteClient {
+    private static final long serialVersionUID = 10L;
     private MusikPlayer remote;
-    private ViewClient view;
+    private ViewClient viewClient;
     private Model model;
+    private TCPClient tcpClient;
+
 
     public ControllerClient(Model model,ViewClient viewClient) throws RemoteException{
-        this.view = view;
+        this.viewClient = viewClient;
         this.model = model;
+
+        viewClient.getAddToPlayButton().setOnAction(event -> {
+            Song s = viewClient.getSongList().getSelectionModel().getSelectedItem();
+            if (s == null) {
+                return;
+            }
+            try {
+                synchronized (TCPClient.getDienstname()) {
+                    try {
+                        MusikPlayer remoteServer = (MusikPlayer)Naming.lookup("//localhost/"+ TCPClient.returnDienstameS());
+                        remoteServer.addToPlay(s.getId());
+                    } catch (NotBoundException e) {
+                        e.printStackTrace();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
+
+        });
+
 
 
     }
-
-    public void link(Model model, ViewClient viewClient) throws RemoteException  {
-        this.model = model;
-        this.view = view;
-        /*MusikPlayer remoteServer = null;
-        try {
-            remoteServer = (MusikPlayer) Naming.lookup("//localhost/musicplayer");
-            //viewClient.fillSongList(null);
-            //view.fillSongList(remoteServer.songList());
-
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }*/
-    }
-    public void linkModel(Model model) throws  RemoteException{
-        this.model = model;
-    }
-
     @Override
-    public SongList songList() {
+    public SongList songList() throws RemoteException {
         return null;
     }
 
     @Override
-    public void playNext() {
+    public void playNext() throws RemoteException {
 
     }
 
     @Override
-    public void play() {
-        //View.ActAsIfSomethingIsPlaying()
+    public void play() throws RemoteException {
+        try {
+            MusikPlayer remoteServer =(MusikPlayer) Naming.lookup("//localhost/"+ TCPClient.returnDienstameS() );
+            remoteServer.play();
+        } catch (NotBoundException e1) {
+            e1.printStackTrace();
+        } catch (MalformedURLException e1) {
+            e1.printStackTrace();
+        } catch (RemoteException e1) {
+            e1.printStackTrace();
+        }
+
+        //viewClient.fillTimeBox(UDPClient.getZeit());
+    }
+
+    public void link(Model model, ViewClient viewClient) throws RemoteException  {
+        this.model = model;
+        this.viewClient = viewClient;
+
     }
 
     @Override
-    public void stopButton() {
+    public void stopButton() throws RemoteException {
 
     }
 
     @Override
-    public void setStrategy(int a) {
+    public void setStrategy(int a) throws RemoteException {
 
     }
 
     @Override
-    public void load() throws IOException {
+    public void load() throws IOException, RemoteException {
 
     }
 
     @Override
-    public void save() throws IOException {
+    public void save() throws IOException, RemoteException {
 
     }
+
+    @Override
+    public void fillSongs(long id, String titel, String interpret, String album) throws RemoteException {
+        fpt.model.Song song = new fpt.model.Song();
+        if (titel!=null) {
+            song.setId(id);
+            song.setTitle(titel);
+            song.setInterpret(interpret);
+            song.setAlbum(album);
+            model.getAllSongs().addSong(song);
+            viewClient.fillSongList(model.getAllSongs());
+        }
+
+
+    }
+
+    @Override
+    public void addToPlay(long id )throws RemoteException {
+        Song song = model.getAllSongs().findSongByID(id);
+        System.out.print(song);
+        if (song !=null) {
+
+            model.getPlaylist().addSong(song);
+            viewClient.fillPlayList(null);
+            viewClient.fillPlayList(model.getPlaylist());
+        }
+    }
+
+    public static String getTemps() throws RemoteException {
+        return null;
+    }
+
+
 }
 
 

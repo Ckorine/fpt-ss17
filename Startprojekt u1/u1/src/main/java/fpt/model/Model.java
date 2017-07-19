@@ -21,9 +21,6 @@ public class Model {
     private SongList playlist = new SongList();
 
     public void addSongsFromDir(String directory) {
-        /*File lieder = new File(directory);
-        File[] filelist = lieder.listFiles();*/
-
         try {
             for (File f : new File(directory).listFiles()) {
                 if (f.getAbsolutePath().endsWith(".mp3")) {

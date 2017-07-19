@@ -16,30 +16,50 @@ import java.util.Date;
 /**
  * Created by corin on 05.07.2017.
  */
-public class UDPServer {
+public class UDPServer implements Runnable{
+    private boolean run = true;
+    public void run() {
+        // Socket erstellen unter dem der Server erreichbar ist
+           try (DatagramSocket socket =  new DatagramSocket(5000)) {
+               socket.setSoTimeout(1000);
+               while (isRunning()) {
+                   // Neues Paket anlegen
+                   DatagramPacket packet = new DatagramPacket(new byte[5], 5);
+                   // Auf Paket warten
+                   try {
+                       socket.receive(packet);
+                   } catch (Exception e) {
+                       continue;
+                   }
+                   // Daten auslesen
+                   InetAddress address = packet.getAddress();
+                   int port = packet.getPort();
+                   String data = new String(packet.getData());
+                   data = data.trim();
 
-    DatagramSocket socket = null;
-    public UDPServer(){
-        try {
-            socket = new DatagramSocket(5000);
-            while (true) {
-                // Neues Paket anlegen
-                DatagramPacket packet = new DatagramPacket(new byte[5], 5);
-                // Auf Paket warten
-                try {
-                    socket.receive(packet);
-                    // Empfangendes Paket in einem neuen Thread abarbeiten
-                    new UDPClientThread(packet, socket).start();
-                } catch (IOException e) {
+                   System.out.printf("%s Anfrage von %s : %d\n", data, address, port);
+
+                   if (data.equals("{" + "\"cmd\"" + ":" + "\"time\"" + "}")) {
+                       byte[] b = ControllerServer.getTemps().getBytes();
+                       // Paket mit neuen Daten (Datum) als Antwort vorbereiten
+                       packet = new DatagramPacket(b, b.length,
+                               address, port);
+                       // Paket versenden
+                       socket.send(packet);
+                   }
+               }
+           }catch (IOException e) {
                     e.printStackTrace();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            socket.close();
-        }
+                   }
+               }
+               public synchronized void shutdown() {
+              run = false;
+               }
 
-    }
+                   public synchronized boolean isRunning() {
+                   return run;
+               }
 
-}
+
+           }
+

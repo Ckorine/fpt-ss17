@@ -5,6 +5,7 @@ import fpt.interfaces.MusikPlayer;
 import fpt.interfaces.RemoteClient;
 import fpt.interfaces.Song;
 import fpt.model.SongList;
+import fpt.sockets.TCPClient;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -54,7 +55,7 @@ public class ViewClient extends BorderPane{
     private Button commit;
     private Button pause;
     private ChoiceBox<String> choiceBox;
-    private Remote controllerClient;
+    private TCPClient tcpClient;
 
 
     public Button getAddToPlayButton(){
@@ -93,8 +94,8 @@ public class ViewClient extends BorderPane{
     }
 
 
-    public void linkController(Remote controllerClient) {
-        this.controllerClient = controllerClient;
+    public void link(TCPClient tcpClient) {
+        this.tcpClient = tcpClient;
         choiceBox.getSelectionModel().selectFirst();
     }
 
@@ -109,6 +110,30 @@ public class ViewClient extends BorderPane{
         album.setPrefSize(90, 10);
         songListV.setPrefSize(350, 550);
         playListV.setPrefSize(350, 550);
+
+        songListV.setCellFactory(e -> new ListCell<Song>() {
+            @Override
+            protected void updateItem(Song item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null || item.getTitle() == null) {
+                    setText(null);
+                } else {
+                    setText(item.toString());
+                }
+            }
+        });
+
+        playListV.setCellFactory(e -> new ListCell<Song>() {
+            @Override
+            protected void updateItem(Song item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null || item.getTitle() == null) {
+                    setText(null);
+                } else {
+                    setText(item.toString());
+                }
+            }
+        });
 
 
         load = new Button("Load");
@@ -142,19 +167,9 @@ public class ViewClient extends BorderPane{
         pause.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
         addAll.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        play.setOnAction((e)->{
-            try {
-                MusikPlayer server =(MusikPlayer) Naming.lookup("Server");
-                server.play();
-            } catch (NotBoundException e1) {
-                e1.printStackTrace();
-            } catch (MalformedURLException e1) {
-                e1.printStackTrace();
-            } catch (RemoteException e1) {
-                e1.printStackTrace();
-            }
+        /*play.setOnAction((e)->{
 
-        });
+        });*/
 
         addToPlayList.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
         removeFromPlaylist.setBackground(new Background(new BackgroundFill(Color.GOLD, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -195,32 +210,8 @@ public class ViewClient extends BorderPane{
 
     public void fillSongList(SongList items) {
         songListV.setItems(items);
-
-        songListV.setCellFactory(e -> new ListCell<Song>() {
-            @Override
-            protected void updateItem(Song item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null || item.getTitle() == null) {
-                    setText(null);
-                } else {
-                    setText(item.toString());
-                }
-            }
-        });
-
-        playListV.setCellFactory(e -> new ListCell<Song>() {
-            @Override
-            protected void updateItem(Song item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null || item.getTitle() == null) {
-                    setText(null);
-                } else {
-                    setText(item.toString());
-                }
-            }
-        });
-
-
-        System.out.println(getSongList().getItems());
+    }
+    public void fillTimeBox(String timeSong){
+        timeBox.setText(timeSong);
     }
 }

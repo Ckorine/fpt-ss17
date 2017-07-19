@@ -21,6 +21,7 @@ import java.util.Iterator;
 
 public class SongList extends ModifiableObservableListBase<Song> implements fpt.interfaces.SongList,Serializable {
 
+    private static final long serialVersionUID = 1L;
 
     private ArrayList<Song> list = new ArrayList();
     public SongList(){

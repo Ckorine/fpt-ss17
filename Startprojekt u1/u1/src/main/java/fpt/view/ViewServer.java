@@ -52,6 +52,7 @@ public class ViewServer extends BorderPane{
     private Button pause;
     private ChoiceBox<String> choiceBox;
     private MusikPlayer remoteServer;
+
     public Button getAddToPlayButton(){
 
         return addToPlayList;
@@ -172,10 +173,6 @@ public class ViewServer extends BorderPane{
 
         choiceBox = new ChoiceBox(FXCollections.observableArrayList());
 
-
-
-
-
         hBox.setSpacing(40);
         hBox.getChildren().addAll(choiceBox, load, save,time,timeBox);
         hBox2.getChildren().addAll(stack, stack2, stack3);
@@ -224,8 +221,6 @@ public class ViewServer extends BorderPane{
                     selectedSong.setTitle(titelS.getText());
                 }
         );
-
-
 
     }
     public void choiceBox() {

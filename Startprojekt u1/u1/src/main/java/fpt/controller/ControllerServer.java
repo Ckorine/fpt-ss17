@@ -5,10 +5,12 @@ import fpt.Strategy.DatabaseUtils;
 import fpt.Strategy.OpenJPA;
 import fpt.Strategy.XMLStrategy;
 import fpt.interfaces.MusikPlayer;
+import fpt.interfaces.RemoteClient;
 import fpt.interfaces.SerializableStrategy;
 import fpt.interfaces.Song;
 import fpt.model.Model;
 import fpt.model.SongList;
+import fpt.sockets.TCPServer;
 import fpt.sockets.UDPClient;
 import fpt.view.ViewClient;
 import fpt.view.ViewServer;
@@ -19,8 +21,12 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 
@@ -40,7 +46,6 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
 
     private SerializableStrategy strategy;
     private ViewServer viewServer;
-    private ViewClient viewClient;
     private Model model;
     private Media media;
     private MediaPlayer mediaPlayer;
@@ -51,19 +56,12 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
     private static String temps = "";
 
 
-    public ControllerServer(Model model,ViewServer viewServer,ViewClient viewClient) throws RemoteException {
+    public ControllerServer(Model model,ViewServer viewServer) throws RemoteException {
         this.model = model;
         this.viewServer = viewServer;
-        this.viewClient = viewClient;
-        //fillView();
-        //System.out.println(viewServer.getSongList().getItems());
-        /*model.addSongsFromDir(PATH);
-        viewServer.fillSongList(model.getAllSongs());
-        viewServer.fillPlayList(model.getPlaylist());*/
-
 
     }
-    public String returnZeit() {
+    public String returnZeit() throws RemoteException {
 
             // UI updaten
         Platform.runLater(new Runnable() {
@@ -94,26 +92,7 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
         this.viewServer = viewServer;
 
 
-        /*model.addSongsFromDir(PATH);
-        viewServer.fillSongList(model.getAllSongs());
-        viewServer.fillPlayList(model.getPlaylist());*/
-
-
-
         viewServer.getAddToPlayButton().setOnAction(event -> {
-            Song s = viewServer.getSongList().getSelectionModel().getSelectedItem();
-            if (s == null) {
-                return;
-            }
-            try {
-                model.getPlaylist().addSong(s);
-                viewServer.fillPlayList(null);
-                viewServer.fillPlayList(model.getPlaylist());
-
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-            System.out.println("mediaPlayer is " + mediaPlayer);
 
         });
 
@@ -178,7 +157,11 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
             } catch (RemoteException e1) {
                 e1.printStackTrace();
             }
-            returnZeit();
+            try {
+                returnZeit();
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
 
 
         });
@@ -229,23 +212,49 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
     @Override
     public fpt.model.SongList songList() throws RemoteException {
         System.out.print(model.getAllSongs());
+        model.addSongsFromDir(PATH);
         return model.getAllSongs();
     }
 
-    public void fillView(SongList songList) throws RemoteException{
-        this.viewClient = viewClient;
-        model.addSongsFromDir(PATH);
-        viewClient.fillSongList(null);
-        viewClient.fillSongList(songList);
-        //viewClient.fillSongList(model.getAllSongs());
+    public void addToPlay(long id) throws RemoteException{
+        ArrayList<String> clientNames = TCPServer.getNameList();
+        System.out.println(clientNames);
+
+         Song s = model.getAllSongs().findSongByID(id);
+        if (s == null) {
+            return;
+        }
+        try {
+            model.getPlaylist().addSong(s);
+            viewServer.fillPlayList(model.getPlaylist());
+            System.out.println(s);
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+        for(String name : clientNames){
+            synchronized (clientNames) {
+                Registry registry = LocateRegistry.getRegistry(1099);
+                RemoteClient client = null;
+                System.out.println("hhh");
+                try {
+                    client = (RemoteClient) registry.lookup("//localhost/" + name);
+                    client.addToPlay(s.getId());
+
+                } catch (NotBoundException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
+
+
     }
-
-
     public void playNext() throws RemoteException {
         if (model.getPlaylist().isEmpty()) {
             return;
         }
-
         int index = viewServer.getPlayList().getSelectionModel().getSelectedIndex();
         System.out.println(index);
         if (index == -1 || index == model.getPlaylist().size() - 1) {
@@ -253,22 +262,26 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
         } else {
             viewServer.getPlayList().getSelectionModel().clearAndSelect(index + 1);
         }
-
         play();
 
 
     }
 
     public void play() throws RemoteException{
-        /*
+        ArrayList<String> clientNames = TCPServer.getNameList();
 
         for(String s: clientNames){
-            RMIInterface client = registry.lookup(s);
-            client.play();
+            synchronized (s) {
+                Registry registry = LocateRegistry.getRegistry(1099);
+                RemoteClient client = null;
+                try {
+                    client = (RemoteClient) registry.lookup("//localhost" + s);
+                } catch (NotBoundException e) {
+                    e.printStackTrace();
+                }
+                client.play();
+            }
         }
-
-         */
-
 
         if (model.getPlaylist().isEmpty()) {
             return;
@@ -431,17 +444,13 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
 
     public void save() throws IOException,RemoteException {
         System.out.println(strategy + " 1");
-        //System.out.println("Song  inserted");
         try {
-            //System.out.println(strategy + " 2");
-            strategy.openWriteableSongs();
 
-            //System.out.println("Song  inserted");
+            strategy.openWriteableSongs();
             for (Song s : model.getAllSongs()) {
-                //System.out.println(strategy);
                 strategy.writeSong(s);
-                //System.out.println("Song " + s.getTitle() + " inserted");
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

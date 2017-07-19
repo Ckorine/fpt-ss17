@@ -18,9 +18,10 @@ public interface MusikPlayer extends Remote {
     void play() throws RemoteException;
     void link(Model model, ViewServer viewServer) throws RemoteException;
     void stopButton() throws RemoteException;
-    void fillView(SongList songList) throws RemoteException;
+    String returnZeit() throws RemoteException;
     void setStrategy(int a) throws RemoteException;
     void load() throws IOException,RemoteException;
     void save() throws IOException,RemoteException;
     String[] returnStrategies() throws RemoteException;
+    void addToPlay(long id) throws RemoteException;
 }

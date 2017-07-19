@@ -18,6 +18,7 @@ import java.rmi.Naming;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  * Created by STELLA on 10/05/2017.
@@ -31,10 +32,9 @@ public class MainServer extends Application {
         Model model = new Model();
         IDgenerator.init(model);
         ViewServer view = new ViewServer();
-        ViewClient viewClient = new ViewClient();
 
         try {
-            LocateRegistry.createRegistry(1099);
+            Registry registry = LocateRegistry.createRegistry(1099);
             System.out.println("registry started");
         }catch (RemoteException re){
             System.out.println("registry not started");
@@ -42,10 +42,9 @@ public class MainServer extends Application {
         }
 
         try {
-            TCPServer tcpServer = new TCPServer("music",model);
+            TCPServer tcpServer = new TCPServer("music",model,view);
             tcpServer.start();
             System.out.println("server started");
-
 
         }catch(Exception ex) {
             System.out.println("error");
