@@ -51,7 +51,7 @@ public class MainServer extends Application {
             System.out.println("error");
             ex.printStackTrace();
         }
-        try {
+        /*try {
             UDPServer udpServer = new UDPServer();
             udpServer.start();
             System.out.println("udpserver started");
@@ -59,7 +59,7 @@ public class MainServer extends Application {
         }catch(Exception ex) {
             System.out.println("error");
             ex.printStackTrace();
-        }
+        }*/
 
 
 

@@ -20,15 +20,13 @@ import java.util.TimerTask;
  */
 public class UDPServer extends Thread{
     private boolean run = true;
-    private Timer timer = new Timer();
-    public void run(){
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
+    private DatagramSocket socket;
 
+    public void run(){
                     // Socket erstellen unter dem der Server erreichbar ist
-                    try (DatagramSocket socket = new DatagramSocket(5000)) {
-                        socket.setSoTimeout(10000);
+                    try  {
+                        socket = new DatagramSocket(3141);
+                        socket.setSoTimeout(1200000);
                         while (isRunning()) {
                             // Neues Paket anlegen
                             DatagramPacket packet = new DatagramPacket(new byte[5], 5);
@@ -50,7 +48,7 @@ public class UDPServer extends Thread{
                             String data = new String(packet.getData());
 
                             if (data.equals("{" + "\"cmd\"" + ":" + "\"time\"" + "}")) {
-                                byte[] b = ControllerServer.getTemps().getBytes();
+                                byte[] b = ControllerServer.modifyTemps(null).getBytes();
                                 // Paket mit neuen Daten (Datum) als Antwort vorbereiten
                                 packet = new DatagramPacket(b, b.length,
                                         address, port);
@@ -61,12 +59,13 @@ public class UDPServer extends Thread{
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
+                    }finally {
+                        socket.close();
                     }
 
 
             }
-        },1000,1000);
-    }
+
 
 
     public synchronized void shutdown() {

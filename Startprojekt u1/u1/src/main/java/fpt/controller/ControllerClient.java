@@ -55,7 +55,7 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
                 return;
             }
             try {
-                synchronized (TCPClient.getDienstname()) {
+                synchronized (TCPClient.returnDienstameS()) {
                     try {
                         MusikPlayer remoteServer = (MusikPlayer) Naming.lookup("//localhost/" + TCPClient.returnDienstameS());
                         synchronized (remoteServer){
@@ -158,10 +158,9 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
     public void play() throws RemoteException {
         try {
             UDPClient udpClient = new UDPClient();
-            synchronized (udpClient) {
+
                 System.out.println("udpClient started");
                 viewClient.fillTimeBox(udpClient.getZeit());
-            }
 
         }catch (Exception e){
             e.printStackTrace();

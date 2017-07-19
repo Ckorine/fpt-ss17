@@ -12,6 +12,7 @@ import fpt.model.Model;
 import fpt.model.SongList;
 import fpt.sockets.TCPServer;
 import fpt.sockets.UDPClient;
+import fpt.sockets.UDPServer;
 import fpt.view.ViewClient;
 import fpt.view.ViewServer;
 import javafx.application.Platform;
@@ -58,6 +59,7 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
     private Duration duration;
     private Slider timeSlider;
     private static String temps = "";
+    Timer timer = new Timer();
 
 
     public ControllerServer(Model model,ViewServer viewServer) throws RemoteException {
@@ -66,22 +68,15 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
 
     }
     public String returnZeit() throws RemoteException {
-        Timer timer = new Timer();
         // UI updaten
         Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    timer.scheduleAtFixedRate(new TimerTask() {
-                        @Override
-                        public void run() {
+
                             // entsprechende UI Komponente updaten
                             Duration currentTime = mediaPlayer.getCurrentTime();
                             duration = mediaPlayer.getMedia().getDuration();
-                            temps = formatTime(currentTime,duration);
-
-                            viewServer.fillTimeBox(temps);
-                        }
-                    },1000,1000);
+                            modifyTemps(formatTime(currentTime,duration));
 
                 }
             });
@@ -284,11 +279,6 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
 
     }
 
-
-
-
-
-
     public void playNext(long id) throws RemoteException {
         if (model.getPlaylist().isEmpty()) {
             return;
@@ -306,6 +296,8 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
     }
 
     public void play(long id) throws RemoteException{
+
+
         ArrayList<String> clientNames = TCPServer.getNameList();
 
         if (model.getPlaylist().isEmpty()) {
@@ -321,17 +313,37 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
         }
         Media media = new Media(s.getPath());
         if (mediaPlayer != null) {
+
             if (mediaPlayer.getMedia().getSource().equals(media.getSource())) {
                 MediaPlayer.Status st = mediaPlayer.getStatus();
                 if (st == PAUSED || st == READY || st == STOPPED || st == STALLED) {
+                    System.out.println("bggg");
                     mediaPlayer.play();
+                    System.out.println("bgg");
 
-                    /*try {
-                        returnZeit();
-                        System.out.println(returnZeit());
-                    } catch (RemoteException e1) {
+                    try {
+                        Timer timer = new Timer();
+                        timer.scheduleAtFixedRate(new TimerTask() {
+                            @Override
+                            public void run() {
+                                Duration currentTime = mediaPlayer.getCurrentTime();
+                                duration = mediaPlayer.getMedia().getDuration();
+                                temps = formatTime(currentTime,duration);
+
+                                viewServer.fillTimeBox(temps);
+                                System.out.println(temps);
+                                if(mediaPlayer.getStatus() == PAUSED){
+                                    try {
+                                        timer.wait();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        },1000,1000);
+                    } catch (Exception e1) {
                         e1.printStackTrace();
-                    }*/
+                    }
 
                     for(String name: clientNames){
                         synchronized (clientNames) {
@@ -358,8 +370,62 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
                 mediaPlayer.stop();
             }
         }
+
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
+        try{
+            UDPServer udpServer = new UDPServer();
+            udpServer.start();
+            System.out.println("udpserver started");
+        }catch (Exception ex){
+            System.out.println("error");
+            ex.printStackTrace();
+        }
+
+        for(String name: clientNames){
+            synchronized (clientNames) {
+                Registry registry = LocateRegistry.getRegistry(1099);
+                RemoteClient client = null;
+                try {
+                    client = (RemoteClient) Naming.lookup("//localhost/" + name);
+                } catch (NotBoundException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                synchronized (client) {
+                    client.play();
+                }
+            }
+        }
+
+        try {
+
+            timer.scheduleAtFixedRate(new TimerTask() {
+                @Override
+                public void run() {
+                    Duration currentTime = mediaPlayer.getCurrentTime();
+                    duration = mediaPlayer.getMedia().getDuration();
+                    temps = formatTime(currentTime,duration);
+
+                    viewServer.fillTimeBox(temps);
+                    System.out.println(temps);
+
+                    if(mediaPlayer.getStatus() == PAUSED||mediaPlayer.getStatus() ==STOPPED) {
+                        try {
+                            timer.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            },1000,1000);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+
+
+
         mediaPlayer.getMedia();
         mediaPlayer.setOnEndOfMedia(() -> {
             try {
@@ -375,6 +441,7 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
         ArrayList<String> clientNames = TCPServer.getNameList();
         if (mediaPlayer != null) {
             mediaPlayer.pause();
+
         }
         for(String name: clientNames){
             synchronized (clientNames) {
@@ -388,7 +455,14 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
                     e.printStackTrace();
                 }
                 synchronized (client) {
-                    client.pause(mediaPlayer.getCurrentTime().toString()+"/" + mediaPlayer.getMedia().getDuration());
+                    int intDuration = (int)Math.floor(mediaPlayer.getMedia().getDuration().toSeconds());
+                    int intDurationMin = intDuration / 60;
+                    int intDurationSec = intDuration % 60;
+
+                    int currentTime = (int)Math.floor(mediaPlayer.getCurrentTime().toSeconds());
+                    int intCurrentMin = currentTime / 60;
+                    int intCurrentSec = currentTime % 60;
+                    client.pause(intCurrentMin +":" + intCurrentSec +"/" + intDurationMin + ":" +intDurationSec);
                 }
             }
         }
@@ -569,7 +643,10 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
 
     }
 
-    public static String getTemps() {
+    public synchronized static String modifyTemps(String time) {
+        if (time != null) {
+            temps = time;
+        }
         return temps;
     }
 

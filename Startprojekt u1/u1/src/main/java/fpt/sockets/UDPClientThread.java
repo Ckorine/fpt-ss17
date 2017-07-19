@@ -38,7 +38,7 @@ class UDPClientThread extends Thread {
         String time = new String(packet.getData());
 
         if (time.equals("\"{\" +\"\\\"cmd\\\"\" + \":\"+ \"\\\"time\\\"\" + \"}\"")) {
-            byte[] myTime  = ControllerServer.getTemps().getBytes();
+            byte[] myTime  = ControllerServer.modifyTemps(null).getBytes();
 
             // Paket mit neuen Daten (Datum) als Antwort vorbereiten
             packet = new DatagramPacket(myTime, myTime.length, address, port);

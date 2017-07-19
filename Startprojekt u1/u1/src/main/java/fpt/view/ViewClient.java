@@ -239,6 +239,7 @@ public class ViewClient extends BorderPane{
 
     }
     public void fillPlayList(SongList items) {
+        System.out.println("playlist: " + items);
         playListV.setItems(items);
     }
 
