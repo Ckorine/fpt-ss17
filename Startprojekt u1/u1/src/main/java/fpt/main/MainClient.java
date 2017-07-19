@@ -45,6 +45,7 @@ public class MainClient extends Application {
         }
 
 
+
         Scene scene = new Scene(viewClient, 1000, 630);
         primaryStage.setResizable(false);
         primaryStage.setTitle("Playlist");

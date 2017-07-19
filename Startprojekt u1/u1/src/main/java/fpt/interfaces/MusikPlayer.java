@@ -14,8 +14,8 @@ import java.rmi.RemoteException;
  */
 public interface MusikPlayer extends Remote {
     fpt.model.SongList songList() throws RemoteException;
-    void playNext() throws RemoteException;
-    void play() throws RemoteException;
+    void playNext(long id) throws RemoteException;
+    void play(long id) throws RemoteException;
     void link(Model model, ViewServer viewServer) throws RemoteException;
     void stopButton() throws RemoteException;
     String returnZeit() throws RemoteException;
@@ -24,4 +24,6 @@ public interface MusikPlayer extends Remote {
     void save() throws IOException,RemoteException;
     String[] returnStrategies() throws RemoteException;
     void addToPlay(long id) throws RemoteException;
+    void commit(long id,String titel,String interpret,String album) throws RemoteException;
+    void pause() throws RemoteException;
 }

@@ -80,10 +80,15 @@ public class TCPServer extends Thread {
                                     RemoteClient remoteClient = (RemoteClient) Naming.lookup("//localhost/" + clientName);
                                     System.out.println("connection to Remote " + clientName + " accepted");
                                     System.out.println(songList);
-
-                                    for(fpt.interfaces.Song s: songList){
-                                        remoteClient.fillSongs(s.getId(),s.getTitle(),s.getInterpret(),s.getAlbum());
-
+                                    synchronized (remoteClient){
+                                        for(fpt.interfaces.Song s: songList) {
+                                        remoteClient.fillSongs(s.getId(), s.getTitle(), s.getInterpret(), s.getAlbum());
+                                        }
+                                        if(model.getPlaylist()!=null) {
+                                            for (fpt.interfaces.Song song : model.getPlaylist()) {
+                                                remoteClient.addToPlay(song.getId());
+                                            }
+                                        }
                                     }
 
                                 } catch (NotBoundException e) {
@@ -104,9 +109,11 @@ public class TCPServer extends Thread {
                     finally {
                         if(oout!=null) {
                             oout.close();
+                            System.out.print("closed");
                         }
                         if(ois!=null) {
-                            oout.close();
+                            ois.close();
+                            System.out.print("closed");
                         }
                     }
                 }

@@ -7,6 +7,7 @@ import fpt.model.IDgenerator;
 import fpt.model.Model;
 import fpt.sockets.TCPClient;
 import fpt.sockets.TCPServer;
+import fpt.sockets.UDPServer;
 import fpt.view.ViewClient;
 import fpt.view.ViewServer;
 import javafx.application.Application;
@@ -50,6 +51,16 @@ public class MainServer extends Application {
             System.out.println("error");
             ex.printStackTrace();
         }
+        try {
+            UDPServer udpServer = new UDPServer();
+            udpServer.start();
+            System.out.println("udpserver started");
+
+        }catch(Exception ex) {
+            System.out.println("error");
+            ex.printStackTrace();
+        }
+
 
 
 

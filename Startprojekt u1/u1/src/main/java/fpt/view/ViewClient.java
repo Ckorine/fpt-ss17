@@ -70,6 +70,19 @@ public class ViewClient extends BorderPane{
 
         return play;
     }
+    public Button getCommit(){
+        return commit;
+    }
+    public TextField getAlbum(){
+        return album;
+    }
+    public TextField getTitelS(){
+        return titelS;
+    }
+    public TextField getInterpret(){
+        return interpret;
+    }
+
     public Button getAddall(){
         return addAll;
     }
@@ -201,6 +214,27 @@ public class ViewClient extends BorderPane{
         setBottom(addAll);
         setCenter(hBox2);
         this.setBackground(new Background(new BackgroundFill(Color.FORESTGREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        songListV.setOnMouseClicked(event -> {
+            Song s = songListV.getSelectionModel().getSelectedItem();
+            if (s != null) {
+                selectedSong = s;
+                titelS.setText(s.getTitle());
+                interpret.setText(s.getInterpret());
+                album.setText(s.getAlbum());
+            }
+        });
+        playListV.setOnMouseClicked(event -> {
+            Song s = playListV.getSelectionModel().getSelectedItem();
+            if (s != null) {
+                selectedSong = s;
+                titelS.setText(s.getTitle());
+                interpret.setText(s.getInterpret());
+                album.setText(s.getAlbum());
+            }
+        });
+
+
 
 
     }

@@ -42,6 +42,7 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
     private ViewClient viewClient;
     private Model model;
     private TCPClient tcpClient;
+    private SongList songList = new SongList();
 
 
     public ControllerClient(Model model,ViewClient viewClient) throws RemoteException{
@@ -56,8 +57,10 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
             try {
                 synchronized (TCPClient.getDienstname()) {
                     try {
-                        MusikPlayer remoteServer = (MusikPlayer)Naming.lookup("//localhost/"+ TCPClient.returnDienstameS());
+                        MusikPlayer remoteServer = (MusikPlayer) Naming.lookup("//localhost/" + TCPClient.returnDienstameS());
+                        synchronized (remoteServer){
                         remoteServer.addToPlay(s.getId());
+                        }
                     } catch (NotBoundException e) {
                         e.printStackTrace();
                     } catch (MalformedURLException e) {
@@ -70,7 +73,74 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
 
 
         });
+        viewClient.getCommit().setOnAction(event -> {
+            Song s = viewClient.getSongList().getSelectionModel().getSelectedItem();
+            if (s == null) {
+                return;
+            }
+            synchronized (TCPClient.getDienstname()) {
+                try {
+                    MusikPlayer remoteServer = null;
+                    try {
+                        remoteServer = (MusikPlayer) Naming.lookup("//localhost/" + TCPClient.returnDienstameS());
+                    } catch (RemoteException e) {
+                        e.printStackTrace();
+                    }
+                    synchronized (remoteServer){
+                        remoteServer.commit(s.getId(),viewClient.getTitelS().getText(),viewClient.getInterpret().getText(),viewClient.getAlbum().getText());
+                    }
+                } catch (NotBoundException e) {
+                    e.printStackTrace();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
 
+        });
+        viewClient.getPlay().setOnAction(event->{
+            Song s = viewClient.getPlayList().getSelectionModel().getSelectedItem();
+            try {
+                MusikPlayer remoteServer =(MusikPlayer) Naming.lookup("//localhost/"+ TCPClient.returnDienstameS() );
+                remoteServer.play(s.getId());
+            } catch (NotBoundException e1) {
+                e1.printStackTrace();
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
+        });
+        viewClient.getStop().setOnAction(event -> {
+            try {
+                MusikPlayer remoteServer =(MusikPlayer) Naming.lookup("//localhost/"+ TCPClient.returnDienstameS());
+                synchronized (remoteServer) {
+                    remoteServer.stopButton();
+                }
+            } catch (NotBoundException e1) {
+                e1.printStackTrace();
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
+        });
+        viewClient.getPause().setOnAction(event -> {
+            try {
+                MusikPlayer remoteServer =(MusikPlayer) Naming.lookup("//localhost/"+ TCPClient.returnDienstameS());
+                synchronized (remoteServer) {
+                    remoteServer.pause();
+                }
+            } catch (NotBoundException e1) {
+                e1.printStackTrace();
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
+
+        });
 
 
     }
@@ -87,17 +157,19 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
     @Override
     public void play() throws RemoteException {
         try {
-            MusikPlayer remoteServer =(MusikPlayer) Naming.lookup("//localhost/"+ TCPClient.returnDienstameS() );
-            remoteServer.play();
-        } catch (NotBoundException e1) {
-            e1.printStackTrace();
-        } catch (MalformedURLException e1) {
-            e1.printStackTrace();
-        } catch (RemoteException e1) {
-            e1.printStackTrace();
+            UDPClient udpClient = new UDPClient();
+            synchronized (udpClient) {
+                System.out.println("udpClient started");
+                viewClient.fillTimeBox(udpClient.getZeit());
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
-        //viewClient.fillTimeBox(UDPClient.getZeit());
+    }
+    public void pause(String duration) throws RemoteException{
+        viewClient.fillTimeBox(duration);
     }
 
     public void link(Model model, ViewClient viewClient) throws RemoteException  {
@@ -107,8 +179,8 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
     }
 
     @Override
-    public void stopButton() throws RemoteException {
-
+    public void stopButton(String duration) throws RemoteException {
+        viewClient.fillTimeBox(duration);
     }
 
     @Override
@@ -135,6 +207,7 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
             song.setInterpret(interpret);
             song.setAlbum(album);
             model.getAllSongs().addSong(song);
+            viewClient.fillSongList(null);
             viewClient.fillSongList(model.getAllSongs());
         }
 
@@ -146,15 +219,25 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
         Song song = model.getAllSongs().findSongByID(id);
         System.out.print(song);
         if (song !=null) {
+            try {
+                model.getPlaylist().addSong(song);
+                viewClient.fillPlayList(null);
+                viewClient.fillPlayList(model.getPlaylist());
+            }catch (Exception e){
 
-            model.getPlaylist().addSong(song);
-            viewClient.fillPlayList(null);
-            viewClient.fillPlayList(model.getPlaylist());
+            }
         }
     }
 
     public static String getTemps() throws RemoteException {
         return null;
+    }
+    public void commitSong(long id,String titel,String interpret,String album) throws RemoteException{
+        Song selectedSong = model.getAllSongs().findSongByID(id);
+        selectedSong.setAlbum(album);
+        selectedSong.setInterpret(interpret);
+        selectedSong.setTitle(titel);
+
     }
 
 

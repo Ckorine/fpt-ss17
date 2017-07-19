@@ -26,7 +26,7 @@ public class UDPClient  {
         e2.printStackTrace();
         }
     // Socket für den Klienten anlegen
-        try(DatagramSocket dSocket = new DatagramSocket(5000)) {
+        try(DatagramSocket dSocket = new DatagramSocket(5555)) {
             try {
                 String command = "{" + "\"cmd\"" + ":" + "\"time\"" + "}";
 
@@ -49,20 +49,20 @@ public class UDPClient  {
                 //.getLength()));
                 String absplZeit = new String(packet.getData(), 0, packet
                         .getLength());
-
-                Platform.runLater(new Runnable() {
+                zeit.equals(absplZeit);
+                /*Platform.runLater(new Runnable() {
 
                     public void run() {
-                        zeit.equals(absplZeit);
+
 
                     }
-                });
+                });*/
 
-                try {
+                /*try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                }
+                }*/
 
         } catch (IOException e1) {
             e1.printStackTrace();

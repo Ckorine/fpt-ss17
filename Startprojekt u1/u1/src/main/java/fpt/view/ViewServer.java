@@ -65,6 +65,19 @@ public class ViewServer extends BorderPane{
 
         return play;
     }
+    public Button getCommit(){
+        return commit;
+    }
+    public TextField getAlbum(){
+        return album;
+    }
+    public TextField getTitelS(){
+        return titelS;
+    }
+    public TextField getInterpret(){
+        return interpret;
+    }
+
     public Button getAddall(){
         return addAll;
     }
