@@ -212,6 +212,7 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
         }
         try {
             model.getPlaylist().addSong(s);
+            viewServer.fillPlayList(null);
             viewServer.fillPlayList(model.getPlaylist());
             System.out.println(s);
 
@@ -243,6 +244,50 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
         }
 
 
+    }
+    public void addAll() throws RemoteException{
+        ArrayList<String> clientNames = TCPServer.getNameList();
+        try {
+            model.getPlaylist().deleteAllSongs();
+            SongList sl = model.getAllSongs();
+            for (Song s : sl) {
+                model.getPlaylist().addSong(s);
+            }
+            viewServer.fillPlayList(null);
+            viewServer.fillPlayList(model.getPlaylist());
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        if (model.getPlaylist().isEmpty()) {
+            return;
+        } else if (mediaPlayer != null) {
+            mediaPlayer.getMedia();
+        }
+        for(String name : clientNames) {
+            synchronized (clientNames) {
+                Registry registry = LocateRegistry.getRegistry(1099);
+                RemoteClient client = null;
+                System.out.println("hhh");
+                try {
+                    try {
+                        client = (RemoteClient) Naming.lookup("//localhost/" + name);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    synchronized (client) {
+                        client.addAll();
+                    }
+
+                } catch (NotBoundException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+
+
+        }
     }
     public void commit(long id,String titel,String interpret,String album) throws RemoteException{
         ArrayList<String> clientNames = TCPServer.getNameList();
@@ -283,14 +328,14 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
         if (model.getPlaylist().isEmpty()) {
             return;
         }
-        int index = viewServer.getPlayList().getSelectionModel().getSelectedIndex();
+        int index =(int) id;
         System.out.println(index);
         if (index == -1 || index == model.getPlaylist().size() - 1) {
             viewServer.getPlayList().getSelectionModel().clearAndSelect(0);
         } else {
             viewServer.getPlayList().getSelectionModel().clearAndSelect(index + 1);
         }
-        play(id);
+        play(id +1);
 
 
     }
@@ -456,14 +501,7 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
                     e.printStackTrace();
                 }
                 synchronized (client) {
-                    int intDuration = (int)Math.floor(mediaPlayer.getMedia().getDuration().toSeconds());
-                    int intDurationMin = intDuration / 60;
-                    int intDurationSec = intDuration % 60;
-
-                    int currentTime = (int)Math.floor(mediaPlayer.getCurrentTime().toSeconds());
-                    int intCurrentMin = currentTime / 60;
-                    int intCurrentSec = currentTime % 60;
-                    client.pause(intCurrentMin +":" + intCurrentSec +"/" + intDurationMin + ":" +intDurationSec);
+                    client.pause();
                 }
             }
         }
@@ -527,14 +565,8 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
                     e.printStackTrace();
                 }
                 synchronized (client) {
-                    int intDuration = (int)Math.floor(mediaPlayer.getMedia().getDuration().toSeconds());
-                    int intDurationMin = intDuration / 60;
-                    int intDurationSec = intDuration % 60;
 
-                    int currentTime = (int)Math.floor(mediaPlayer.getCurrentTime().toSeconds());
-                    int intCurrentMin = currentTime / 60;
-                    int intCurrentSec = currentTime % 60;
-                    client.stopButton(intCurrentMin +":" + intCurrentSec +"/" + intDurationMin + ":" +intDurationSec);
+                    client.stopButton();
                 }
             }
         }

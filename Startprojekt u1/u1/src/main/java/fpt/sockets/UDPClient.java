@@ -23,15 +23,21 @@ public class UDPClient  {
     public UDPClient() {
 
         InetAddress ia = null;
-        try{
-        ia = InetAddress.getByName("localhost");
-        } catch(UnknownHostException e2) {
-        e2.printStackTrace();
+        try {
+            ia = InetAddress.getByName("localhost");
+        } catch (UnknownHostException e2) {
+            e2.printStackTrace();
         }
-
-    // Socket für den Klienten anlegen
-        try{
+        try {
             dSocket = new DatagramSocket(5000);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+    // Socket für den Klienten anlegen
+        public void connetToServer(){
+        try{
+
             //dSocket.setSoTimeout(120000);
             Timer timer = new Timer();
             try {
@@ -86,7 +92,7 @@ public class UDPClient  {
 
 
 
-    } catch(SocketException e1) {
+    } catch(Exception e1) {
         e1.printStackTrace();
     }
 

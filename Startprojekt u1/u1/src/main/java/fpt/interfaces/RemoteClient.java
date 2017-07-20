@@ -16,12 +16,13 @@ public interface RemoteClient extends Remote {
     void playNext() throws RemoteException;
     void play() throws RemoteException;
     void link(Model model, ViewClient view) throws RemoteException;
-    void stopButton(String duration) throws RemoteException;
+    void stopButton() throws RemoteException;
     void setStrategy(int a) throws RemoteException;
     void load() throws IOException,RemoteException;
     void save() throws IOException,RemoteException;
     void fillSongs(long id,String titel,String interpret,String album) throws RemoteException;
     void addToPlay(long id) throws RemoteException;
     void commitSong(long id,String titel,String interpret,String album) throws RemoteException;
-    void pause(String duration) throws RemoteException;
+    void pause() throws RemoteException;
+    void addAll() throws RemoteException;
 }

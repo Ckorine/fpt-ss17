@@ -44,13 +44,20 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
     private MusikPlayer remote;
     private ViewClient viewClient;
     private Model model;
-    private TCPClient tcpClient;
+    private UDPClient udpClient;
     private SongList songList = new SongList();
+    Timer timer = new Timer();
 
 
     public ControllerClient(Model model,ViewClient viewClient) throws RemoteException{
         this.viewClient = viewClient;
         this.model = model;
+        try {
+            udpClient = new UDPClient();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         viewClient.getAddToPlayButton().setOnAction(event -> {
             Song s = viewClient.getSongList().getSelectionModel().getSelectedItem();
@@ -62,7 +69,12 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
                     try {
                         MusikPlayer remoteServer = (MusikPlayer) Naming.lookup("//localhost/" + TCPClient.returnDienstameS());
                         synchronized (remoteServer){
-                        remoteServer.addToPlay(s.getId());
+                            try {
+                                remoteServer.addToPlay(s.getId());
+                            }catch (Exception e){
+
+                            }
+
                         }
                     } catch (NotBoundException e) {
                         e.printStackTrace();
@@ -144,6 +156,36 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
             }
 
         });
+        viewClient.getAddall().setOnAction(event -> {
+            try {
+                MusikPlayer remoteServer =(MusikPlayer) Naming.lookup("//localhost/"+ TCPClient.returnDienstameS());
+                synchronized (remoteServer) {
+                    remoteServer.addAll();
+                }
+            } catch (NotBoundException e1) {
+                e1.printStackTrace();
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
+        });
+        viewClient.getNext().setOnAction(event -> {
+            Song s = viewClient.getPlayList().getSelectionModel().getSelectedItem();
+            try {
+                MusikPlayer remoteServer =(MusikPlayer) Naming.lookup("//localhost/"+ TCPClient.returnDienstameS());
+                synchronized (remoteServer) {
+                    remoteServer.play(s.getId());
+                }
+            } catch (NotBoundException e1) {
+                e1.printStackTrace();
+            } catch (MalformedURLException e1) {
+                e1.printStackTrace();
+            } catch (RemoteException e1) {
+                e1.printStackTrace();
+            }
+
+        });
 
 
     }
@@ -154,14 +196,38 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
 
     @Override
     public void playNext() throws RemoteException {
+        try {
+
+            udpClient.connetToServer();
+
+            System.out.println("udpClient started");
+
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    timer.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            viewClient.fillTimeBox(udpClient.getZeit());
+                        }
+                    },0,1000);
+
+                }
+
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
     }
 
     @Override
     public void play() throws RemoteException {
-        Timer timer = new Timer();
+
         try {
-            UDPClient udpClient = new UDPClient();
+
+            udpClient.connetToServer();
 
             System.out.println("udpClient started");
 
@@ -183,19 +249,31 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
         }
 
     }
-    public void pause(String duration) throws RemoteException{
-        viewClient.fillTimeBox(duration);
+    public void pause() throws RemoteException{
+        udpClient.connetToServer();
+        viewClient.fillTimeBox(udpClient.getZeit());
     }
 
     public void link(Model model, ViewClient viewClient) throws RemoteException  {
-        this.model = model;
-        this.viewClient = viewClient;
+        try {
+            this.model = model;
+            this.viewClient = viewClient;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
     }
 
     @Override
-    public void stopButton(String duration) throws RemoteException {
-        viewClient.fillTimeBox(duration);
+    public void stopButton() throws RemoteException {
+        try {
+            udpClient.connetToServer();
+            viewClient.fillTimeBox(udpClient.getZeit());
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
     }
 
     @Override
@@ -244,6 +322,24 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
         }
     }
 
+    public void addAll(){
+        try {
+            model.getPlaylist().deleteAllSongs();
+            SongList sl = model.getAllSongs();
+            for (Song s : sl) {
+                model.getPlaylist().addSong(s);
+            }
+            viewClient.fillPlayList(null);
+            viewClient.fillPlayList(model.getPlaylist());
+
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        if (model.getPlaylist().isEmpty()) {
+            return;
+        }
+
+    }
     public static String getTemps() throws RemoteException {
         return null;
     }

@@ -26,4 +26,5 @@ public interface MusikPlayer extends Remote {
     void addToPlay(long id) throws RemoteException;
     void commit(long id,String titel,String interpret,String album) throws RemoteException;
     void pause() throws RemoteException;
+    void addAll() throws RemoteException;
 }
