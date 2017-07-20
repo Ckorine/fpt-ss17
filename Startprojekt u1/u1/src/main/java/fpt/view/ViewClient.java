@@ -123,6 +123,8 @@ public class ViewClient extends BorderPane{
         album.setPrefSize(90, 10);
         songListV.setPrefSize(350, 550);
         playListV.setPrefSize(350, 550);
+        timeBox.setEditable(false);
+        timeBox.setDisable(true);
 
         songListV.setCellFactory(e -> new ListCell<Song>() {
             @Override
