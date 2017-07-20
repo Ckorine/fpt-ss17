@@ -16,6 +16,7 @@ import fpt.sockets.UDPClient;
 import fpt.sockets.UDPServer;
 import fpt.view.ViewClient;
 import fpt.view.ViewServer;
+import javafx.application.Platform;
 import javafx.scene.control.Slider;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -28,6 +29,8 @@ import java.rmi.NotBoundException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 import static javafx.scene.media.MediaPlayer.Status.*;
@@ -156,12 +159,25 @@ public class ControllerClient extends UnicastRemoteObject implements RemoteClien
 
     @Override
     public void play() throws RemoteException {
+        Timer timer = new Timer();
         try {
             UDPClient udpClient = new UDPClient();
 
-                System.out.println("udpClient started");
-                viewClient.fillTimeBox(udpClient.getZeit());
+            System.out.println("udpClient started");
 
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    timer.scheduleAtFixedRate(new TimerTask() {
+                        @Override
+                        public void run() {
+                            viewClient.fillTimeBox(udpClient.getZeit());
+                        }
+                    },0,1000);
+
+                }
+
+            });
         }catch (Exception e){
             e.printStackTrace();
         }

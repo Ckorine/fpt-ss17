@@ -373,6 +373,7 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
 
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
+        returnZeit();
         try{
             UDPServer udpServer = new UDPServer();
             udpServer.start();
@@ -409,7 +410,7 @@ public class ControllerServer extends UnicastRemoteObject implements MusikPlayer
                     temps = formatTime(currentTime,duration);
 
                     viewServer.fillTimeBox(temps);
-                    System.out.println(temps);
+                    //System.out.println(temps);
 
                     if(mediaPlayer.getStatus() == PAUSED||mediaPlayer.getStatus() ==STOPPED) {
                         try {

@@ -17,7 +17,7 @@ import java.util.TimerTask;
  */
 public class UDPClient  {
     public boolean run;
-    public static String zeit = new String();
+    public static String abspielZeit = new String();
     DatagramSocket dSocket;
 
     public UDPClient() {
@@ -32,66 +32,66 @@ public class UDPClient  {
     // Socket für den Klienten anlegen
         try{
             dSocket = new DatagramSocket(5000);
+            //dSocket.setSoTimeout(120000);
             Timer timer = new Timer();
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    try {
+            try {
+                timer.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
                         String command = "{" + "\"cmd\"" + ":" + "\"time\"" + "}";
 
                         byte buffer[] = null;
                         buffer = command.getBytes();
 
                         // Paket mit der Anfrage vorbereiten
-                        DatagramPacket packet = new DatagramPacket(buffer,
-                                buffer.length, InetAddress.getByName("localhost"), 3141);
-                        // Paket versenden
-                        dSocket.send(packet);
-
+                        DatagramPacket packet = null;
+                        try {
+                            packet = new DatagramPacket(buffer,
+                                    buffer.length, InetAddress.getByName("localhost"), 3141);
+                            // Paket versenden
+                            dSocket.send(packet);
+                        } catch (UnknownHostException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         byte answer[] = new byte[1024];
                         // Paket für die Antwort vorbereiten
                         packet = new DatagramPacket(answer, answer.length);
                         // Auf die Antwort warten
-                        dSocket.receive(packet);
+                        try {
+                            dSocket.receive(packet);
+                            abspielZeit = new String(packet.getData(), 0, packet
+                                    .getLength());
+                            //zeit.equals(absplZeit);
+                            System.out.println(abspielZeit);
+                           // System.out.println("hgghj");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
 
                         // System.out.println(new String(packet.getData(), 0, packet
                         //.getLength()));
-                        String absplZeit = new String(packet.getData(), 0, packet
-                                .getLength());
-                        zeit.equals(absplZeit);
-                /*Platform.runLater(new Runnable() {
 
-                    public void run() {
+
 
 
                     }
-                });*/
+                },0,1000);
 
-                /*try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }*/
-
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
 
 
-                }
-            },1000,1000);
 
-    } catch(
-    SocketException e1)
-
-    {
+    } catch(SocketException e1) {
         e1.printStackTrace();
-    }finally {
-            dSocket.close();
-        }
+    }
 
 }
-    public static String getZeit(){
-        return zeit;
+    public String getZeit(){
+        return abspielZeit ;
     }
 }
